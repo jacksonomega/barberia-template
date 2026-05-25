@@ -75,16 +75,97 @@
 
 /* ─── SERVICES GRID ─── */
 .services-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 24px; margin-top: 48px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 32px; margin-top: 56px;
 }
-.service-card { padding: 32px; }
-.service-icon { font-size: 2.5rem; margin-bottom: 16px; }
-.service-name { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 8px; color: var(--text-primary); }
-.service-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.6; }
-.service-footer { display: flex; justify-content: space-between; align-items: center; }
-.service-duration { font-size: 0.82rem; color: var(--text-muted); }
-.service-price { font-family: var(--font-display); font-size: 1.5rem; color: var(--gold); font-weight: 700; }
+.service-card { 
+  position: relative;
+  padding: 40px 32px; 
+  background: linear-gradient(145deg, rgba(24,24,28,0.7) 0%, rgba(17,17,20,0.9) 100%);
+  border: 1px solid rgba(212,168,67,0.08);
+  border-radius: 20px;
+  overflow: hidden;
+  z-index: 1;
+  transition: var(--transition);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 100%;
+  background: radial-gradient(circle at top right, rgba(212,168,67,0.1), transparent 60%);
+  z-index: -1;
+  transition: opacity 0.4s ease;
+  opacity: 0.5;
+}
+.service-card:hover::before {
+  opacity: 1;
+}
+.service-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(212,168,67,0.3);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5), 0 0 20px rgba(212,168,67,0.1);
+}
+
+.service-icon-wrap {
+  width: 64px; height: 64px;
+  border-radius: 16px;
+  background: rgba(212,168,67,0.1);
+  border: 1px solid rgba(212,168,67,0.2);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.service-icon { font-size: 2rem; line-height: 1; transition: filter 0.3s ease; }
+
+.service-card:hover .service-icon-wrap {
+  background: var(--gradient-gold);
+  border-color: transparent;
+  transform: scale(1.05) rotate(5deg);
+  box-shadow: 0 8px 25px rgba(212,168,67,0.3);
+}
+
+.service-card:hover .service-icon {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.service-name { 
+  font-family: var(--font-display); 
+  font-size: 1.4rem; 
+  margin-bottom: 12px; 
+  color: var(--text-primary); 
+  transition: color 0.3s ease;
+}
+.service-card:hover .service-name {
+  color: var(--gold);
+}
+
+.service-desc { 
+  font-size: 0.95rem; 
+  color: var(--text-secondary); 
+  margin-bottom: 32px; 
+  line-height: 1.6; 
+}
+
+.service-footer { 
+  display: flex; justify-content: space-between; align-items: flex-end; 
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 20px;
+}
+.service-duration { 
+  font-size: 0.85rem; 
+  color: var(--text-muted); 
+  display: flex; align-items: center; gap: 6px;
+  font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.service-price { 
+  font-family: var(--font-display); 
+  font-size: 1.8rem; 
+  color: var(--gold); 
+  font-weight: 700; 
+  line-height: 1;
+}
 
 /* ─── PRICING ─── */
 .pricing-table { max-width: 680px; margin: 0 auto 48px; display: flex; flex-direction: column; gap: 0; }

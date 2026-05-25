@@ -10,26 +10,7 @@ interface Message {
   isTyping?: boolean;
 }
 
-const BOT_RESPONSES: Record<string, string> = {
-  default: 'Hola 👋 Soy el asistente virtual de **Barbería El Clásico**. Puedo ayudarte a reservar una cita, informarte sobre nuestros servicios, precios y horarios. ¿En qué te puedo ayudar?',
-  reserva: '¡Perfecto! Para reservar tu cita necesito algunos datos:\n\n1️⃣ **¿Qué servicio deseas?** (Corte, Corte + Barba, Afeitado, Fade, VIP…)\n2️⃣ **¿Con qué barbero?** (Carlos, Miguel o Roberto)\n3️⃣ **¿Qué día y hora prefieres?**\n\nEscríbeme y te confirmo la disponibilidad 🗓️',
-  precio: 'Aquí tienes nuestra **lista de precios** 💈:\n\n• Corte Clásico — **18€**\n• Corte + Barba — **28€** ⭐\n• Afeitado Real — **22€**\n• Fade Premium — **25€**\n• Diseño de Barba — **15€**\n• Color & Mechas — **45€**\n• Tratamiento Capilar — **20€**\n• Servicio VIP — **55€**\n\n¿Quieres reservar alguno? 😊',
-  horario: '⏰ Nuestros **horarios** son:\n\n• **Lunes a Viernes:** 9:00 – 20:00\n• **Sábado:** 9:00 – 18:00\n• **Domingo:** Cerrado\n\nTe recomendamos reservar con antelación para asegurarte tu hueco preferido.',
-  ubicacion: '📍 Estamos en **Calle Gran Vía 42, Planta Baja, 28013 Madrid**.\n\nNos puedes encontrar fácilmente en el corazón de Madrid, a 2 minutos de la estación de metro Gran Vía (Líneas 1 y 5).',
-  equipo: '👨‍✂️ Nuestro **equipo de expertos**:\n\n• **Carlos Mendoza** — Maestro Barbero (15 años). Especialista en Fade y Clásico.\n• **Miguel Torres** — Barbero Senior (8 años). Especialista en Color y Diseño.\n• **Roberto Silva** — Especialista en Afeitado (12 años). Maestro de la navaja.\n\n¿Con quién quieres reservar?',
-  gracias: '¡De nada! Ha sido un placer atenderte 😊 Si necesitas algo más o quieres modificar tu cita, aquí estaré. ¡Nos vemos en la barbería! 💈',
-};
-
-function getBotResponse(input: string): string {
-  const lower = input.toLowerCase();
-  if (/reserv|cit|agendar|book/.test(lower)) return BOT_RESPONSES['reserva'];
-  if (/precio|cost|cuesta|cobr|tarifa/.test(lower)) return BOT_RESPONSES['precio'];
-  if (/horario|hora|abre|cierra|cuando/.test(lower)) return BOT_RESPONSES['horario'];
-  if (/d[oó]nde|ubicaci[oó]n|direcci[oó]n|mapa|llegar/.test(lower)) return BOT_RESPONSES['ubicacion'];
-  if (/equipo|barbero|quien|carlos|miguel|roberto/.test(lower)) return BOT_RESPONSES['equipo'];
-  if (/gracias|thank|perfecto|genial|ok|excelente/.test(lower)) return BOT_RESPONSES['gracias'];
-  return 'Entiendo tu consulta. Para darte la mejor respuesta, ¿podrías indicarme si quieres **reservar una cita**, conocer nuestros **precios**, **horarios** o **ubicación**? Estoy aquí para ayudarte 💈';
-}
+const INITIAL_MESSAGE = 'Hola 👋 Soy el asistente virtual de **Barbería El Clásico**. Puedo ayudarte a reservar una cita, informarte sobre nuestros servicios, precios y horarios. ¿En qué te puedo ayudar?';
 
 @Component({
   selector: 'app-chat',
@@ -44,7 +25,7 @@ export class ChatComponent implements AfterViewChecked {
   messages = signal<Message[]>([
     {
       role: 'assistant',
-      text: BOT_RESPONSES['default'],
+      text: INITIAL_MESSAGE,
       time: this.getTime(),
     },
   ]);
@@ -61,7 +42,9 @@ export class ChatComponent implements AfterViewChecked {
     }
   }
 
-  sendMessage() {
+  sessionId = Math.random().toString(36).substring(2, 15);
+
+  async sendMessage() {
     const text = this.inputText.trim();
     if (!text || this.isTyping()) return;
 
@@ -70,13 +53,48 @@ export class ChatComponent implements AfterViewChecked {
     this.shouldScroll = true;
     this.isTyping.set(true);
 
-    const delay = 1200 + Math.random() * 800;
-    setTimeout(() => {
-      const response = getBotResponse(text);
-      this.messages.update(msgs => [...msgs, { role: 'assistant', text: response, time: this.getTime() }]);
+    try {
+      const response = await fetch('https://n8n.omega-studio.tech/webhook/brutal-art-web/messages-upsert', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          sessionId: this.sessionId,
+          chatInput: text,
+          message: text
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      let botReply = 'No se recibió respuesta';
+      if (data) {
+        if (typeof data === 'string') {
+          botReply = data;
+        } else if (Array.isArray(data) && data.length > 0 && data[0].output) {
+          botReply = data[0].output;
+        } else {
+          botReply = data.mensaje || data.output || data.text || data.message || data.response || JSON.stringify(data);
+        }
+      }
+
+      this.messages.update(msgs => [...msgs, { role: 'assistant', text: botReply, time: this.getTime() }]);
+    } catch (error) {
+      console.error('Error al contactar con el agente AI:', error);
+      this.messages.update(msgs => [...msgs, {
+        role: 'assistant',
+        text: 'Lo siento, hay problemas de conexión con el servidor. Inténtalo de nuevo más tarde.',
+        time: this.getTime()
+      }]);
+    } finally {
       this.isTyping.set(false);
       this.shouldScroll = true;
-    }, delay);
+    }
   }
 
   onKeyDown(event: KeyboardEvent) {
@@ -89,7 +107,7 @@ export class ChatComponent implements AfterViewChecked {
   private scrollToBottom() {
     try {
       this.messagesEnd.nativeElement.scrollIntoView({ behavior: 'smooth' });
-    } catch {}
+    } catch { }
   }
 
   private getTime(): string {
