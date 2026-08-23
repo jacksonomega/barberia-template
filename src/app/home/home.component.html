@@ -4,7 +4,14 @@
 <nav class="navbar">
   <div class="container nav-inner">
     <a class="nav-logo" (click)="scrollToSection('hero')">
-      <span class="logo-icon">💈</span>
+      <!-- Barber pole / scissors icon -->
+      <span class="logo-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+          <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
+          <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+        </svg>
+      </span>
       <span>El <em>Clásico</em></span>
     </a>
     <ul class="nav-links" [class.open]="mobileMenuOpen()">
@@ -38,7 +45,12 @@
     </p>
     <div class="hero-actions animate-fade-up delay-300">
       <a [routerLink]="['/chat']" class="btn-primary" id="hero-reservar-btn">
-        ✂️ Reservar Ahora
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:6px">
+          <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+          <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
+          <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+        </svg>
+        Reservar Ahora
       </a>
       <button class="btn-outline" (click)="scrollToSection('servicios')" id="hero-servicios-btn">
         Ver Servicios
@@ -53,7 +65,9 @@
     </div>
   </div>
   <div class="hero-scroll-indicator animate-float">
-    <span>↓</span>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
   </div>
 </section>
 
@@ -72,7 +86,56 @@
       @for (service of services; track service.name; let i = $index) {
         <div class="service-card" [id]="'service-' + i">
           <div class="service-icon-wrap">
-            <span class="service-icon">{{ service.icon }}</span>
+            <!-- scissors -->
+            @if (service.icon === 'scissors') {
+              <svg class="service-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+                <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+                <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+                <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+              </svg>
+            }
+            <!-- barber (comb + scissors) -->
+            @if (service.icon === 'barber') {
+              <svg class="service-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 7h16M4 12h16M4 17h16"/>
+                <path d="M9 2v3M12 2v3M15 2v3"/>
+              </svg>
+            }
+            <!-- razor blade -->
+            @if (service.icon === 'razor') {
+              <svg class="service-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="8" width="20" height="8" rx="1"/>
+                <line x1="7" y1="8" x2="7" y2="16"/>
+                <line x1="12" y1="8" x2="12" y2="16"/>
+                <line x1="17" y1="8" x2="17" y2="16"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+              </svg>
+            }
+            <!-- bolt / lightning -->
+            @if (service.icon === 'bolt') {
+              <svg class="service-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+            }
+            <!-- crown -->
+            @if (service.icon === 'crown') {
+              <svg class="service-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 18h20M3 10l3 4 6-8 6 8 3-4v8H3V10z"/>
+                <circle cx="12" cy="4" r="1.5"/>
+                <circle cx="3" cy="10" r="1.5"/>
+                <circle cx="21" cy="10" r="1.5"/>
+              </svg>
+            }
+            <!-- palette / sparkles -->
+            @if (service.icon === 'palette') {
+              <svg class="service-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a10 10 0 1 0 10 10c0-1.1-.9-2-2-2h-1.5a2 2 0 0 1-2-2v-1.5A2 2 0 0 0 14.5 4.5"/>
+                <circle cx="6.5" cy="11.5" r="1.5" fill="currentColor"/>
+                <circle cx="9.5" cy="7.5" r="1.5" fill="currentColor"/>
+                <circle cx="14.5" cy="7.5" r="1.5" fill="currentColor"/>
+              </svg>
+            }
           </div>
           <h3 class="service-name">{{ service.name }}</h3>
           <p class="service-desc">{{ service.desc }}</p>
@@ -104,7 +167,12 @@
       @for (item of pricing; track item.name) {
         <div class="pricing-row" [class.popular]="item.popular">
           @if (item.popular) {
-            <span class="popular-badge">⭐ Más Popular</span>
+            <span class="popular-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="display:inline-block;vertical-align:middle;margin-right:4px">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              Más Popular
+            </span>
           }
           <span class="pricing-name">{{ item.name }}</span>
           <div class="pricing-dots"></div>
@@ -227,35 +295,54 @@
     <div class="contact-grid">
       <div class="contact-info">
         <div class="contact-item">
-          <span class="contact-icon">📍</span>
+          <span class="contact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+          </span>
           <div>
             <p class="contact-item-label">Dirección</p>
             <p class="contact-item-value">Calle Gran Vía 42, Planta Baja<br>28013 Madrid, España</p>
           </div>
         </div>
         <div class="contact-item">
-          <span class="contact-icon">📞</span>
+          <span class="contact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.93-1.94a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </span>
           <div>
             <p class="contact-item-label">Teléfono</p>
             <a href="tel:+34910000000" class="contact-item-value contact-link" id="contact-phone">+34 910 000 000</a>
           </div>
         </div>
         <div class="contact-item">
-          <span class="contact-icon">📧</span>
+          <span class="contact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </span>
           <div>
             <p class="contact-item-label">Email</p>
             <a href="mailto:info@elclasico.es" class="contact-item-value contact-link" id="contact-email">info&#64;elclasico.es</a>
           </div>
         </div>
         <div class="contact-item">
-          <span class="contact-icon">🕐</span>
+          <span class="contact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </span>
           <div>
             <p class="contact-item-label">Horario</p>
             <p class="contact-item-value">Lun–Vie: 9:00–20:00<br>Sáb: 9:00–18:00 · Dom: Cerrado</p>
           </div>
         </div>
         <a [routerLink]="['/chat']" class="btn-primary" style="margin-top:16px" id="contact-reservar-btn">
-          💬 Reservar con IA
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:6px">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Reservar con IA
         </a>
       </div>
       <div class="map-wrap">
@@ -278,7 +365,13 @@
 <footer class="footer">
   <div class="container footer-inner">
     <div class="footer-brand">
-      <span class="logo-icon">💈</span>
+      <span class="logo-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+          <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
+          <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+        </svg>
+      </span>
       <span class="footer-name">El <em>Clásico</em></span>
       <p class="footer-tagline">El arte del corte perfecto desde 2009.</p>
     </div>
@@ -290,6 +383,10 @@
      FLOATING CHAT BUTTON
 ══════════════════════════════════════════ -->
 <a [routerLink]="['/chat']" class="floating-chat-btn" id="floating-chat-btn" aria-label="Abrir asistente IA">
-  <span class="floating-chat-icon">💬</span>
+  <span class="floating-chat-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  </span>
   <span class="floating-chat-label">Reservar</span>
 </a>

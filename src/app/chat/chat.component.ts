@@ -54,7 +54,7 @@ export class ChatComponent implements AfterViewChecked {
     this.isTyping.set(true);
 
     try {
-      const response = await fetch('https://n8n.omega-studio.tech/webhook/brutal-art-web/messages-upsert', {
+      const response = await fetch('https://n8n.omega-studio.tech/webhook/barber-chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -70,20 +70,77 @@ export class ChatComponent implements AfterViewChecked {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
+      this.isTyping.set(false); // Ocultar el indicador de "escribiendo" porque ya vamos a empezar a mostrar la respuesta
+      this.messages.update(msgs => [...msgs, { role: 'assistant', text: '', time: this.getTime() }]);
+      
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error('No se pudo iniciar el stream');
+      
+      const decoder = new TextDecoder('utf-8');
+      let botReply = '';
+      let buffer = '';
 
-      let botReply = 'No se recibió respuesta';
-      if (data) {
-        if (typeof data === 'string') {
-          botReply = data;
-        } else if (Array.isArray(data) && data.length > 0 && data[0].output) {
-          botReply = data[0].output;
-        } else {
-          botReply = data.mensaje || data.output || data.text || data.message || data.response || JSON.stringify(data);
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        
+        // El último elemento podría ser una línea incompleta, lo dejamos en el buffer
+        buffer = lines.pop() || ''; 
+        
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          try {
+            const parsed = JSON.parse(line);
+            
+            // Si es formato JSONL (streaming de AI Agent)
+            if (parsed.type === 'item' && typeof parsed.content === 'string') {
+              botReply += parsed.content;
+            } 
+          } catch (e) {
+            // Ignoramos errores de parseo por si hay líneas extrañas
+          }
+        }
+        
+        // Actualizamos la UI inmediatamente si hay texto nuevo
+        if (botReply) {
+          this.messages.update(msgs => {
+             const newMsgs = [...msgs];
+             newMsgs[newMsgs.length - 1].text = botReply;
+             return newMsgs;
+          });
+          this.shouldScroll = true;
         }
       }
-
-      this.messages.update(msgs => [...msgs, { role: 'assistant', text: botReply, time: this.getTime() }]);
+      
+      // Procesar cualquier resto en el buffer al terminar el stream
+      if (buffer.trim()) {
+        try {
+          const parsed = JSON.parse(buffer);
+          if (parsed.type === 'item' && typeof parsed.content === 'string') {
+             botReply += parsed.content;
+          } else if (!botReply && parsed) {
+             // Si al final no era streaming y era un solo objeto JSON
+             if (typeof parsed === 'string') botReply = parsed;
+             else if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].output) botReply = parsed[0].output;
+             else botReply = parsed.mensaje || parsed.output || parsed.text || parsed.message || parsed.response || JSON.stringify(parsed);
+          }
+        } catch (e) {
+          // Si no es JSON y no hubo streaming previo, es texto plano
+          if (!botReply) botReply = buffer;
+        }
+        
+        if (botReply) {
+          this.messages.update(msgs => {
+             const newMsgs = [...msgs];
+             newMsgs[newMsgs.length - 1].text = botReply;
+             return newMsgs;
+          });
+          this.shouldScroll = true;
+        }
+      }
     } catch (error) {
       console.error('Error al contactar con el agente AI:', error);
       this.messages.update(msgs => [...msgs, {

@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 interface Service {
-  icon: string;
+  icon: string; // SVG icon key: scissors | barber | razor | bolt | crown | palette
   name: string;
   desc: string;
   duration: string;
@@ -47,12 +47,12 @@ export class HomeComponent implements OnInit {
   mobileMenuOpen = signal(false);
 
   services: Service[] = [
-    { icon: '✂️', name: 'Corte Clásico', desc: 'Corte tradicional con navaja y tijera, acabado impecable.', duration: '30 min', price: 18 },
-    { icon: '💈', name: 'Corte + Barba', desc: 'Servicio completo: corte de cabello y arreglo de barba.', duration: '50 min', price: 28 },
-    { icon: '🪒', name: 'Afeitado Real', desc: 'Afeitado clásico con navaja caliente y toallas de vapor.', duration: '40 min', price: 22 },
-    { icon: '⚡', name: 'Fade Premium', desc: 'Degradado perfecto con máquina, técnica de alto nivel.', duration: '45 min', price: 25 },
-    { icon: '👑', name: 'Servicio VIP', desc: 'Corte + barba + tratamiento capilar + masaje de cuero cabelludo.', duration: '90 min', price: 55 },
-    { icon: '🎨', name: 'Color & Mechas', desc: 'Coloración profesional adaptada a tu estilo personal.', duration: '75 min', price: 45 },
+    { icon: 'scissors', name: 'Corte Clásico', desc: 'Corte tradicional con navaja y tijera, acabado impecable.', duration: '30 min', price: 18 },
+    { icon: 'barber', name: 'Corte + Barba', desc: 'Servicio completo: corte de cabello y arreglo de barba.', duration: '50 min', price: 28 },
+    { icon: 'razor', name: 'Afeitado Real', desc: 'Afeitado clásico con navaja caliente y toallas de vapor.', duration: '40 min', price: 22 },
+    { icon: 'bolt', name: 'Fade Premium', desc: 'Degradado perfecto con máquina, técnica de alto nivel.', duration: '45 min', price: 25 },
+    { icon: 'crown', name: 'Servicio VIP', desc: 'Corte + barba + tratamiento capilar + masaje de cuero cabelludo.', duration: '90 min', price: 55 },
+    { icon: 'palette', name: 'Color & Mechas', desc: 'Coloración profesional adaptada a tu estilo personal.', duration: '75 min', price: 45 },
   ];
 
   barbers: Barber[] = [

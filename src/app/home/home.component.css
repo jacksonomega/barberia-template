@@ -16,7 +16,7 @@
   cursor: pointer;
 }
 .nav-logo em { color: var(--gold); font-style: italic; }
-.logo-icon { font-size: 1.6rem; }
+.logo-icon { display: flex; align-items: center; justify-content: center; color: var(--gold); }
 .nav-links {
   display: flex; align-items: center; gap: 32px;
   list-style: none;
@@ -117,7 +117,7 @@
   transition: all 0.4s ease;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
-.service-icon { font-size: 2rem; line-height: 1; transition: filter 0.3s ease; }
+.service-icon { display: block; color: var(--gold); transition: transform 0.3s ease, filter 0.3s ease; }
 
 .service-card:hover .service-icon-wrap {
   background: var(--gradient-gold);
