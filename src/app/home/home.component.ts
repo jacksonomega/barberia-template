@@ -1,152 +1,136 @@
-import { Component, OnInit, signal, ElementRef, ViewChild } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 
-interface Service {
-  icon: string; // SVG icon key: scissors | barber | razor | bolt | crown | palette
-  name: string;
-  desc: string;
-  duration: string;
-  price: number;
-}
+// Shared models
+import { Service, Barber, Testimonial, PricingItem, NavLink } from '../shared/models';
 
-interface Barber {
-  name: string;
-  role: string;
-  img: string;
-  specialties: string[];
-  instagram: string;
-}
+// UI Components
+import { NavbarComponent } from '../shared/ui/navbar/navbar.component';
+import { SectionHeaderComponent } from '../shared/ui/section-header/section-header.component';
+import { GoldButtonComponent } from '../shared/ui/gold-button/gold-button.component';
+import { ServiceCardComponent } from '../shared/ui/service-card/service-card.component';
+import { TeamCardComponent } from '../shared/ui/team-card/team-card.component';
+import { TestimonialCarouselComponent } from '../shared/ui/testimonial-carousel/testimonial-carousel.component';
+import { PricingTableComponent } from '../shared/ui/pricing-table/pricing-table.component';
+import { FloatingActionButtonComponent } from '../shared/ui/floating-action-button/floating-action-button.component';
+import { ContactCardComponent } from '../shared/ui/contact-card/contact-card.component';
 
-interface Testimonial {
-  name: string;
-  rating: number;
-  text: string;
-  date: string;
-  avatar: string;
-}
+// Animation Directives
+import { ScrollRevealDirective } from '../shared/animations/scroll-reveal.directive';
 
-interface PricingItem {
-  name: string;
-  price: number;
-  popular?: boolean;
-}
+import { MagneticDirective } from '../shared/animations/magnetic.directive';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [
+    CommonModule,
+    NavbarComponent,
+    SectionHeaderComponent,
+    GoldButtonComponent,
+    ServiceCardComponent,
+    TeamCardComponent,
+    TestimonialCarouselComponent,
+    PricingTableComponent,
+    FloatingActionButtonComponent,
+    ContactCardComponent,
+    ScrollRevealDirective,
+    MagneticDirective,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit {
-  @ViewChild('heroSection') heroSection!: ElementRef;
-
+export class HomeComponent {
   currentYear = new Date().getFullYear();
-  activeTestimonial = signal(0);
-  mobileMenuOpen = signal(false);
+
+  navLinks: NavLink[] = [
+    { label: 'Conócenos', sectionId: 'nosotros' },
+    { label: 'Servicios', sectionId: 'servicios' },
+    { label: 'Experiencia', sectionId: 'video' },
+    { label: 'Higiene', sectionId: 'higiene' },
+    { label: 'Precios', sectionId: 'precios' },
+    { label: 'Contacto', sectionId: 'contacto' },
+    { label: 'Reservar Cita', route: '/chat', isCta: true },
+  ];
 
   services: Service[] = [
-    { icon: 'scissors', name: 'Corte Clásico', desc: 'Corte tradicional con navaja y tijera, acabado impecable.', duration: '30 min', price: 18 },
-    { icon: 'barber', name: 'Corte + Barba', desc: 'Servicio completo: corte de cabello y arreglo de barba.', duration: '50 min', price: 28 },
-    { icon: 'razor', name: 'Afeitado Real', desc: 'Afeitado clásico con navaja caliente y toallas de vapor.', duration: '40 min', price: 22 },
-    { icon: 'bolt', name: 'Fade Premium', desc: 'Degradado perfecto con máquina, técnica de alto nivel.', duration: '45 min', price: 25 },
-    { icon: 'crown', name: 'Servicio VIP', desc: 'Corte + barba + tratamiento capilar + masaje de cuero cabelludo.', duration: '90 min', price: 55 },
-    { icon: 'palette', name: 'Color & Mechas', desc: 'Coloración profesional adaptada a tu estilo personal.', duration: '75 min', price: 45 },
+    { icon: 'scissors', name: 'Cortes Actuales & Fade', desc: 'Especialistas en degradados limpios, texturizados y cortes de tendencia con acabados de precisión.', duration: '35 min', price: 16 },
+    { icon: 'bolt', name: 'Propuestas Alternativas', desc: 'Nos encantan los desafíos: diseños creativos, cortes vanguardistas y propuestas atrevidas con máxima personalidad.', duration: '45 min', price: 20 },
+    { icon: 'palette', name: 'Tintes & Colorimetría', desc: 'Pioneros en tintes: amplísima gama de colores con los mejores productos profesionales del mercado.', duration: '60 min', price: 35 },
+    { icon: 'barber', name: 'Corte + Barba Quarter', desc: 'Pack completo de corte actual y perfilado de barba con asesoramiento personalizado.', duration: '50 min', price: 24 },
+    { icon: 'razor', name: 'Afeitado Lama Única', desc: 'Afeitado tradicional con lamas desechables de uso único y toallas higienizadas para máxima seguridad.', duration: '35 min', price: 15 },
+    { icon: 'crown', name: 'Asesoramiento de Imagen', desc: 'Estudio y adaptación de tu imagen según tu fisonomía y preferencias para potenciar tu estilo.', duration: '30 min', price: 18 },
   ];
 
   barbers: Barber[] = [
     {
-      name: 'Carlos Mendoza',
-      role: 'Maestro Barbero · 15 años',
+      name: 'Equipo Quarter Barber',
+      role: 'Especialistas en Cortes Actuales',
       img: '/barber-carlos.png',
-      specialties: ['Fade', 'Barba', 'Clásico'],
-      instagram: '@carlos_cuts',
+      specialties: ['Fade', 'Cortes Actuales', 'Asesoría'],
+      instagram: '@quarterbarber',
     },
     {
-      name: 'Miguel Torres',
-      role: 'Barbero Senior · 8 años',
+      name: 'Especialistas en Color',
+      role: 'Colorimetría & Propuestas Alternativas',
       img: '/barber-miguel.png',
-      specialties: ['Color', 'Diseño', 'Moderno'],
-      instagram: '@miguel_barber',
+      specialties: ['Tintes', 'Decoloración', 'Diseño Freestyle'],
+      instagram: '@quarterbarber',
     },
     {
-      name: 'Roberto Silva',
-      role: 'Especialista Afeitado · 12 años',
+      name: 'Barberos Quarter Atocha',
+      role: 'Maestros del Perfilado & Barba',
       img: '/barber-roberto.png',
-      specialties: ['Navaja', 'VIP', 'Clásico'],
-      instagram: '@roberto_silva',
+      specialties: ['Barba', 'Navaja Lama Única', 'Higiene'],
+      instagram: '@quarterbarber',
     },
   ];
 
   testimonials: Testimonial[] = [
     {
-      name: 'Alejandro R.',
+      name: 'Marcos G.',
       rating: 5,
-      text: 'El mejor corte que me han dado en mi vida. Carlos es un artista. El ambiente es increíble y el servicio VIP vale cada euro. Ya no voy a ningún otro sitio.',
-      date: 'Hace 2 días',
-      avatar: 'AR',
+      text: 'El ambiente en Calle Abtao es inmejorable, desde el primer día te tratan como a un amigo de toda la vida. El degradado y el tinte me quedaron espectaculares.',
+      date: 'Hace 3 días',
+      avatar: 'MG',
     },
     {
-      name: 'David M.',
+      name: 'Dani R.',
       rating: 5,
-      text: 'Fui por primera vez la semana pasada y quedé absolutamente alucinado. El afeitado clásico con la navaja fue una experiencia de lujo. 100% recomendado.',
+      text: 'Pocos sitios tienen tanta variedad de tintes y a un precio tan justo. Además la limpieza es brutal: abren la lama delante de ti y todo está desinfectado al detalle.',
       date: 'Hace 1 semana',
-      avatar: 'DM',
+      avatar: 'DR',
     },
     {
-      name: 'Javier L.',
+      name: 'Álvaro S.',
       rating: 5,
-      text: 'Llevo 3 años siendo cliente y nunca me han decepcionado. Miguel siempre sabe exactamente lo que quiero aunque yo no sepa explicarlo bien. Profesionales de verdad.',
+      text: 'Buscaba un corte alternativo que en otras barberías no se atrevían a hacerme. Aquí no solo lo clavaron sino que me asesoraron genial. ¡Mi barbería de confianza en Pacífico!',
       date: 'Hace 2 semanas',
-      avatar: 'JL',
+      avatar: 'AS',
     },
     {
-      name: 'Sergio P.',
+      name: 'Iván M.',
       rating: 5,
-      text: 'El ambiente, la música, la atención... todo es perfecto. Me arreglé antes de mi boda y quedé tan bien que hasta el fotógrafo me preguntó dónde me había cortado.',
-      date: 'Hace 1 mes',
-      avatar: 'SP',
+      text: 'Pioneros en cortes a buenos precios en pleno Atocha. Muy profesionales, rápidos y el rollo del local te hace sentir como en casa. 100% recomendado.',
+      date: 'Hace 3 semanas',
+      avatar: 'IM',
     },
   ];
 
   pricing: PricingItem[] = [
-    { name: 'Corte Clásico', price: 18 },
-    { name: 'Corte + Barba', price: 28, popular: true },
-    { name: 'Afeitado Real', price: 22 },
-    { name: 'Fade Premium', price: 25 },
-    { name: 'Diseño de Barba', price: 15 },
-    { name: 'Color & Mechas', price: 45 },
-    { name: 'Tratamiento Capilar', price: 20 },
-    { name: 'Servicio VIP', price: 55 },
+    { name: 'Corte Actual / Degradado Urbano', price: 16 },
+    { name: 'Corte + Barba Quarter', price: 24, popular: true },
+    { name: 'Propuestas Alternativas & Diseño', price: 20 },
+    { name: 'Tintes & Colorimetría Especial', price: 35 },
+    { name: 'Afeitado Tradicional (Lama Única)', price: 15 },
+    { name: 'Perfilado & Arreglo de Barba', price: 12 },
+    { name: 'Tratamiento Capilar & Lavado', price: 14 },
+    { name: 'Servicio Completo Quarter VIP', price: 55 },
   ];
-
-  ngOnInit() {
-    // Auto-rotate testimonials
-    setInterval(() => {
-      this.currentTestimonialIndex = (this.currentTestimonialIndex + 1) % this.testimonials.length;
-      this.activeTestimonial.set(this.currentTestimonialIndex);
-    }, 5000);
-  }
-
-  private currentTestimonialIndex = 0;
-
-  setTestimonial(index: number) {
-    this.currentTestimonialIndex = index;
-    this.activeTestimonial.set(index);
-  }
-
-  get stars() {
-    return Array(5).fill(0);
-  }
-
-  toggleMobileMenu() {
-    this.mobileMenuOpen.update(v => !v);
-  }
 
   scrollToSection(id: string) {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
-    this.mobileMenuOpen.set(false);
   }
 }

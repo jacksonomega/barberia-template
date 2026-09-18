@@ -1,0 +1,280 @@
+<form (ngSubmit)="onSubmit()" class="booking-form" #formRef="ngForm">
+
+  <!-- SECCIÓN: DATOS DE CONTACTO -->
+  <div class="form-section">
+    <label class="section-title">
+      <span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </span>
+      <span>Tus Datos</span>
+    </label>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label for="book-name" class="input-label">Nombre Completo *</label>
+        <div class="input-container">
+          <input
+            id="book-name"
+            type="text"
+            [ngModel]="name()"
+            (ngModelChange)="name.set($event)"
+            name="name"
+            placeholder="Ej. Carlos Mendoza"
+            required
+            class="custom-input"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="book-phone" class="input-label">Teléfono de Contacto *</label>
+        <div class="input-container">
+          <input
+            id="book-phone"
+            type="tel"
+            [ngModel]="phone()"
+            (ngModelChange)="phone.set($event)"
+            name="phone"
+            placeholder="Ej. +34 612 345 678"
+            required
+            class="custom-input"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN: PERSONAS -->
+  <div class="form-section">
+    <label class="section-title">
+      <span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </span>
+      <span>Cantidad de Personas</span>
+    </label>
+    <div class="people-counter">
+      <button
+        type="button"
+        class="counter-btn"
+        (click)="decrementPeople()"
+        [disabled]="peopleCount() <= 1"
+        aria-label="Disminuir personas"
+      >
+        −
+      </button>
+      <span class="counter-value">
+        <strong>{{ peopleCount() }}</strong>
+        <span class="counter-label">{{ peopleCount() === 1 ? 'Persona' : 'Personas' }}</span>
+      </span>
+      <button
+        type="button"
+        class="counter-btn"
+        (click)="incrementPeople()"
+        [disabled]="peopleCount() >= 6"
+        aria-label="Aumentar personas"
+      >
+        +
+      </button>
+    </div>
+  </div>
+
+  <!-- SECCIÓN: SERVICIO (desde BarberServicesService) -->
+  <div class="form-section">
+    <div class="section-header-flex">
+      <label class="section-title">
+        <span class="icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="6" cy="6" r="3"></circle>
+            <circle cx="6" cy="18" r="3"></circle>
+            <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+            <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+            <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+          </svg>
+        </span>
+        <span>Selecciona un Servicio *</span>
+      </label>
+      <span class="service-count-badge" *ngIf="services().length > 0">
+        {{ services().length }} disponibles
+      </span>
+    </div>
+
+    <!-- Loading Skeleton -->
+    <div *ngIf="isServicesLoading()" class="loading-state">
+      <div class="spinner-small"></div>
+      <span>Cargando servicios disponibles...</span>
+    </div>
+
+    <!-- Services Cards Grid -->
+    <div *ngIf="!isServicesLoading()" class="services-grid">
+      @for (serv of services(); track serv.id) {
+        <div
+          class="service-option"
+          [class.selected]="selectedServiceId() === serv.id"
+          (click)="selectService(serv.id)"
+        >
+          <div class="service-option-content">
+            <span class="service-name">{{ serv.name }}</span>
+            <span class="service-tag" *ngIf="serv.service !== serv.name">{{ serv.service }}</span>
+          </div>
+          <div class="service-price">
+            {{ serv.price | currency:'EUR':'symbol':'1.0-2' }}
+          </div>
+          <div class="check-dot"></div>
+        </div>
+      }
+      @if (services().length === 0 && !isServicesLoading()) {
+        <p class="empty-hint">No hay servicios disponibles temporalmente.</p>
+      }
+    </div>
+  </div>
+
+  <!-- SECCIÓN: BARBERO (desde EmployeeService) -->
+  <div class="form-section">
+    <div class="section-header-flex">
+      <label class="section-title">
+        <span class="icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 3h12l-2 18H8L6 3z"></path>
+            <line x1="6" y1="8" x2="18" y2="8"></line>
+            <line x1="6" y1="14" x2="18" y2="14"></line>
+          </svg>
+        </span>
+        <span>Selecciona tu Barbero</span>
+      </label>
+      <span class="service-count-badge" *ngIf="employees().length > 0">
+        {{ employees().length }} barberos
+      </span>
+    </div>
+
+    <!-- Loading Skeleton -->
+    <div *ngIf="isEmployeesLoading()" class="loading-state">
+      <div class="spinner-small"></div>
+      <span>Cargando equipo de barberos...</span>
+    </div>
+
+    <!-- Barbers Selector Cards -->
+    <div *ngIf="!isEmployeesLoading()" class="barbers-grid">
+      <!-- Opción: Cualquier barbero -->
+      <div
+        class="barber-option"
+        [class.selected]="selectedBarberId() === 'any'"
+        (click)="selectedBarberId.set('any')"
+      >
+        <div class="barber-avatar-placeholder">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+        <div class="barber-info">
+          <p class="barber-name">Cualquier Barbero</p>
+          <p class="barber-desc">Primer profesional disponible</p>
+        </div>
+        <div class="check-dot"></div>
+      </div>
+
+      <!-- Lista de barberos cargados del servicio -->
+      @for (emp of employees(); track emp.id) {
+        <div
+          class="barber-option"
+          [class.selected]="selectedBarberId() === emp.id"
+          (click)="selectedBarberId.set(emp.id)"
+        >
+          <div class="barber-avatar-circle">
+            {{ emp.first_name.charAt(0) }}{{ emp.last_name.charAt(0) }}
+          </div>
+          <div class="barber-info">
+            <p class="barber-name">{{ emp.first_name }} {{ emp.last_name }}</p>
+            <p class="barber-desc">
+              {{ emp.services.length > 0 ? emp.services.length + ' servicios' : 'Barbero oficial' }}
+            </p>
+          </div>
+          <div class="check-dot"></div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- SECCIÓN: FECHA Y HORA -->
+  <div class="form-section">
+    <label class="section-title">
+      <span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+      </span>
+      <span>Fecha y Hora *</span>
+    </label>
+
+    <div class="date-time-grid">
+      <div class="form-group">
+        <label for="book-date" class="input-label">Día de la cita</label>
+        <input
+          id="book-date"
+          type="date"
+          [min]="minDate"
+          [ngModel]="date()"
+          (ngModelChange)="date.set($event)"
+          name="date"
+          required
+          class="custom-input date-input"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="input-label">Hora deseada: <strong class="text-gold">{{ time() || 'Elige una hora' }}</strong></label>
+        <div class="time-slots-container">
+          @for (slot of timeSlots; track slot) {
+            <button
+              type="button"
+              class="time-chip"
+              [class.active]="time() === slot"
+              (click)="selectTime(slot)"
+            >
+              {{ slot }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUMEN EN VIVO -->
+  <app-booking-summary
+    [serviceName]="selectedService()?.name || ''"
+    [servicePrice]="selectedService()?.price || 0"
+    [barberName]="barberDisplayName()"
+    [date]="date()"
+    [time]="time()"
+    [peopleCount]="peopleCount()"
+  ></app-booking-summary>
+
+  <!-- ACCIONES DEL FORMULARIO -->
+  <div class="form-actions">
+    <button type="button" class="btn-cancel" (click)="cancel.emit()">
+      Cancelar
+    </button>
+    <button
+      type="submit"
+      class="btn-submit"
+      [disabled]="!isFormValid()"
+      id="confirm-booking-btn"
+    >
+      <span>Confirmar Cita</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </button>
+  </div>
+
+</form>

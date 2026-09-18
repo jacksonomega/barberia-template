@@ -1,0 +1,101 @@
+<div
+  *ngIf="isOpen"
+  class="modal-backdrop"
+  (click)="handleBackdropClick($event)"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
+  <div class="modal-dialog">
+    <!-- Close button -->
+    <button
+      type="button"
+      class="modal-close-btn"
+      (click)="handleClose()"
+      aria-label="Cerrar modal"
+    >
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- STEP 1: FORMULARIO DE RESERVA -->
+    <ng-container *ngIf="!confirmedBooking(); else successView">
+      <div class="modal-header">
+        <div class="modal-icon-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
+        <div>
+          <h2 id="modal-title" class="modal-title">Reserva Rápida de Cita</h2>
+          <p class="modal-subtitle">
+            Selecciona tu servicio, tu barbero favorito y asegura tu cita al instante.
+          </p>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <app-booking-form
+          (submitBooking)="handleBookingSubmit($event)"
+          (cancel)="handleClose()"
+        ></app-booking-form>
+      </div>
+    </ng-container>
+
+    <!-- STEP 2: CONFIRMACIÓN EXITOSA -->
+    <ng-template #successView>
+      <div class="success-container" *ngIf="confirmedBooking() as b">
+        <div class="success-icon-wrap">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+
+        <h3 class="success-title">¡Cita Reservada con Éxito!</h3>
+        <p class="success-subtitle">
+          Hemos registrado tu cita en <strong>Quarter Barber</strong>. Te hemos enviado un resumen también en el chat.
+        </p>
+
+        <div class="success-receipt">
+          <div class="receipt-row">
+            <span class="receipt-label">Cliente:</span>
+            <span class="receipt-value">{{ b.name }}</span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-label">Teléfono:</span>
+            <span class="receipt-value">{{ b.phone }}</span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-label">Servicio:</span>
+            <span class="receipt-value">{{ b.serviceName }} ({{ b.servicePrice | currency:'EUR':'symbol':'1.0-2' }})</span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-label">Barbero:</span>
+            <span class="receipt-value">{{ b.barberName }}</span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-label">Personas:</span>
+            <span class="receipt-value">{{ b.peopleCount }}</span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-label">Fecha y Hora:</span>
+            <span class="receipt-value text-gold">{{ b.date | date:'dd/MM/yyyy' }} a las {{ b.time }}h</span>
+          </div>
+        </div>
+
+        <div class="success-actions">
+          <button type="button" class="btn-primary-success" (click)="handleClose()">
+            Entendido, volver al Chat
+          </button>
+        </div>
+      </div>
+    </ng-template>
+
+  </div>
+</div>

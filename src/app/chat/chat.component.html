@@ -11,7 +11,7 @@
         </svg>
       </span>
       <div>
-        <p class="sidebar-brand">El <em>Clásico</em></p>
+        <p class="sidebar-brand">Quarter <em>Barber</em></p>
         <p class="sidebar-sub">Asistente Virtual</p>
       </div>
     </div>
@@ -23,13 +23,29 @@
       </span>
     </div>
     <div class="sidebar-info">
-      <p class="sidebar-info-label">Horario</p>
-      <p class="sidebar-info-val">Lun–Vie 9:00–20:00<br>Sáb 9:00–18:00</p>
+      <p class="sidebar-info-label">Ubicación</p>
+      <p class="sidebar-info-val">Calle Abtao, 4<br>Atocha (Pacífico), Madrid</p>
     </div>
     <div class="sidebar-info">
-      <p class="sidebar-info-label">Teléfono</p>
-      <a href="tel:+34910000000" class="sidebar-link">+34 910 000 000</a>
+      <p class="sidebar-info-label">Teléfono / WhatsApp</p>
+      <a href="tel:647565356" class="sidebar-link">647 565 356</a>
     </div>
+    <div class="sidebar-info">
+      <p class="sidebar-info-label">Instagram</p>
+      <a href="https://instagram.com/quarterbarber" target="_blank" class="sidebar-link">&#64;quarterbarber</a>
+    </div>
+
+    <!-- Quick Booking CTA in Sidebar -->
+    <button class="sidebar-booking-btn" (click)="openBookingModal()" id="sidebar-quick-booking-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+      <span>Agendar Cita Rápida</span>
+    </button>
+
     <div class="sidebar-spacer"></div>
     <a [routerLink]="['/']" class="btn-outline sidebar-back" id="chat-back-btn">← Volver al Inicio</a>
   </aside>
@@ -49,13 +65,24 @@
           </svg>
         </div>
         <div>
-          <p class="chat-bot-name">Asistente El Clásico</p>
+          <p class="chat-bot-name">Asistente Quarter Barber</p>
           <p class="chat-bot-status">
             <span class="status-dot"></span> En línea · Responde al instante
           </p>
         </div>
       </div>
-      <a [routerLink]="['/']" class="chat-back-mobile" id="chat-back-mobile-btn" aria-label="Volver">← Volver</a>
+      <div class="chat-header-actions">
+        <button class="header-booking-btn" (click)="openBookingModal()" id="chat-header-booking-btn" title="Agendar cita rápida">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>Reservar Cita</span>
+        </button>
+        <a [routerLink]="['/']" class="chat-back-mobile" id="chat-back-mobile-btn" aria-label="Volver">← Volver</a>
+      </div>
     </header>
 
     <!-- Messages -->
@@ -143,3 +170,10 @@
 
   </main>
 </div>
+
+<!-- Modal de Reserva Rápida Modularizado -->
+<app-quick-booking-modal
+  [isOpen]="isBookingModalOpen()"
+  (closeModal)="closeBookingModal()"
+  (bookingConfirmed)="onBookingConfirmed($event)"
+></app-quick-booking-modal>
