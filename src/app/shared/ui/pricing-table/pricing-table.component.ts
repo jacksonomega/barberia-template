@@ -66,23 +66,23 @@ import { GoldButtonComponent } from '../gold-button/gold-button.component';
 
     .pt__row:first-child { border-top: 1px solid var(--border); }
     .pt__row:hover {
-      background: rgba(212,168,67,0.04);
+      background: rgba(255,255,255,0.04);
       padding-left: 32px;
     }
     .pt__row--popular {
-      background: rgba(212,168,67,0.06);
-      border-color: rgba(212,168,67,0.3);
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.3);
     }
     .pt__row--popular:hover {
-      background: rgba(212,168,67,0.1);
+      background: rgba(255,255,255,0.1);
     }
 
     .pt__badge {
       position: absolute;
       top: -10px;
       right: 24px;
-      background: var(--gradient-gold);
-      color: #0A0A0B;
+      background: #FFFFFF;
+      color: #000000;
       font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.06em;

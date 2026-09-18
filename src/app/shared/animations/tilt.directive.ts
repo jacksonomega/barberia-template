@@ -53,7 +53,7 @@ export class TiltDirective implements OnInit, OnDestroy {
       this.renderer.setStyle(this.glareEl, 'zIndex', '10');
       this.renderer.setStyle(this.glareEl, 'overflow', 'hidden');
       this.renderer.setStyle(this.glareEl, 'background',
-        'linear-gradient(135deg, rgba(212,168,67,0.15) 0%, transparent 50%)');
+        'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%)');
 
       // Ensure parent is positioned
       const position = getComputedStyle(host).position;
@@ -105,7 +105,7 @@ export class TiltDirective implements OnInit, OnDestroy {
 
       if (this.glareEl) {
         const glareAngle = Math.atan2(percentY, percentX) * (180 / Math.PI) + 180;
-        this.glareEl.style.background = `linear-gradient(${glareAngle.toFixed(0)}deg, rgba(212,168,67,0.16) 0%, transparent 60%)`;
+        this.glareEl.style.background = `linear-gradient(${glareAngle.toFixed(0)}deg, rgba(255,255,255,0.18) 0%, transparent 60%)`;
       }
     });
   }

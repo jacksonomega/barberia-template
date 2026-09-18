@@ -57,8 +57,8 @@ import { TiltDirective } from '../../animations/tilt.directive';
       transition: all 0.4s cubic-bezier(.4,0,.2,1);
     }
     .tc:hover {
-      border-color: rgba(212,168,67,0.35);
-      box-shadow: var(--shadow-gold), var(--shadow-card);
+      border-color: rgba(255,255,255,0.35);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 25px rgba(255,255,255,0.1);
     }
 
     .tc__img-wrap {
@@ -120,17 +120,17 @@ import { TiltDirective } from '../../animations/tilt.directive';
     }
     .tc__tag {
       padding: 4px 12px;
-      background: rgba(212,168,67,0.1);
-      border: 1px solid rgba(212,168,67,0.2);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.18);
       border-radius: 20px;
       font-size: 0.75rem;
-      color: var(--gold);
+      color: #FFFFFF;
       font-weight: 600;
       transition: all 0.3s ease;
     }
     .tc:hover .tc__tag {
-      background: rgba(212,168,67,0.15);
-      border-color: rgba(212,168,67,0.35);
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.35);
     }
     .tc__social {
       display: inline-flex;

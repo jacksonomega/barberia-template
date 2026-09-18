@@ -65,7 +65,7 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       transition: all 0.3s cubic-bezier(.4,0,.2,1);
     }
     .cc:hover {
-      background: rgba(212,168,67,0.04);
+      background: rgba(255,255,255,0.04);
       transform: translateX(4px);
     }
 
@@ -74,17 +74,18 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       width: 44px;
       height: 44px;
       border-radius: 12px;
-      background: rgba(212,168,67,0.08);
-      border: 1px solid rgba(212,168,67,0.15);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--gold);
+      color: #FFFFFF;
       transition: all 0.35s ease;
     }
     .cc:hover .cc__icon-wrap {
-      background: rgba(212,168,67,0.15);
-      border-color: rgba(212,168,67,0.3);
+      background: #FFFFFF;
+      border-color: #FFFFFF;
+      color: #000000;
       transform: scale(1.05);
     }
 

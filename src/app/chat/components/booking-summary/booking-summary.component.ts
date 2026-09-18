@@ -83,8 +83,8 @@ import { CommonModule } from '@angular/common';
   `,
   styles: [`
     .summary-card {
-      background: linear-gradient(135deg, rgba(212, 168, 67, 0.08) 0%, rgba(17, 17, 20, 0.95) 100%);
-      border: 1px solid rgba(212, 168, 67, 0.25);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(17, 17, 20, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 12px;
       padding: 14px 18px;
       margin-top: 16px;
@@ -96,14 +96,14 @@ import { CommonModule } from '@angular/common';
       align-items: center;
       margin-bottom: 12px;
       padding-bottom: 8px;
-      border-bottom: 1px solid rgba(212, 168, 67, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     .summary-badge {
       font-size: 0.72rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       font-weight: 700;
-      color: var(--gold, #D4A843);
+      color: #FFFFFF;
     }
     .summary-total {
       display: flex;
@@ -117,7 +117,7 @@ import { CommonModule } from '@angular/common';
     .total-price {
       font-size: 1.15rem;
       font-weight: 800;
-      color: var(--gold-light, #F0C86A);
+      color: #FFFFFF;
       font-family: var(--font-display, serif);
     }
     .summary-grid {
@@ -134,7 +134,7 @@ import { CommonModule } from '@angular/common';
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: var(--gold, #D4A843);
+      color: #FFFFFF;
       flex-shrink: 0;
     }
     .item-label {

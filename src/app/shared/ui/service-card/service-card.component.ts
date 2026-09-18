@@ -78,7 +78,7 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       position: relative;
       padding: 40px 32px;
       background: linear-gradient(145deg, rgba(24,24,28,0.7) 0%, rgba(17,17,20,0.9) 100%);
-      border: 1px solid rgba(212,168,67,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 20px;
       overflow: hidden;
       z-index: 1;
@@ -92,7 +92,7 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle at 30% 30%, rgba(212,168,67,0.06), transparent 50%);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.05), transparent 50%);
       z-index: -1;
       transition: opacity 0.6s ease;
       opacity: 0;
@@ -100,22 +100,22 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
     }
 
     .svc-card:hover {
-      border-color: rgba(212,168,67,0.3);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(212,168,67,0.08);
+      border-color: rgba(255,255,255,0.35);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(255,255,255,0.08);
     }
     .svc-card:hover .svc-card__glow { opacity: 1; }
 
     .svc-card--featured {
-      border-color: rgba(212,168,67,0.2);
-      background: linear-gradient(145deg, rgba(30,28,20,0.8) 0%, rgba(17,17,20,0.95) 100%);
+      border-color: rgba(255,255,255,0.2);
+      background: linear-gradient(145deg, rgba(28,28,34,0.8) 0%, rgba(17,17,20,0.95) 100%);
     }
 
     .svc-card__icon-wrap {
       width: 64px;
       height: 64px;
       border-radius: 16px;
-      background: rgba(212,168,67,0.1);
-      border: 1px solid rgba(212,168,67,0.2);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.18);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -124,17 +124,17 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .svc-card__icon {
-      color: var(--gold);
+      color: #FFFFFF;
       transition: transform 0.4s ease, filter 0.3s ease;
     }
     .svc-card:hover .svc-card__icon-wrap {
-      background: var(--gradient-gold);
-      border-color: transparent;
+      background: #FFFFFF;
+      border-color: #FFFFFF;
       transform: scale(1.08) rotate(5deg);
-      box-shadow: 0 8px 30px rgba(212,168,67,0.35);
+      box-shadow: 0 8px 30px rgba(255,255,255,0.25);
     }
     .svc-card:hover .svc-card__icon {
-      color: #0A0A0B;
+      color: #000000;
       transform: scale(1.1);
     }
 

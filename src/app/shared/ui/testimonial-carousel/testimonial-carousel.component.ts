@@ -72,8 +72,8 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       transition: all 0.4s cubic-bezier(.4,0,.2,1);
     }
     .tcar__card:hover {
-      border-color: rgba(212,168,67,0.25);
-      box-shadow: var(--shadow-gold), var(--shadow-card);
+      border-color: rgba(255,255,255,0.25);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 25px rgba(255,255,255,0.1);
     }
 
     .tcar__quote-icon {
@@ -137,12 +137,12 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      background: var(--gradient-gold);
+      background: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      color: #0A0A0B;
+      color: #000000;
       font-size: 0.9rem;
       flex-shrink: 0;
     }
@@ -163,12 +163,12 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       left: 0;
       right: 0;
       height: 3px;
-      background: rgba(212,168,67,0.1);
+      background: rgba(255,255,255,0.08);
       overflow: hidden;
     }
     .tcar__progress-bar {
       height: 100%;
-      background: var(--gradient-gold);
+      background: #FFFFFF;
       animation: tcar-progress linear infinite;
       transform-origin: left;
     }
@@ -194,11 +194,11 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       padding: 0;
     }
     .tcar__dot--active {
-      background: var(--gold);
-      border-color: var(--gold);
+      background: #FFFFFF;
+      border-color: #FFFFFF;
       width: 28px;
       border-radius: 5px;
-      box-shadow: 0 0 12px rgba(212,168,67,0.4);
+      box-shadow: 0 0 12px rgba(255,255,255,0.3);
     }
 
     @media (max-width: 768px) {

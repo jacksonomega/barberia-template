@@ -97,20 +97,20 @@ import { MagneticDirective } from '../../animations/magnetic.directive';
     .gold-btn--md { padding: 14px 32px; font-size: 0.95rem; }
     .gold-btn--lg { padding: 18px 40px; font-size: 1.05rem; }
 
-    /* Primary */
+    /* Primary (Pure High-Contrast White with Black Text) */
     .gold-btn--primary {
-      background: var(--gradient-gold);
-      color: #0A0A0B;
-      box-shadow: 0 4px 20px rgba(212,168,67,0.3);
+      background: #FFFFFF;
+      color: #000000;
+      border: 1px solid #FFFFFF;
+      box-shadow: 0 4px 20px rgba(255,255,255,0.22);
     }
     .gold-btn--primary:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(212,168,67,0.5);
-      filter: brightness(1.1);
+      background: #E4E4E7;
+      box-shadow: 0 8px 30px rgba(255,255,255,0.35);
     }
     .gold-btn--primary:active {
       transform: translateY(-1px);
-      filter: brightness(0.95);
     }
 
     /* Shine effect */
@@ -121,7 +121,7 @@ import { MagneticDirective } from '../../animations/magnetic.directive';
       background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(255,255,255,0.2) 50%,
+        rgba(255,255,255,0.3) 50%,
         transparent 100%
       );
       transition: left 0.5s ease;
@@ -131,27 +131,29 @@ import { MagneticDirective } from '../../animations/magnetic.directive';
       left: 100%;
     }
 
-    /* Outline */
+    /* Outline (Monochrome) */
     .gold-btn--outline {
       background: transparent;
-      color: var(--gold);
-      border: 1px solid var(--gold);
+      color: #FFFFFF;
+      border: 1px solid rgba(255,255,255,0.35);
       box-shadow: none;
     }
     .gold-btn--outline:hover {
-      background: rgba(212,168,67,0.1);
-      box-shadow: 0 0 24px rgba(212,168,67,0.2);
+      background: #FFFFFF;
+      color: #000000;
+      border-color: #FFFFFF;
+      box-shadow: 0 0 24px rgba(255,255,255,0.25);
       transform: translateY(-3px);
     }
 
     /* Ghost */
     .gold-btn--ghost {
       background: transparent;
-      color: var(--gold);
+      color: #FFFFFF;
       box-shadow: none;
     }
     .gold-btn--ghost:hover {
-      background: rgba(212,168,67,0.08);
+      background: rgba(255,255,255,0.1);
     }
 
     /* Pulse */
@@ -159,9 +161,9 @@ import { MagneticDirective } from '../../animations/magnetic.directive';
       animation: btn-pulse 2.5s ease infinite;
     }
     @keyframes btn-pulse {
-      0%   { box-shadow: 0 4px 20px rgba(212,168,67,0.3), 0 0 0 0 rgba(212,168,67,0.4); }
-      70%  { box-shadow: 0 4px 20px rgba(212,168,67,0.3), 0 0 0 16px rgba(212,168,67,0); }
-      100% { box-shadow: 0 4px 20px rgba(212,168,67,0.3), 0 0 0 0 rgba(212,168,67,0); }
+      0%   { box-shadow: 0 4px 20px rgba(255,255,255,0.25), 0 0 0 0 rgba(255,255,255,0.35); }
+      70%  { box-shadow: 0 4px 20px rgba(255,255,255,0.25), 0 0 0 16px rgba(255,255,255,0); }
+      100% { box-shadow: 0 4px 20px rgba(255,255,255,0.25), 0 0 0 0 rgba(255,255,255,0); }
     }
 
     /* Disabled */

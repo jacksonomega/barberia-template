@@ -166,24 +166,26 @@ import { NavLink } from '../../models';
       align-items: center;
       gap: 8px;
       padding: 10px 22px;
-      background: var(--gradient-gold);
-      color: #0A0A0B !important;
+      background: #FFFFFF;
+      color: #000000 !important;
       font-family: var(--font-body);
       font-weight: 700;
       font-size: 0.85rem;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      border: none;
+      border: 1px solid #FFFFFF;
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.35s cubic-bezier(.4,0,.2,1);
-      box-shadow: 0 4px 16px rgba(212,168,67,0.3);
+      box-shadow: 0 4px 16px rgba(255,255,255,0.2);
       text-decoration: none;
     }
     .nav__cta:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(212,168,67,0.5);
-      filter: brightness(1.1);
+      background: #000000;
+      color: #FFFFFF !important;
+      border-color: #FFFFFF;
+      box-shadow: 0 8px 24px rgba(255,255,255,0.25);
     }
 
     /* Hamburger */
