@@ -85,7 +85,7 @@
     </div>
   </div>
 
-  <!-- SECCIÓN: SERVICIO (desde BarberServicesService) -->
+  <!-- SECCIÓN: SERVICIOS (desde BarberServicesService) -->
   <div class="form-section">
     <div class="section-header-flex">
       <label class="section-title">
@@ -98,12 +98,18 @@
             <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
           </svg>
         </span>
-        <span>Selecciona un Servicio *</span>
+        <span>Selecciona tus Servicios *</span>
       </label>
-      <span class="service-count-badge" *ngIf="services().length > 0">
-        {{ services().length }} disponibles
-      </span>
+      <div class="service-badges-group">
+        <span class="service-selected-badge" *ngIf="selectedServiceIds().length > 0">
+          {{ selectedServiceIds().length }} seleccionado{{ selectedServiceIds().length > 1 ? 's' : '' }}
+        </span>
+        <span class="service-count-badge" *ngIf="services().length > 0">
+          {{ services().length }} disponibles
+        </span>
+      </div>
     </div>
+    <p class="service-section-hint">Puedes seleccionar varios servicios para tu cita.</p>
 
     <!-- Loading Skeleton -->
     <div *ngIf="isServicesLoading()" class="loading-state">
@@ -116,17 +122,28 @@
       @for (serv of services(); track serv.id) {
         <div
           class="service-option"
-          [class.selected]="selectedServiceId() === serv.id"
-          (click)="selectService(serv.id)"
+          [class.selected]="isServiceSelected(serv.id)"
+          (click)="toggleService(serv.id)"
+          role="checkbox"
+          [attr.aria-checked]="isServiceSelected(serv.id)"
+          tabindex="0"
+          (keydown.enter)="toggleService(serv.id)"
+          (keydown.space)="$event.preventDefault(); toggleService(serv.id)"
         >
           <div class="service-option-content">
             <span class="service-name">{{ serv.name }}</span>
             <span class="service-tag" *ngIf="serv.service !== serv.name">{{ serv.service }}</span>
           </div>
-          <div class="service-price">
-            {{ serv.price | currency:'EUR':'symbol':'1.0-2' }}
+          <div class="service-right-group">
+            <div class="service-price">
+              {{ serv.price | currency:'EUR':'symbol':'1.0-2' }}
+            </div>
+            <div class="service-checkbox" [class.checked]="isServiceSelected(serv.id)">
+              <svg *ngIf="isServiceSelected(serv.id)" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
           </div>
-          <div class="check-dot"></div>
         </div>
       }
       @if (services().length === 0 && !isServicesLoading()) {
@@ -250,8 +267,9 @@
 
   <!-- RESUMEN EN VIVO -->
   <app-booking-summary
-    [serviceName]="selectedService()?.name || ''"
-    [servicePrice]="selectedService()?.price || 0"
+    [serviceName]="selectedServiceNames()"
+    [servicePrice]="totalServicesPrice()"
+    [services]="selectedServices()"
     [barberName]="barberDisplayName()"
     [date]="date()"
     [time]="time()"

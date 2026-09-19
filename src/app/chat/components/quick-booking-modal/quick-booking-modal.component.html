@@ -34,7 +34,7 @@
         <div>
           <h2 id="modal-title" class="modal-title">Reserva Rápida de Cita</h2>
           <p class="modal-subtitle">
-            Selecciona tu servicio, tu barbero favorito y asegura tu cita al instante.
+            Selecciona tus servicios, tu barbero favorito y asegura tu cita al instante.
           </p>
         </div>
       </div>
@@ -71,9 +71,22 @@
             <span class="receipt-label">Teléfono:</span>
             <span class="receipt-value">{{ b.phone }}</span>
           </div>
-          <div class="receipt-row">
+          <div class="receipt-row" *ngIf="!b.services || b.services.length <= 1">
             <span class="receipt-label">Servicio:</span>
             <span class="receipt-value">{{ b.serviceName }} ({{ b.servicePrice | currency:'EUR':'symbol':'1.0-2' }})</span>
+          </div>
+          <div class="receipt-row receipt-services-row" *ngIf="b.services && b.services.length > 1">
+            <span class="receipt-label">Servicios ({{ b.services.length }}):</span>
+            <div class="receipt-services-list">
+              <div class="receipt-service-entry" *ngFor="let s of b.services">
+                <span>{{ s.name }}</span>
+                <span class="receipt-service-price">{{ s.price | currency:'EUR':'symbol':'1.0-2' }}</span>
+              </div>
+              <div class="receipt-service-entry receipt-service-subtotal">
+                <span class="subtotal-label">Total servicios:</span>
+                <span class="subtotal-val text-gold">{{ b.servicePrice | currency:'EUR':'symbol':'1.0-2' }}</span>
+              </div>
+            </div>
           </div>
           <div class="receipt-row">
             <span class="receipt-label">Barbero:</span>

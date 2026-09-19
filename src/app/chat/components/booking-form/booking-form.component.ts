@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject, signal, computed } from '@angular/core';
+import { Component, EventEmitter, Output, inject, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BarberServicesService } from '../../../services/barber-services.service';
@@ -24,7 +24,7 @@ export class BookingFormComponent {
   name = signal('');
   phone = signal('');
   peopleCount = signal(1);
-  selectedServiceId = signal<number | null>(null);
+  selectedServiceIds = signal<number[]>([]);
   selectedBarberId = signal<string>('any');
   date = signal('');
   time = signal('');
@@ -46,8 +46,21 @@ export class BookingFormComponent {
   readonly isServicesLoading = this.servicesService.loading;
   readonly isEmployeesLoading = this.employeeService.loading;
 
+  readonly selectedServices = computed(() => {
+    const ids = this.selectedServiceIds();
+    return this.services().filter(s => ids.includes(s.id));
+  });
+
+  readonly totalServicesPrice = computed(() =>
+    this.selectedServices().reduce((sum, s) => sum + (s.price || 0), 0)
+  );
+
+  readonly selectedServiceNames = computed(() =>
+    this.selectedServices().map(s => s.name).join(', ')
+  );
+
   readonly selectedService = computed(() =>
-    this.services().find(s => s.id === this.selectedServiceId())
+    this.selectedServices()[0] || null
   );
 
   readonly selectedBarber = computed(() => {
@@ -65,7 +78,7 @@ export class BookingFormComponent {
     return (
       this.name().trim().length >= 2 &&
       this.phone().trim().length >= 6 &&
-      this.selectedServiceId() !== null &&
+      this.selectedServiceIds().length > 0 &&
       this.date().trim().length > 0 &&
       this.time().trim().length > 0
     );
@@ -73,13 +86,13 @@ export class BookingFormComponent {
 
   constructor() {
     // Automatically select the first service once loaded if none is chosen
-    const checkService = () => {
+    effect(() => {
       const list = this.services();
-      if (list.length > 0 && this.selectedServiceId() === null) {
-        this.selectedServiceId.set(list[0].id);
+      if (list.length > 0 && this.selectedServiceIds().length === 0) {
+        this.selectedServiceIds.set([list[0].id]);
       }
-    };
-    checkService();
+    });
+
     // Default date to tomorrow if after 18:00, or today
     const now = new Date();
     if (now.getHours() >= 19) {
@@ -88,8 +101,23 @@ export class BookingFormComponent {
     this.date.set(now.toISOString().split('T')[0]);
   }
 
+  toggleService(id: number) {
+    this.selectedServiceIds.update(ids => {
+      if (ids.includes(id)) {
+        return ids.filter(i => i !== id);
+      } else {
+        return [...ids, id];
+      }
+    });
+  }
+
+  isServiceSelected(id: number): boolean {
+    return this.selectedServiceIds().includes(id);
+  }
+
+  // Retained for backward compatibility
   selectService(id: number) {
-    this.selectedServiceId.set(id);
+    this.toggleService(id);
   }
 
   selectTime(slot: string) {
@@ -111,16 +139,19 @@ export class BookingFormComponent {
   onSubmit() {
     if (!this.isFormValid()) return;
 
-    const s = this.selectedService();
+    const services = this.selectedServices();
     const b = this.selectedBarber();
+    const totalPrice = this.totalServicesPrice();
+    const serviceNames = this.selectedServiceNames();
 
     const booking: AppointmentBooking = {
       name: this.name().trim(),
       phone: this.phone().trim(),
       peopleCount: this.peopleCount(),
-      serviceId: s ? s.id : 0,
-      serviceName: s ? s.name : 'Servicio general',
-      servicePrice: s ? s.price : 0,
+      serviceId: services[0]?.id || 0,
+      serviceName: serviceNames || 'Servicio general',
+      servicePrice: totalPrice,
+      services: services.map(s => ({ id: s.id, name: s.name, price: s.price })),
       barberId: b ? b.id : 'any',
       barberName: b ? this.employeeService.getFullName(b) : 'Cualquier barbero disponible',
       date: this.date(),

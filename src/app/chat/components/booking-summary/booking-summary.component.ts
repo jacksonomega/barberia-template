@@ -9,14 +9,14 @@ import { CommonModule } from '@angular/common';
     <div class="summary-card">
       <div class="summary-header">
         <span class="summary-badge">Resumen de Cita</span>
-        <div class="summary-total" *ngIf="servicePrice > 0">
+        <div class="summary-total" *ngIf="effectivePrice > 0">
           <span class="total-label">Total estimado:</span>
           <span class="total-price">{{ totalPrice | currency:'EUR':'symbol':'1.2-2' }}</span>
         </div>
       </div>
 
       <div class="summary-grid">
-        <div class="summary-item" *ngIf="serviceName">
+        <div class="summary-item summary-services-item" *ngIf="services.length > 0 || serviceName">
           <span class="item-icon">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="6" cy="6" r="3"></circle>
@@ -26,9 +26,18 @@ import { CommonModule } from '@angular/common';
               <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
             </svg>
           </span>
-          <div>
-            <p class="item-label">Servicio</p>
-            <p class="item-value">{{ serviceName }}</p>
+          <div class="services-content">
+            <p class="item-label">{{ services.length > 1 ? 'Servicios (' + services.length + ')' : 'Servicio' }}</p>
+            <ng-container *ngIf="services.length > 1; else singleService">
+              <div class="services-chips-wrap">
+                <span class="service-chip" *ngFor="let s of services">
+                  {{ s.name }} <strong class="chip-price">({{ s.price }}€)</strong>
+                </span>
+              </div>
+            </ng-container>
+            <ng-template #singleService>
+              <p class="item-value">{{ serviceName || (services[0]?.name) }}</p>
+            </ng-template>
           </div>
         </div>
 
@@ -97,6 +106,8 @@ import { CommonModule } from '@angular/common';
       margin-bottom: 12px;
       padding-bottom: 8px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .summary-badge {
       font-size: 0.72rem;
@@ -123,12 +134,15 @@ import { CommonModule } from '@angular/common';
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 10px;
+      gap: 12px;
     }
     .summary-item {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 8px;
+    }
+    .summary-services-item {
+      grid-column: 1 / -1;
     }
     .item-icon {
       display: inline-flex;
@@ -136,6 +150,13 @@ import { CommonModule } from '@angular/common';
       justify-content: center;
       color: #FFFFFF;
       flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .services-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
     }
     .item-label {
       font-size: 0.68rem;
@@ -151,17 +172,46 @@ import { CommonModule } from '@angular/common';
       margin: 0;
       line-height: 1.2;
     }
+    .services-chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .service-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 6px;
+      font-size: 0.76rem;
+      color: var(--text-primary, #F5F0E8);
+    }
+    .chip-price {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
   `]
 })
 export class BookingSummaryComponent {
   @Input() serviceName = '';
   @Input() servicePrice = 0;
+  @Input() services: { id: number; name: string; price: number }[] = [];
   @Input() barberName = '';
   @Input() date = '';
   @Input() time = '';
   @Input() peopleCount = 1;
 
+  get effectivePrice(): number {
+    if (this.services && this.services.length > 0) {
+      return this.services.reduce((sum, s) => sum + (s.price || 0), 0);
+    }
+    return this.servicePrice || 0;
+  }
+
   get totalPrice(): number {
-    return (this.servicePrice || 0) * (this.peopleCount || 1);
+    return this.effectivePrice * (this.peopleCount || 1);
   }
 }

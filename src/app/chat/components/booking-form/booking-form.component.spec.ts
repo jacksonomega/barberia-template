@@ -35,10 +35,27 @@ describe('BookingFormComponent', () => {
   it('should validate form correctly when fields are filled', () => {
     component.name.set('Jackson');
     component.phone.set('+34600112233');
-    component.selectedServiceId.set(1);
+    component.selectedServiceIds.set([1]);
     component.date.set('2026-10-15');
     component.time.set('10:00');
 
     expect(component.isFormValid()).toBe(true);
+  });
+
+  it('should toggle multiple services correctly', () => {
+    component.selectedServiceIds.set([]);
+    expect(component.isServiceSelected(1)).toBe(false);
+
+    component.toggleService(1);
+    expect(component.isServiceSelected(1)).toBe(true);
+    expect(component.selectedServiceIds()).toEqual([1]);
+
+    component.toggleService(2);
+    expect(component.isServiceSelected(2)).toBe(true);
+    expect(component.selectedServiceIds()).toEqual([1, 2]);
+
+    component.toggleService(1);
+    expect(component.isServiceSelected(1)).toBe(false);
+    expect(component.selectedServiceIds()).toEqual([2]);
   });
 });

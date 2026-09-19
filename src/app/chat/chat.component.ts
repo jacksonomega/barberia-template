@@ -260,9 +260,12 @@ export class ChatComponent implements AfterViewChecked {
     }
 
     const peopleText = booking.peopleCount === 1 ? '1 persona' : `${booking.peopleCount} personas`;
-    const serviceInfo = booking.servicePrice
-      ? `${booking.serviceName} (${booking.servicePrice}€)`
-      : booking.serviceName;
+    const hasMultipleServices = !!(booking.services && booking.services.length > 1);
+    const servicesLabel = hasMultipleServices ? 'Servicios' : 'Servicio';
+    const serviceInfo = hasMultipleServices
+      ? booking.services!.map(s => `${s.name} (${s.price}€)`).join(' + ') + ` (Total: ${booking.servicePrice}€)`
+      : (booking.servicePrice ? `${booking.serviceName} (${booking.servicePrice}€)` : booking.serviceName);
+
     const barberInfo = booking.barberName && booking.barberName !== 'Cualquier barbero disponible'
       ? booking.barberName
       : 'Cualquier barbero disponible';
@@ -273,7 +276,7 @@ export class ChatComponent implements AfterViewChecked {
 • Nombre: ${booking.name}
 • Teléfono de contacto: ${booking.phone}
 • Cantidad de personas: ${peopleText}
-• Servicio: ${serviceInfo}
+• ${servicesLabel}: ${serviceInfo}
 • Barbero preferido: ${barberInfo}
 • Fecha y hora: ${formattedDate} a las ${booking.time}h${booking.notes ? `\n• Comentarios adicionales: ${booking.notes}` : ''}
 

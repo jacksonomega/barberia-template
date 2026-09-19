@@ -185,6 +185,43 @@
   font-weight: 600;
 }
 
+.receipt-services-row {
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.receipt-services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: right;
+}
+
+.receipt-service-entry {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-primary, #F5F0E8);
+}
+
+.receipt-service-price {
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.receipt-service-subtotal {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 4px;
+  margin-top: 2px;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.subtotal-label {
+  color: var(--text-secondary, #A09880);
+}
+
 .text-gold {
   color: #FFFFFF !important;
   font-weight: 700 !important;

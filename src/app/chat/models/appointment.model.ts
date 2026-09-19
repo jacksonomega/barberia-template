@@ -1,3 +1,9 @@
+export interface SelectedServiceItem {
+  id: number;
+  name: string;
+  price: number;
+}
+
 export interface AppointmentBooking {
   name: string;
   phone: string;
@@ -5,6 +11,7 @@ export interface AppointmentBooking {
   serviceId: number;
   serviceName: string;
   servicePrice: number;
+  services?: SelectedServiceItem[];
   barberId: string;
   barberName: string;
   date: string;
