@@ -101,6 +101,40 @@
           }
           <div class="message-bubble" [class.user-bubble]="msg.role === 'user'" [class.bot-bubble]="msg.role === 'assistant'">
             <div class="msg-text" [innerHTML]="formatText(msg.text)"></div>
+
+            @if (msg.requiresConfirmation && !msg.confirmationHandled) {
+              <div class="msg-confirmation-box">
+                <p class="confirmation-title">¿Deseas confirmar esta acción?</p>
+                <div class="confirmation-actions">
+                  <button
+                    type="button"
+                    class="confirm-btn confirm-btn-accept"
+                    (click)="handleConfirmation(msg, 'Aceptar')"
+                    [disabled]="isTyping()"
+                    id="chat-btn-accept"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>Aceptar</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="confirm-btn confirm-btn-reject"
+                    (click)="handleConfirmation(msg, 'Rechazar')"
+                    [disabled]="isTyping()"
+                    id="chat-btn-reject"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    <span>Rechazar</span>
+                  </button>
+                </div>
+              </div>
+            }
+
             <span class="msg-time">{{ msg.time }}</span>
           </div>
           @if (msg.role === 'user') {
@@ -131,12 +165,38 @@
       <div #messagesEnd></div>
     </div>
 
-    <!-- Quick Replies -->
+    <!-- Quick Replies / Atajos -->
     <div class="quick-replies">
-      @for (qr of quickReplies; track qr) {
-        <button class="quick-reply-chip" (click)="sendQuick(qr)" [disabled]="isTyping()" [id]="'qr-' + qr.replace(' ', '-')">
-          {{ qr }}
+      @if (pendingConfirmationMessage(); as confMsg) {
+        <button
+          class="quick-reply-chip confirm-chip-accept"
+          (click)="handleConfirmation(confMsg, 'Aceptar')"
+          [disabled]="isTyping()"
+          id="qr-confirm-accept"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Aceptar</span>
         </button>
+        <button
+          class="quick-reply-chip confirm-chip-reject"
+          (click)="handleConfirmation(confMsg, 'Rechazar')"
+          [disabled]="isTyping()"
+          id="qr-confirm-reject"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          <span>Rechazar</span>
+        </button>
+      } @else {
+        @for (qr of quickReplies; track qr) {
+          <button class="quick-reply-chip" (click)="sendQuick(qr)" [disabled]="isTyping()" [id]="'qr-' + qr.replace(' ', '-')">
+            {{ qr }}
+          </button>
+        }
       }
     </div>
 

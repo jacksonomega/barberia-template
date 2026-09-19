@@ -1,4 +1,4 @@
-import { Component, signal, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, signal, computed, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +10,8 @@ interface Message {
   text: string;
   time: string;
   isTyping?: boolean;
+  requiresConfirmation?: boolean;
+  confirmationHandled?: boolean;
 }
 
 const INITIAL_MESSAGE = '¡Hola! Soy el asistente virtual de **Quarter Barber** en Calle Abtao 4 (Barrio de Atocha - Pacífico). Puedo ayudarte a informarte sobre nuestros cortes actuales, propuestas alternativas, amplia gama de tintes, higiene innegociable o cómo reservar tu cita al 647 565 356. ¿En qué te puedo asesorar hoy?';
@@ -37,6 +39,17 @@ export class ChatComponent implements AfterViewChecked {
   inputText = '';
   isTyping = signal(false);
 
+  // Detecta si el último mensaje del asistente requiere confirmación y aún no fue respondido
+  readonly pendingConfirmationMessage = computed(() => {
+    const msgs = this.messages();
+    if (msgs.length === 0) return null;
+    const lastMsg = msgs[msgs.length - 1];
+    if (lastMsg.role === 'assistant' && lastMsg.requiresConfirmation && !lastMsg.confirmationHandled) {
+      return lastMsg;
+    }
+    return null;
+  });
+
   private shouldScroll = false;
 
   ngAfterViewChecked() {
@@ -52,6 +65,11 @@ export class ChatComponent implements AfterViewChecked {
   async sendMessage(customText?: string) {
     const text = (customText !== undefined ? customText : this.inputText).trim();
     if (!text || this.isTyping()) return;
+
+    // Marcar cualquier confirmación previa pendiente como gestionada
+    this.messages.update(msgs =>
+      msgs.map(m => (m.requiresConfirmation && !m.confirmationHandled ? { ...m, confirmationHandled: true } : m))
+    );
 
     this.messages.update(msgs => [...msgs, { role: 'user', text, time: this.getTime() }]);
     if (customText === undefined) {
@@ -77,115 +95,45 @@ export class ChatComponent implements AfterViewChecked {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      this.isTyping.set(false); // Ocultar el indicador de "escribiendo" porque ya vamos a empezar a mostrar la respuesta
-      this.messages.update(msgs => [...msgs, { role: 'assistant', text: '', time: this.getTime() }]);
-
-      const reader = response.body?.getReader();
-      if (!reader) throw new Error('No se pudo iniciar el stream');
-
-      const decoder = new TextDecoder('utf-8');
+      const textData = await response.text();
       let botReply = '';
-      let buffer = '';
+      let requiresConfirmation = false;
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+      try {
+        const parsed = JSON.parse(textData);
+        // Soporta array [ { "output": { "mensaje": "...", "requiere_confirmacion": boolean } } ]
+        // u objeto directo { "output": { "mensaje": "...", "requiere_confirmacion": boolean } }
+        const item = Array.isArray(parsed) ? parsed[0] : parsed;
 
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-
-        // El último elemento podría ser una línea incompleta, lo dejamos en el buffer
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed) continue;
-
-          // Soporte para formato SSE (Server-Sent Events: data: {...})
-          const cleanLine = trimmed.startsWith('data:') ? trimmed.replace(/^data:\s*/, '') : trimmed;
-          if (cleanLine === '[DONE]') continue;
-
-          console.log('[Stream chunk]:', cleanLine);
-
-          try {
-            const parsed = JSON.parse(cleanLine);
-
-            // Formato streaming estándar de n8n AI Agent o proxies
-            if (parsed.type === 'item' && typeof parsed.content === 'string') {
-              botReply += parsed.content;
-            } else if (typeof parsed.content === 'string') {
-              botReply += parsed.content;
-            } else if (typeof parsed.text === 'string') {
-              botReply += parsed.text;
-            } else if (typeof parsed.message === 'string') {
-              botReply += parsed.message;
-            } else if (typeof parsed.output === 'string') {
-              botReply += parsed.output;
-            } else if (typeof parsed === 'string') {
-              botReply += parsed;
-            }
-          } catch (e) {
-            // Si no es JSON y no parece un bloque JSON roto, acumular directamente (streaming de texto plano)
-            if (!cleanLine.startsWith('{') && !cleanLine.startsWith('[')) {
-              botReply += line + (lines.length > 1 ? '\n' : '');
-            }
-          }
+        if (item && typeof item === 'object') {
+          const output = (typeof item.output === 'object' && item.output !== null) ? item.output : item;
+          botReply = typeof item.output === 'string'
+            ? item.output
+            : (output.mensaje || output.message || output.text || output.output || '');
+          requiresConfirmation = !!(output.requiere_confirmacion ?? output.requiereConfirmacion ?? item.requiere_confirmacion);
+        } else if (typeof item === 'string') {
+          botReply = item;
         }
-
-        // Actualizamos la UI inmediatamente si hay texto nuevo
-        if (botReply) {
-          this.messages.update(msgs => {
-            const newMsgs = [...msgs];
-            newMsgs[newMsgs.length - 1].text = botReply;
-            return newMsgs;
-          });
-          this.shouldScroll = true;
-        }
+      } catch (e) {
+        botReply = textData;
       }
 
-      // Procesar cualquier resto en el buffer al terminar el stream
-      if (buffer.trim()) {
-        const trimmed = buffer.trim();
-        const cleanBuffer = trimmed.startsWith('data:') ? trimmed.replace(/^data:\s*/, '') : trimmed;
-        if (cleanBuffer !== '[DONE]') {
-          console.log('[Stream buffer final]:', cleanBuffer);
-          try {
-            const parsed = JSON.parse(cleanBuffer);
-            if (parsed.type === 'item' && typeof parsed.content === 'string') {
-              botReply += parsed.content;
-            } else if (typeof parsed.content === 'string') {
-              botReply += parsed.content;
-            } else if (typeof parsed.text === 'string') {
-              botReply += parsed.text;
-            } else if (typeof parsed.message === 'string') {
-              botReply += parsed.message;
-            } else if (typeof parsed.output === 'string') {
-              botReply += parsed.output;
-            } else if (typeof parsed === 'string') {
-              botReply = botReply ? botReply + parsed : parsed;
-            } else if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].output) {
-              botReply = parsed[0].output;
-            } else if (!botReply) {
-              botReply = parsed.mensaje || parsed.output || parsed.text || parsed.message || parsed.response || JSON.stringify(parsed);
-            }
-          } catch (e) {
-            // Si no es JSON y no hubo contenido previo, es texto plano
-            if (!botReply) botReply = buffer;
-          }
-        }
-
-        if (botReply) {
-          this.messages.update(msgs => {
-            const newMsgs = [...msgs];
-            newMsgs[newMsgs.length - 1].text = botReply;
-            return newMsgs;
-          });
-          this.shouldScroll = true;
-        }
+      if (!botReply) {
+        botReply = 'Lo siento, no pude procesar la respuesta. Por favor intenta de nuevo.';
       }
 
-      // Imprimir por consola la respuesta final del asistente
-      console.log('[Asistente]:', botReply);
+      this.messages.update(msgs => [
+        ...msgs,
+        {
+          role: 'assistant',
+          text: botReply,
+          time: this.getTime(),
+          requiresConfirmation,
+          confirmationHandled: false,
+        }
+      ]);
+
+      console.log('[Asistente]:', botReply, '| Requiere confirmación:', requiresConfirmation);
     } catch (error) {
       console.error('Error al contactar con el agente AI:', error);
       this.messages.update(msgs => [...msgs, {
@@ -197,6 +145,13 @@ export class ChatComponent implements AfterViewChecked {
       this.isTyping.set(false);
       this.shouldScroll = true;
     }
+  }
+
+  handleConfirmation(msg: Message, action: 'Aceptar' | 'Rechazar') {
+    if (this.isTyping()) return;
+    msg.confirmationHandled = true;
+    this.messages.update(msgs => [...msgs]);
+    this.sendMessage(action);
   }
 
   onKeyDown(event: KeyboardEvent) {
