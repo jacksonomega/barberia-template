@@ -13,6 +13,7 @@ describe('CompanyService', () => {
     id: 1,
     name: 'HIS Barbería Urban 2',
     address: 'C. de San Marcos, 1, Centro, 28004 Madrid',
+    phone: '722194804',
     business_hours: 'Lunes a Viernes de 09:00 a 14:00 y de 16:00 a 19:00\nSábados de 9:00 a 14:00',
     annual_calendar: 'Todo el año salvo festivos',
     instagram: 'www.instagram.com/hisbarberia/',
@@ -48,6 +49,7 @@ describe('CompanyService', () => {
     expect(service.company()).toBeDefined();
     expect(service.company().name).toBe('HIS Barbería Urban 2');
     expect(service.company().address).toBe('C. de San Marcos, 1, Centro, 28004 Madrid');
+    expect(service.company().phone).toBe('722194804');
     expect(service.loaded()).toBe(true);
   });
 

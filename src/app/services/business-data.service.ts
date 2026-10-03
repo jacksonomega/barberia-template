@@ -52,9 +52,25 @@ export class BusinessDataService {
     }
     if (!igHandle) igHandle = '@hisbarberia';
 
-    const cleanPhone = '612 345 678';
-    const cleanPhoneNumeric = '612345678';
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent('Hola ' + name + ', quiero reservar una cita')}`;
+    const rawPhone = (c.phone || '').trim();
+    const defaultRaw = '722194804';
+    const effectivePhone = rawPhone || defaultRaw;
+    const digitsOnly = effectivePhone.replace(/\D/g, '');
+    const cleanPhoneNumeric = digitsOnly;
+
+    let cleanPhone = effectivePhone;
+    if (digitsOnly.length === 9 && !effectivePhone.includes(' ') && !effectivePhone.includes('-')) {
+      cleanPhone = `${digitsOnly.slice(0, 3)} ${digitsOnly.slice(3, 6)} ${digitsOnly.slice(6)}`;
+    }
+
+    let waDigits = digitsOnly;
+    if (digitsOnly.length === 9) {
+      waDigits = '34' + digitsOnly;
+    } else if (rawPhone.startsWith('+')) {
+      waDigits = digitsOnly;
+    }
+
+    const whatsappUrl = `https://wa.me/${waDigits}?text=${encodeURIComponent('Hola ' + name + ', quiero reservar una cita')}`;
     const googleMapsIframeUrl = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
 
     const cityOrArea = address.split(',')[0] || 'Madrid';
