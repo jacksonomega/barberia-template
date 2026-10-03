@@ -1,5 +1,5 @@
-import { Component, Input, signal, PLATFORM_ID, OnInit, OnDestroy, NgZone, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, Input, Output, EventEmitter, signal, PLATFORM_ID, OnInit, OnDestroy, NgZone, inject } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { NavLink } from '../../models';
 
@@ -27,13 +27,26 @@ import { NavLink } from '../../models';
           @for (link of links; track link.label) {
             @if (link.isCta) {
               <li>
-                <a
-                  [routerLink]="[link.route || '/']"
-                  class="nav__cta"
-                  [id]="'nav-cta-' + link.label.toLowerCase().replace(' ', '-')"
-                >
-                  {{ link.label }}
-                </a>
+                @if (ctaClick.observed) {
+                  <button
+                    type="button"
+                    (click)="onCtaClick(link)"
+                    class="nav__cta"
+                    [id]="'nav-cta-' + link.label.toLowerCase().replace(' ', '-')"
+                  >
+                    {{ link.label }}
+                  </button>
+                } @else {
+                  <a
+                    [routerLink]="[link.route || '/chat']"
+                    [queryParams]="link.queryParams"
+                    (click)="menuOpen.set(false)"
+                    class="nav__cta"
+                    [id]="'nav-cta-' + link.label.toLowerCase().replace(' ', '-')"
+                  >
+                    {{ link.label }}
+                  </a>
+                }
               </li>
             } @else if (link.sectionId) {
               <li>
@@ -49,6 +62,7 @@ import { NavLink } from '../../models';
               <li>
                 <a
                   [routerLink]="[link.route || '/']"
+                  [queryParams]="link.queryParams"
                   class="nav__link"
                 >
                   {{ link.label }}
@@ -242,18 +256,29 @@ import { NavLink } from '../../models';
   `],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  @Input() brandName = 'Quarter';
-  @Input() brandAccent = 'Barber';
+  @Input() brandName = 'Apex';
+  @Input() brandAccent = 'Studio';
   @Input() links: NavLink[] = [];
   @Input() ctaText = 'Reservar Cita';
   @Input() ctaRoute = '/chat';
+  @Output() ctaClick = new EventEmitter<void>();
 
   menuOpen = signal(false);
   scrolled = signal(false);
 
   private platformId = inject(PLATFORM_ID);
   private zone = inject(NgZone);
+  private router = inject(Router);
   private scrollListener?: () => void;
+
+  onCtaClick(link: NavLink): void {
+    this.menuOpen.set(false);
+    if (this.ctaClick.observed) {
+      this.ctaClick.emit();
+    } else if (link.route) {
+      this.router.navigate([link.route], { queryParams: link.queryParams });
+    }
+  }
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;

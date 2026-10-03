@@ -1,9 +1,10 @@
-import { Component, signal, computed, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, signal, computed, ViewChild, ElementRef, AfterViewChecked, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { QuickBookingModalComponent } from './components/quick-booking-modal/quick-booking-modal.component';
 import { AppointmentBooking } from './models/appointment.model';
+import { BusinessDataService } from '../services/business-data.service';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -13,8 +14,6 @@ interface Message {
   requiresConfirmation?: boolean;
   confirmationHandled?: boolean;
 }
-
-const INITIAL_MESSAGE = '¡Hola! Soy el asistente virtual de **Quarter Barber** en Calle Abtao 4 (Barrio de Atocha - Pacífico). Puedo ayudarte a informarte sobre nuestros cortes actuales, propuestas alternativas, amplia gama de tintes, higiene innegociable o cómo reservar tu cita al 647 565 356. ¿En qué te puedo asesorar hoy?';
 
 @Component({
   selector: 'app-chat',
@@ -26,18 +25,25 @@ const INITIAL_MESSAGE = '¡Hola! Soy el asistente virtual de **Quarter Barber** 
 export class ChatComponent implements AfterViewChecked {
   @ViewChild('messagesEnd') messagesEnd!: ElementRef;
 
+  readonly businessService = inject(BusinessDataService);
+  readonly b = this.businessService.business;
+
   isBookingModalOpen = signal(false);
 
-  messages = signal<Message[]>([
-    {
-      role: 'assistant',
-      text: INITIAL_MESSAGE,
-      time: this.getTime(),
-    },
-  ]);
+  messages = signal<Message[]>([]);
 
   inputText = '';
   isTyping = signal(false);
+
+  constructor() {
+    this.messages.set([
+      {
+        role: 'assistant',
+        text: this.b().chatInitialMessage,
+        time: this.getTime(),
+      },
+    ]);
+  }
 
   // Detecta si el último mensaje del asistente requiere confirmación y aún no fue respondido
   readonly pendingConfirmationMessage = computed(() => {
@@ -51,6 +57,7 @@ export class ChatComponent implements AfterViewChecked {
   });
 
   private shouldScroll = false;
+
 
   ngAfterViewChecked() {
     if (this.shouldScroll) {
@@ -79,6 +86,24 @@ export class ChatComponent implements AfterViewChecked {
     this.isTyping.set(true);
 
     try {
+      if (this.businessService.isMock()) {
+        // En modo mock simulamos respuesta local contextual para no depender del backend
+        await new Promise(resolve => setTimeout(resolve, 600));
+        const mockResult = this.getMockBotReply(text);
+
+        this.messages.update(msgs => [
+          ...msgs,
+          {
+            role: 'assistant',
+            text: mockResult.text,
+            time: this.getTime(),
+            requiresConfirmation: mockResult.requiresConfirmation,
+            confirmationHandled: false,
+          }
+        ]);
+        return;
+      }
+
       const response = await fetch(this.chatApiUrl, {
         method: 'POST',
         headers: {
@@ -147,6 +172,72 @@ export class ChatComponent implements AfterViewChecked {
     }
   }
 
+  private getMockBotReply(input: string): { text: string; requiresConfirmation?: boolean } {
+    const lower = input.toLowerCase();
+    const biz = this.b();
+
+    if (
+      lower.includes('con los siguientes datos') ||
+      lower.includes('registrar mi cita') ||
+      (lower.includes('fecha y hora') && lower.includes('teléfono'))
+    ) {
+      return {
+        text: `¡Perfecto! Hemos recibido y registrado los datos de tu reserva en **${biz.fullName}**:\n\n` +
+              `• **Cita registrada y confirmada** en nuestro calendario.\n` +
+              `• Tu estilista y puesto estarán preparados a la hora indicada.\n\n` +
+              `Te esperamos puntualmente. Si necesitas hacer cualquier modificación, puedes avisarnos por aquí o llamarnos al **${biz.contactPhone}**. ¡Muchas gracias!`
+      };
+    }
+
+    if (lower.includes('hola') || lower.includes('buenas') || lower.includes('hey')) {
+      return {
+        text: `¡Hola! Bienvenido a **${biz.fullName}**. ¿En qué podemos asesorarte hoy? Puedes consultar nuestros cortes Signature, tarifas, o reservar tu cita directamente.`
+      };
+    }
+
+    if (lower.includes('cita') || lower.includes('reservar') || lower.includes('turno') || lower.includes('agendar')) {
+      return {
+        text: `¡Estupendo! Puedes pulsar en el botón **"Reservar Cita"** para abrir el formulario y elegir tu servicio y estilista preferido en **${biz.brandName}**.`
+      };
+    }
+
+    if (lower.includes('precio') || lower.includes('cuanto') || lower.includes('cuánto') || lower.includes('tarifa') || lower.includes('costo')) {
+      return {
+        text: `En **${biz.fullName}** nuestras tarifas son transparentes:\n• **Corte Signature & Fade**: 18€\n• **Pack Corte + Barba**: 26€\n• **Colorimetría & Matices**: 40€\n• **Afeitado Tradicional**: 16€\n¿Deseas que te reservemos turno para alguno de ellos?`
+      };
+    }
+
+    if (lower.includes('dónde') || lower.includes('donde') || lower.includes('ubicacion') || lower.includes('ubicación') || lower.includes('direccion') || lower.includes('dirección')) {
+      const cleanAddress = biz.contactAddressHtml.replace(/<br>/g, ', ');
+      return {
+        text: `Nos encontramos en **${cleanAddress}**. También puedes llamarnos o escribirnos al **${biz.contactPhone}**.`
+      };
+    }
+
+    if (lower.includes('horario') || lower.includes('hora') || lower.includes('abierto')) {
+      const cleanSchedule = biz.contactScheduleHtml.replace(/<br>/g, '. ');
+      return {
+        text: `Nuestro horario en **${biz.fullName}** es: **${cleanSchedule}**.`
+      };
+    }
+
+    if (lower.includes('higiene') || lower.includes('seguridad') || lower.includes('desinfe')) {
+      return {
+        text: `En **${biz.fullName}** la higiene es absoluta: lamas monouso esterilizadas para cada cliente, desinfección por ultrasonido y toallas higienizadas al vapor.`
+      };
+    }
+
+    if (lower.includes('gracias') || lower.includes('perfecto') || lower.includes('genial')) {
+      return {
+        text: `¡Un placer ayudarte! Te esperamos pronto en **${biz.fullName}**.`
+      };
+    }
+
+    return {
+      text: `Entendido. En **${biz.fullName}** estamos a tu disposición. Puedes consultarnos por nuestros servicios, horarios o agendar tu cita pulsando en **"Reservar Cita"**.`
+    };
+  }
+
   handleConfirmation(msg: Message, action: 'Aceptar' | 'Rechazar') {
     if (this.isTyping()) return;
     msg.confirmationHandled = true;
@@ -178,7 +269,7 @@ export class ChatComponent implements AfterViewChecked {
   }
 
   get quickReplies() {
-    return ['Reservar Cita Rápida', 'Cortes y Tintes', 'Higiene y Seguridad', 'Dónde estáis (Abtao 4)', 'Horarios'];
+    return this.b().chatQuickReplies;
   }
 
   sendQuick(text: string) {
@@ -199,8 +290,6 @@ export class ChatComponent implements AfterViewChecked {
   }
 
   onBookingConfirmed(booking: AppointmentBooking) {
-    this.closeBookingModal();
-
     let formattedDate = booking.date;
     if (booking.date) {
       const [year, month, day] = booking.date.split('-').map(Number);

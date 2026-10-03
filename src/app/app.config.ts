@@ -13,6 +13,7 @@ import localeEs from '@angular/common/locales/es';
 import { forkJoin } from 'rxjs';
 
 import { routes } from './app.routes';
+import { CompanyService } from './services/company.service';
 import { EmployeeService } from './services/employee.service';
 import { BarberServicesService } from './services/barber-services.service';
 
@@ -28,9 +29,11 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideClientHydration(withEventReplay()),
     provideAppInitializer(() => {
+      const companyService = inject(CompanyService);
       const employeeService = inject(EmployeeService);
       const barberServicesService = inject(BarberServicesService);
       return forkJoin([
+        companyService.loadCompany(),
         employeeService.loadEmployees(),
         barberServicesService.loadServices(),
       ]);

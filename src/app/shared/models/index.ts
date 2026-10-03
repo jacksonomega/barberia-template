@@ -32,6 +32,7 @@ export interface NavLink {
   label: string;
   sectionId?: string;
   route?: string;
+  queryParams?: Record<string, string>;
   isCta?: boolean;
 }
 
@@ -45,4 +46,5 @@ export interface ContactInfo {
 
 export * from './employee.model';
 export * from './barber-service.model';
+export * from './company.model';
 

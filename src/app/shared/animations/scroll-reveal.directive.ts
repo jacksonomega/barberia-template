@@ -38,12 +38,31 @@ export class ScrollRevealDirective implements OnInit, OnDestroy {
 
     const host = this.el.nativeElement;
 
-    // Set initial hidden state
+    // Verificar si el elemento ya está dentro del viewport visible
+    const rect = host.getBoundingClientRect();
+    const isAlreadyVisible =
+      rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom > 0;
+
+    if (isAlreadyVisible) {
+      // Elementos visibles directamente en el viewport inicial (como el Hero) se muestran sin quedar ocultos
+      this.reveal(host);
+      return;
+    }
+
+    // Set initial hidden state para elementos que vendrán al hacer scroll
     host.style.opacity = '0';
     host.style.willChange = 'opacity, transform';
     host.style.transition = `opacity 0.6s cubic-bezier(.4,0,.2,1) ${this.revealDelay}ms, transform 0.6s cubic-bezier(.4,0,.2,1) ${this.revealDelay}ms, filter 0.6s cubic-bezier(.4,0,.2,1) ${this.revealDelay}ms`;
 
     this.applyInitialTransform(host);
+
+    // Timeout de seguridad: asegura que ningún elemento se quede permanentemente invisible o negro
+    setTimeout(() => {
+      if (host.style.opacity === '0') {
+        this.reveal(host);
+      }
+    }, Math.max(this.revealDelay + 500, 600));
 
     this.zone.runOutsideAngular(() => {
       this.observer = new IntersectionObserver(

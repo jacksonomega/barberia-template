@@ -11,7 +11,7 @@
         </svg>
       </span>
       <div>
-        <p class="sidebar-brand">Quarter <em>Barber</em></p>
+        <p class="sidebar-brand">{{ b().brandName }} <em>{{ b().brandAccent }}</em></p>
         <p class="sidebar-sub">Asistente Virtual</p>
       </div>
     </div>
@@ -24,15 +24,15 @@
     </div>
     <div class="sidebar-info">
       <p class="sidebar-info-label">Ubicación</p>
-      <p class="sidebar-info-val">Calle Abtao, 4<br>Atocha (Pacífico), Madrid</p>
+      <p class="sidebar-info-val">{{ b().chatSidebarLocation }}</p>
     </div>
     <div class="sidebar-info">
       <p class="sidebar-info-label">Teléfono / WhatsApp</p>
-      <a href="tel:647565356" class="sidebar-link">647 565 356</a>
+      <a [href]="'tel:' + b().contactPhoneClean" class="sidebar-link">{{ b().contactPhone }}</a>
     </div>
     <div class="sidebar-info">
       <p class="sidebar-info-label">Instagram</p>
-      <a href="https://instagram.com/quarterbarber" target="_blank" class="sidebar-link">&#64;quarterbarber</a>
+      <a [href]="b().contactInstagramUrl" target="_blank" class="sidebar-link">{{ b().contactInstagramHandle }}</a>
     </div>
 
     <!-- Quick Booking CTA in Sidebar -->
@@ -65,7 +65,7 @@
           </svg>
         </div>
         <div>
-          <p class="chat-bot-name">Asistente Quarter Barber</p>
+          <p class="chat-bot-name">{{ b().chatAssistantName }}</p>
           <p class="chat-bot-status">
             <span class="status-dot"></span> En línea · Responde al instante
           </p>
@@ -237,3 +237,4 @@
   (closeModal)="closeBookingModal()"
   (bookingConfirmed)="onBookingConfirmed($event)"
 ></app-quick-booking-modal>
+

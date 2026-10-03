@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject, signal, computed, effect } from '@angular/core';
+import { Component, EventEmitter, Output, inject, signal, computed, effect, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BarberServicesService } from '../../../services/barber-services.service';
@@ -85,10 +85,16 @@ export class BookingFormComponent {
   });
 
   constructor() {
-    // Automatically select the first service once loaded if none is chosen
+    // Inicializar con el primer servicio si ya están disponibles
+    const currentServices = this.services();
+    if (currentServices.length > 0 && this.selectedServiceIds().length === 0) {
+      this.selectedServiceIds.set([currentServices[0].id]);
+    }
+
+    // Efecto reactivo seguro para cuando los servicios se carguen de manera asíncrona
     effect(() => {
       const list = this.services();
-      if (list.length > 0 && this.selectedServiceIds().length === 0) {
+      if (list.length > 0 && untracked(this.selectedServiceIds).length === 0) {
         this.selectedServiceIds.set([list[0].id]);
       }
     });

@@ -2,8 +2,8 @@
      NAV
 ══════════════════════════════════════════ -->
 <app-navbar
-  brandName="Quarter"
-  brandAccent="Barber"
+  [brandName]="b().brandName"
+  [brandAccent]="b().brandAccent"
   [links]="navLinks"
 ></app-navbar>
 
@@ -26,29 +26,32 @@
 
   <div class="container hero-content">
     <p class="hero-label" appScrollReveal revealAnimation="fade-up">
-      Barbería · Atocha (Pacífico) · Calle Abtao, 4
+      {{ b().heroLabel }}
     </p>
     <h1 class="hero-title" appScrollReveal revealAnimation="blur" [revealDelay]="100">
-      Quarter Barber<br>
-      <span class="text-shimmer">Cortes, Color & Actitud</span>
+      {{ b().fullName }}<br>
+      <span class="text-shimmer">{{ b().tagline }}</span>
     </h1>
     <p class="hero-subtitle" appScrollReveal revealAnimation="fade-up" [revealDelay]="250">
-      En Quarter Barber destacamos por contar con los medios más profesionales del sector, adaptándonos siempre a las exigencias de cada cliente y asesorando la imagen. Te espera un ambiente moderno y amigable donde nuestros clientes se convierten en amigos.
+      {{ b().heroDescription }}
     </p>
     <div class="hero-actions" appScrollReveal revealAnimation="fade-up" [revealDelay]="350">
-      <app-gold-button href="https://wa.me/34647565356?text=Hola%20Quarter%20Barber%2C%20quiero%20reservar%20una%20cita" target="_blank" variant="primary" size="lg" buttonId="hero-reservar-btn" [pulse]="true">
+      <app-gold-button href="/chat" variant="primary" size="lg" buttonId="hero-reservar-btn" [pulse]="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        Reservar Cita
+      </app-gold-button>
+      <app-gold-button [href]="b().whatsappUrl" target="_blank" variant="outline" size="lg" buttonId="hero-whatsapp-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
           <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
           <line x1="8.12" y1="8.12" x2="12" y2="12"/>
         </svg>
-        Reservar por WhatsApp
-      </app-gold-button>
-      <app-gold-button variant="outline" size="lg" buttonId="hero-video-btn" (clicked)="scrollToSection('video')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="5 3 19 12 5 21 5 3"></polygon>
-        </svg>
-        Ver Vídeo
+        WhatsApp
       </app-gold-button>
       <app-gold-button href="/chat" variant="outline" size="lg" buttonId="hero-chat-btn">
         Asistente IA
@@ -56,18 +59,18 @@
     </div>
     <div class="hero-stats" appScrollReveal revealAnimation="fade-up" [revealDelay]="500">
       <div class="stat">
-        <span class="stat-num">Abtao 4</span>
-        <span class="stat-label">Atocha · Pacífico</span>
+        <span class="stat-num">{{ b().heroStats[0].num }}</span>
+        <span class="stat-label">{{ b().heroStats[0].label }}</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <span class="stat-num">100%</span>
-        <span class="stat-label">Higiene Innegociable</span>
+        <span class="stat-num">{{ b().heroStats[1].num }}</span>
+        <span class="stat-label">{{ b().heroStats[1].label }}</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <span class="stat-num">Top</span>
-        <span class="stat-label">Pioneros en Color</span>
+        <span class="stat-num">{{ b().heroStats[2].num }}</span>
+        <span class="stat-label">{{ b().heroStats[2].label }}</span>
       </div>
     </div>
   </div>
@@ -85,10 +88,10 @@
 <section class="section" id="nosotros">
   <div class="container">
     <app-section-header
-      label="Nuestra Esencia"
-      title="Conoce Quarter Barber"
-      highlightWord="Quarter Barber"
-      subtitle="Nos situamos en pleno barrio de Atocha (Pacífico) en Calle Abtao número 4 donde te espera un ambiente moderno y amigable, ya que podemos afirmar con orgullo que nuestros clientes se convierten en amigos."
+      [label]="b().aboutLabel"
+      [title]="b().aboutTitle"
+      [highlightWord]="b().aboutHighlight"
+      [subtitle]="b().aboutSubtitle"
     ></app-section-header>
 
     <div class="about-grid">
@@ -99,9 +102,9 @@
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
         </div>
-        <h3 class="about-card-title">Asesoramiento de Imagen</h3>
+        <h3 class="about-card-title">{{ b().aboutCards[0].title }}</h3>
         <p class="about-card-desc">
-          Contamos con los medios más profesionales del sector. Nos adaptamos en cada visita a las exigencias y estilo de cada cliente, aconsejándote el corte que mejor potencia tus facciones.
+          {{ b().aboutCards[0].desc }}
         </p>
       </div>
 
@@ -111,9 +114,9 @@
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
           </svg>
         </div>
-        <h3 class="about-card-title">Cortes Actuales & Alternativos</h3>
+        <h3 class="about-card-title">{{ b().aboutCards[1].title }}</h3>
         <p class="about-card-desc">
-          Somos especialistas en los cortes más demandados y actuales, pero nos fascinan las propuestas alternativas: ¡nos encanta plantearlas y hacerlas frente con técnica y estilo!
+          {{ b().aboutCards[1].desc }}
         </p>
       </div>
 
@@ -128,9 +131,9 @@
             <circle cx="12" cy="12" r="4"></circle>
           </svg>
         </div>
-        <h3 class="about-card-title">Pioneros en Precios Justos</h3>
+        <h3 class="about-card-title">{{ b().aboutCards[2].title }}</h3>
         <p class="about-card-desc">
-          En Quarter Barber creemos firmemente en democratizar el estilo: somos pioneros en cortes de máxima calidad a buenos precios para que siempre luzcas impecable.
+          {{ b().aboutCards[2].desc }}
         </p>
       </div>
 
@@ -144,9 +147,9 @@
             <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
           </svg>
         </div>
-        <h3 class="about-card-title">Amplitud en Tintes & Color</h3>
+        <h3 class="about-card-title">{{ b().aboutCards[3].title }}</h3>
         <p class="about-card-desc">
-          Ofrecemos una impresionante amplitud de colores en tintes para que elijas libremente tu identidad, utilizando exclusivamente los mejores productos del mercado.
+          {{ b().aboutCards[3].desc }}
         </p>
       </div>
     </div>
@@ -162,7 +165,7 @@
       label="Lo Que Hacemos"
       title="Nuestros Servicios"
       highlightWord="Servicios"
-      subtitle="Desde degradados de tendencia hasta propuestas alternativas y colorimetría avanzada con productos top."
+      [subtitle]="b().servicesSectionSubtitle"
     ></app-section-header>
 
     <div class="services-grid">
@@ -188,17 +191,17 @@
   <div class="container">
     <app-section-header
       label="En Acción"
-      title="Vive la Experiencia Quarter Barber"
+      [title]="b().videoTitle"
       highlightWord="Experiencia"
-      subtitle="Conoce el ambiente moderno, amigable y profesional que se respira en nuestro salón de Calle Abtao 4."
+      [subtitle]="b().videoSubtitle"
     ></app-section-header>
 
     <div class="video-showcase-wrap" appScrollReveal revealAnimation="scale">
       <div class="video-player-container">
         <div class="video-responsive">
           <iframe
-            src="https://www.youtube-nocookie.com/embed/2ouwxkl53T0?rel=0"
-            title="Quarter Barber - Vídeo Oficial"
+            [src]="safeVideoUrl()"
+            [title]="b().videoIframeTitle"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen>
           </iframe>
@@ -207,14 +210,14 @@
 
       <div class="video-footer-bar">
         <div class="video-footer-text">
-          <h4>¿Listo para cambiar de look o probar un estilo alternativo?</h4>
-          <p>Reserva tu cita al <strong>647 565 356</strong> o mediante DM en nuestro Instagram <strong>&#64;quarterbarber</strong>.</p>
+          <h4>{{ b().videoFooterPrompt }}</h4>
+          <p>Reserva tu cita al <strong>{{ b().videoFooterPhone }}</strong> o mediante DM en nuestro Instagram <strong>{{ b().videoFooterInstagram }}</strong>.</p>
         </div>
         <div class="video-footer-actions">
-          <app-gold-button href="https://wa.me/34647565356?text=Hola%20Quarter%20Barber%2C%20vi%20vuestro%20video%20y%20quiero%20pedir%20cita" target="_blank" variant="primary" size="md" buttonId="video-booking-btn">
+          <app-gold-button [href]="b().whatsappUrl" target="_blank" variant="primary" size="md" buttonId="video-booking-btn">
             Pedir Cita WhatsApp
           </app-gold-button>
-          <app-gold-button href="https://youtu.be/2ouwxkl53T0" target="_blank" variant="outline" size="md" buttonId="video-yt-link-btn">
+          <app-gold-button [href]="b().videoWatchUrl" target="_blank" variant="outline" size="md" buttonId="video-yt-link-btn">
             Ver en YouTube
           </app-gold-button>
         </div>
@@ -241,7 +244,7 @@
       label="Seguridad & Protocolo"
       title="La Higiene es Innegociable"
       highlightWord="Innegociable"
-      subtitle="En Quarter Barber desinfectamos diariamente nuestro material y garantizamos la higiene absoluta de todos los productos y espacios."
+      [subtitle]="b().hygieneSubtitle"
     ></app-section-header>
 
     <div class="hygiene-grid">
@@ -310,7 +313,7 @@
           <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0;">Tu tranquilidad es lo primero. Cuidamos cada detalle para que disfrutes de tu cita sin ninguna preocupación.</p>
         </div>
       </div>
-      <app-gold-button href="https://wa.me/34647565356?text=Hola%20Quarter%20Barber%2C%20quiero%20reservar%20cita" target="_blank" variant="primary" size="md" buttonId="hygiene-cta-btn">
+      <app-gold-button [href]="b().whatsappUrl" target="_blank" variant="primary" size="md" buttonId="hygiene-cta-btn">
         Reservar con Tranquilidad
       </app-gold-button>
     </div>
@@ -326,13 +329,13 @@
       label="Tarifas Claras"
       title="Lista de Precios"
       highlightWord="Precios"
-      subtitle="Pioneros en cortes a buenos precios y amplitud en tintes con productos del más alto nivel."
+      [subtitle]="b().pricingSubtitle"
     ></app-section-header>
 
     <app-pricing-table
       [items]="pricing"
       ctaText="Reservar Cita por WhatsApp"
-      ctaLink="https://wa.me/34647565356?text=Hola%20Quarter%20Barber%2C%20quiero%20reservar%20una%20cita"
+      [ctaLink]="b().whatsappUrl"
     ></app-pricing-table>
   </div>
 </section>
@@ -346,7 +349,7 @@
       label="Los Profesionales"
       title="Nuestro Equipo"
       highlightWord="Equipo"
-      subtitle="Un ambiente cercano donde te asesoramos y convertimos cada visita en una experiencia entre amigos."
+      [subtitle]="b().teamSubtitle"
     ></app-section-header>
 
     <div class="team-grid">
@@ -384,15 +387,15 @@
 
     <!-- Social links -->
     <div class="social-links" appScrollReveal revealAnimation="scale">
-      <p class="social-label">Síguenos en Instagram y Reserva por DM</p>
+      <p class="social-label">{{ b().socialInstagramText }}</p>
       <div class="social-icons">
-        <a href="https://instagram.com/quarterbarber" target="_blank" rel="noopener" class="social-icon" id="social-instagram" aria-label="Instagram @quarterbarber" appMagnetic [magneticStrength]="0.2" title="@quarterbarber">
+        <a [href]="b().contactInstagramUrl" target="_blank" rel="noopener" class="social-icon" id="social-instagram" [attr.aria-label]="'Instagram ' + b().contactInstagramHandle" appMagnetic [magneticStrength]="0.2" [title]="b().contactInstagramHandle">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         </a>
-        <a href="https://wa.me/34647565356" target="_blank" rel="noopener" class="social-icon" id="social-whatsapp" aria-label="WhatsApp 647565356" appMagnetic [magneticStrength]="0.2" title="WhatsApp 647565356">
+        <a [href]="b().whatsappUrl" target="_blank" rel="noopener" class="social-icon" id="social-whatsapp" [attr.aria-label]="'WhatsApp ' + b().whatsappNumber" appMagnetic [magneticStrength]="0.2" [title]="'WhatsApp ' + b().whatsappNumber">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         </a>
-        <a href="tel:647565356" class="social-icon" id="social-phone" aria-label="Llamar 647565356" appMagnetic [magneticStrength]="0.2" title="Llamar 647565356">
+        <a [href]="'tel:' + b().contactPhoneClean" class="social-icon" id="social-phone" [attr.aria-label]="'Llamar ' + b().contactPhoneClean" appMagnetic [magneticStrength]="0.2" [title]="'Llamar ' + b().contactPhoneClean">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
           </svg>
@@ -418,14 +421,14 @@
         <app-contact-card
           icon="location"
           label="Dirección"
-          value="Calle Abtao número 4<br>Barrio de Atocha (Pacífico)<br>28007 Madrid, España"
+          [value]="b().contactAddressHtml"
           [animationDelay]="0"
         ></app-contact-card>
         <app-contact-card
           icon="phone"
           label="Teléfono / Citas"
-          value="647 565 356"
-          href="tel:647565356"
+          [value]="b().contactPhone"
+          [href]="'tel:' + b().contactPhoneClean"
           [isLink]="true"
           contactId="contact-phone"
           [animationDelay]="100"
@@ -433,8 +436,8 @@
         <app-contact-card
           icon="email"
           label="Instagram Oficial"
-          value="&#64;quarterbarber (Citas por DM)"
-          href="https://instagram.com/quarterbarber"
+          [value]="b().contactInstagramHandle + ' (Citas por DM)'"
+          [href]="b().contactInstagramUrl"
           [isLink]="true"
           contactId="contact-instagram"
           [animationDelay]="200"
@@ -442,12 +445,20 @@
         <app-contact-card
           icon="clock"
           label="Ambiente & Horario"
-          value="Lun–Sáb: 10:00–21:00<br>Atención personalizada con o sin cita"
+          [value]="b().contactScheduleHtml"
           [animationDelay]="300"
         ></app-contact-card>
+        @if (b().annualCalendar) {
+          <app-contact-card
+            icon="clock"
+            label="Calendario Anual"
+            [value]="b().annualCalendar || ''"
+            [animationDelay]="350"
+          ></app-contact-card>
+        }
 
         <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px;" appScrollReveal revealAnimation="fade-up" [revealDelay]="400">
-          <app-gold-button href="https://wa.me/34647565356?text=Hola%20Quarter%20Barber%2C%20quiero%20reservar%20una%20cita" target="_blank" variant="primary" size="md" buttonId="contact-whatsapp-btn">
+          <app-gold-button [href]="b().whatsappUrl" target="_blank" variant="primary" size="md" buttonId="contact-whatsapp-btn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
@@ -456,16 +467,21 @@
           <app-gold-button href="/chat" variant="outline" size="md" buttonId="contact-chat-btn">
             Asistente Virtual IA
           </app-gold-button>
+          @if (b().googleMapsUrl) {
+            <app-gold-button [href]="b().googleMapsUrl || '#'" target="_blank" variant="outline" size="md" buttonId="contact-maps-btn">
+              Ver en Google Maps
+            </app-gold-button>
+          }
         </div>
       </div>
       <div class="map-wrap" appScrollReveal revealAnimation="fade-right" [revealDelay]="200">
         <iframe
           id="map-iframe"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3038.286380628352!2d-3.6806085!3d40.4048997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422616238b9e6f%3A0x6b8f154ea018317e!2sCalle%20de%20Abtao%2C%204%2C%20Retiro%2C%2028007%20Madrid!5e0!3m2!1ses!2ses!4v1710000000000!5m2!1ses!2ses"
+          [src]="safeMapUrl()"
           allowfullscreen
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
-          title="Ubicación de Quarter Barber en Calle Abtao 4, Madrid">
+          [title]="b().googleMapsTitle">
         </iframe>
       </div>
     </div>
@@ -485,10 +501,10 @@
           <line x1="8.12" y1="8.12" x2="12" y2="12"/>
         </svg>
       </span>
-      <span class="footer-name">Quarter <em>Barber</em></span>
-      <p class="footer-tagline">Calle Abtao 4 · Pacífico (Atocha) · Madrid · Tel: 647 565 356</p>
+      <span class="footer-name">{{ b().brandName }} <em>{{ b().brandAccent }}</em></span>
+      <p class="footer-tagline">{{ b().footerTagline }}</p>
     </div>
-    <p class="footer-copy">© {{ currentYear }} Quarter Barber · Calle Abtao 4, Madrid · Todos los derechos reservados</p>
+    <p class="footer-copy">© {{ currentYear }} {{ b().footerCopyText }}</p>
   </div>
 </footer>
 
@@ -496,11 +512,11 @@
      FLOATING ACTION BUTTON
 ══════════════════════════════════════════ -->
 <app-floating-action-button
-  icon="chat"
-  label="Reservar"
+  icon="scissors"
+  label="Reservar Cita"
   href="/chat"
   [pulse]="true"
   position="bottom-right"
   fabId="floating-chat-btn"
-  ariaLabel="Abrir asistente IA de Quarter Barber"
+  [ariaLabel]="b().floatingButtonAriaLabel"
 ></app-floating-action-button>

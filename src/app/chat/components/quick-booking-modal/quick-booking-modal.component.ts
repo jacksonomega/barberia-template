@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, Output, HostListener, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, HostListener, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookingFormComponent } from '../booking-form/booking-form.component';
 import { AppointmentBooking } from '../../models/appointment.model';
+import { BusinessDataService } from '../../../services/business-data.service';
 
 @Component({
   selector: 'app-quick-booking-modal',
@@ -11,6 +12,9 @@ import { AppointmentBooking } from '../../models/appointment.model';
   styleUrl: './quick-booking-modal.component.css',
 })
 export class QuickBookingModalComponent {
+  readonly businessService = inject(BusinessDataService);
+  readonly business = this.businessService.business;
+
   @Input() isOpen = false;
   @Output() closeModal = new EventEmitter<void>();
   @Output() bookingConfirmed = new EventEmitter<AppointmentBooking>();
@@ -31,8 +35,8 @@ export class QuickBookingModalComponent {
   }
 
   handleBookingSubmit(booking: AppointmentBooking) {
+    this.confirmedBooking.set(booking);
     this.bookingConfirmed.emit(booking);
-    this.handleClose();
   }
 
   handleClose() {

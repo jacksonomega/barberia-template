@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-
+import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 // Shared models
-import { Service, Barber, Testimonial, PricingItem, NavLink } from '../shared/models';
+import { NavLink } from '../shared/models';
 
 // UI Components
 import { NavbarComponent } from '../shared/ui/navbar/navbar.component';
@@ -18,8 +18,10 @@ import { ContactCardComponent } from '../shared/ui/contact-card/contact-card.com
 
 // Animation Directives
 import { ScrollRevealDirective } from '../shared/animations/scroll-reveal.directive';
-
 import { MagneticDirective } from '../shared/animations/magnetic.directive';
+
+// Business Data Service
+import { BusinessDataService } from '../services/business-data.service';
 
 @Component({
   selector: 'app-home',
@@ -42,6 +44,19 @@ import { MagneticDirective } from '../shared/animations/magnetic.directive';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  readonly businessService = inject(BusinessDataService);
+  private readonly sanitizer = inject(DomSanitizer);
+
+  readonly b = this.businessService.business;
+
+  readonly safeVideoUrl = computed(() =>
+    this.sanitizer.bypassSecurityTrustResourceUrl(this.b().videoEmbedUrl)
+  );
+
+  readonly safeMapUrl = computed(() =>
+    this.sanitizer.bypassSecurityTrustResourceUrl(this.b().googleMapsIframeUrl)
+  );
+
   currentYear = new Date().getFullYear();
 
   navLinks: NavLink[] = [
@@ -54,83 +69,25 @@ export class HomeComponent {
     { label: 'Reservar Cita', route: '/chat', isCta: true },
   ];
 
-  services: Service[] = [
-    { icon: 'scissors', name: 'Cortes Actuales & Fade', desc: 'Especialistas en degradados limpios, texturizados y cortes de tendencia con acabados de precisión.', duration: '35 min', price: 16 },
-    { icon: 'bolt', name: 'Propuestas Alternativas', desc: 'Nos encantan los desafíos: diseños creativos, cortes vanguardistas y propuestas atrevidas con máxima personalidad.', duration: '45 min', price: 20 },
-    { icon: 'palette', name: 'Tintes & Colorimetría', desc: 'Pioneros en tintes: amplísima gama de colores con los mejores productos profesionales del mercado.', duration: '60 min', price: 35 },
-    { icon: 'barber', name: 'Corte + Barba Quarter', desc: 'Pack completo de corte actual y perfilado de barba con asesoramiento personalizado.', duration: '50 min', price: 24 },
-    { icon: 'razor', name: 'Afeitado Lama Única', desc: 'Afeitado tradicional con lamas desechables de uso único y toallas higienizadas para máxima seguridad.', duration: '35 min', price: 15 },
-    { icon: 'crown', name: 'Asesoramiento de Imagen', desc: 'Estudio y adaptación de tu imagen según tu fisonomía y preferencias para potenciar tu estilo.', duration: '30 min', price: 18 },
-  ];
+  get services() {
+    return this.b().services;
+  }
 
-  barbers: Barber[] = [
-    {
-      name: 'Equipo Quarter Barber',
-      role: 'Especialistas en Cortes Actuales',
-      img: '/barber-carlos.png',
-      specialties: ['Fade', 'Cortes Actuales', 'Asesoría'],
-      instagram: '@quarterbarber',
-    },
-    {
-      name: 'Especialistas en Color',
-      role: 'Colorimetría & Propuestas Alternativas',
-      img: '/barber-miguel.png',
-      specialties: ['Tintes', 'Decoloración', 'Diseño Freestyle'],
-      instagram: '@quarterbarber',
-    },
-    {
-      name: 'Barberos Quarter Atocha',
-      role: 'Maestros del Perfilado & Barba',
-      img: '/barber-roberto.png',
-      specialties: ['Barba', 'Navaja Lama Única', 'Higiene'],
-      instagram: '@quarterbarber',
-    },
-  ];
+  get barbers() {
+    return this.b().barbers;
+  }
 
-  testimonials: Testimonial[] = [
-    {
-      name: 'Marcos G.',
-      rating: 5,
-      text: 'El ambiente en Calle Abtao es inmejorable, desde el primer día te tratan como a un amigo de toda la vida. El degradado y el tinte me quedaron espectaculares.',
-      date: 'Hace 3 días',
-      avatar: 'MG',
-    },
-    {
-      name: 'Dani R.',
-      rating: 5,
-      text: 'Pocos sitios tienen tanta variedad de tintes y a un precio tan justo. Además la limpieza es brutal: abren la lama delante de ti y todo está desinfectado al detalle.',
-      date: 'Hace 1 semana',
-      avatar: 'DR',
-    },
-    {
-      name: 'Álvaro S.',
-      rating: 5,
-      text: 'Buscaba un corte alternativo que en otras barberías no se atrevían a hacerme. Aquí no solo lo clavaron sino que me asesoraron genial. ¡Mi barbería de confianza en Pacífico!',
-      date: 'Hace 2 semanas',
-      avatar: 'AS',
-    },
-    {
-      name: 'Iván M.',
-      rating: 5,
-      text: 'Pioneros en cortes a buenos precios en pleno Atocha. Muy profesionales, rápidos y el rollo del local te hace sentir como en casa. 100% recomendado.',
-      date: 'Hace 3 semanas',
-      avatar: 'IM',
-    },
-  ];
+  get testimonials() {
+    return this.b().testimonials;
+  }
 
-  pricing: PricingItem[] = [
-    { name: 'Corte Actual / Degradado Urbano', price: 16 },
-    { name: 'Corte + Barba Quarter', price: 24, popular: true },
-    { name: 'Propuestas Alternativas & Diseño', price: 20 },
-    { name: 'Tintes & Colorimetría Especial', price: 35 },
-    { name: 'Afeitado Tradicional (Lama Única)', price: 15 },
-    { name: 'Perfilado & Arreglo de Barba', price: 12 },
-    { name: 'Tratamiento Capilar & Lavado', price: 14 },
-    { name: 'Servicio Completo Quarter VIP', price: 55 },
-  ];
+  get pricing() {
+    return this.b().pricing;
+  }
 
   scrollToSection(id: string) {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   }
 }
+

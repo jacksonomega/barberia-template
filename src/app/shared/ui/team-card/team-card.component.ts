@@ -17,7 +17,7 @@ import { TiltDirective } from '../../animations/tilt.directive';
       [tiltGlare]="true"
     >
       <div class="tc__img-wrap">
-        <img [src]="imageSrc" [alt]="name" class="tc__img" loading="lazy">
+        <img [src]="imageSrc || '/barber-carlos.png'" [alt]="name" class="tc__img" loading="lazy">
         <div class="tc__img-overlay"></div>
         <div class="tc__img-border"></div>
       </div>
