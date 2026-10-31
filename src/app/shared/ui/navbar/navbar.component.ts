@@ -8,256 +8,425 @@ import { NavLink } from '../../models';
   standalone: true,
   imports: [RouterLink],
   template: `
-    <nav class="nav" [class.nav--scrolled]="scrolled()">
-      <div class="nav__inner">
-        <a class="nav__logo" (click)="onLogoClick()">
-          <span class="nav__logo-icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
-              <line x1="20" y1="4" x2="8.12" y2="15.88"/>
-              <line x1="14.47" y1="14.48" x2="20" y2="20"/>
-              <line x1="8.12" y1="8.12" x2="12" y2="12"/>
-            </svg>
-          </span>
-          <span class="nav__brand">{{ brandName }} <em>{{ brandAccent }}</em></span>
+    <header class="kd-header" [class.kd-header--scrolled]="scrolled()" [class.kd-header--menu-open]="menuOpen()">
+      <div class="kd-header__inner">
+        <!-- Wordmark monumental estilo Kings Domain -->
+        <a class="kd-header__logo" (click)="onLogoClick()" aria-label="Inicio">
+          <span class="kd-header__wordmark">{{ brandName }} {{ brandAccent }}</span>
         </a>
 
-        <ul class="nav__links" [class.nav__links--open]="menuOpen()">
-          @for (link of links; track link.label) {
-            @if (link.isCta) {
-              <li>
-                @if (ctaClick.observed) {
-                  <button
-                    type="button"
-                    (click)="onCtaClick(link)"
-                    class="nav__cta"
-                    [id]="'nav-cta-' + link.label.toLowerCase().replace(' ', '-')"
-                  >
-                    {{ link.label }}
-                  </button>
-                } @else {
-                  <a
-                    [routerLink]="[link.route || '/chat']"
-                    [queryParams]="link.queryParams"
-                    (click)="menuOpen.set(false)"
-                    class="nav__cta"
-                    [id]="'nav-cta-' + link.label.toLowerCase().replace(' ', '-')"
-                  >
-                    {{ link.label }}
-                  </a>
-                }
-              </li>
-            } @else if (link.sectionId) {
-              <li>
-                <a
-                  class="nav__link"
-                  (click)="scrollTo(link.sectionId)"
-                >
-                  {{ link.label }}
-                  <span class="nav__link-bar"></span>
-                </a>
-              </li>
+        <!-- Acciones derechas + Menú desplegable en cajas con borde 1px solid #fff (Kings Domain) -->
+        <div class="kd-header__right">
+          <!-- Botones píldora rápidos (visibles cuando la barra de menú no los cubre en desktop) -->
+          <div class="kd-header__pills" [class.kd-header__pills--hidden]="menuOpen()">
+            @if (ctaClick.observed) {
+              <button
+                type="button"
+                (click)="onQuickBookingClick()"
+                class="kd-pill-btn"
+                id="booking-btn"
+              >
+                RESERVAR CITA
+              </button>
             } @else {
-              <li>
-                <a
-                  [routerLink]="[link.route || '/']"
-                  [queryParams]="link.queryParams"
-                  class="nav__link"
-                >
-                  {{ link.label }}
-                  <span class="nav__link-bar"></span>
-                </a>
-              </li>
+              <a
+                [routerLink]="[ctaRoute]"
+                class="kd-pill-btn"
+                id="booking-btn"
+              >
+                RESERVAR CITA
+              </a>
             }
-          }
-        </ul>
+            <a
+              [routerLink]="['/chat']"
+              class="kd-pill-btn kd-pill-btn--secondary"
+              id="club-btn"
+            >
+              ASISTENTE IA
+            </a>
+          </div>
 
-        <button
-          class="nav__hamburger"
-          (click)="toggleMenu()"
-          id="hamburger-btn"
-          aria-label="Menú"
-          [class.nav__hamburger--active]="menuOpen()"
-        >
-          <span></span><span></span><span></span>
-        </button>
+          <!-- Navegación expandible estilo Kings Domain (scaleX desde la derecha en Desktop, Fullscreen en Mobile) -->
+          <div class="kd-nav-wrap">
+            <nav class="kd-nav-drawer" [class.kd-nav-drawer--open]="menuOpen()" aria-label="Navegación principal">
+              <ul class="kd-nav-list">
+                @for (link of links; track link.label) {
+                  <li class="kd-nav-item" [class.kd-nav-item--cta]="link.isCta">
+                    @if (link.isCta) {
+                      @if (ctaClick.observed) {
+                        <button
+                          type="button"
+                          (click)="onCtaClick(link)"
+                          class="kd-nav-link"
+                          [id]="'nav-cta-' + link.label.toLowerCase().replace(' ', '-')"
+                        >
+                          {{ link.label }}
+                        </button>
+                      } @else {
+                        <a
+                          [routerLink]="[link.route || '/chat']"
+                          [queryParams]="link.queryParams"
+                          (click)="menuOpen.set(false)"
+                          class="kd-nav-link"
+                          [id]="'nav-cta-' + link.label.toLowerCase().replace(' ', '-')"
+                        >
+                          {{ link.label }}
+                        </a>
+                      }
+                    } @else if (link.sectionId) {
+                      <a
+                        class="kd-nav-link"
+                        (click)="scrollTo(link.sectionId)"
+                      >
+                        {{ link.label }}
+                      </a>
+                    } @else {
+                      <a
+                        [routerLink]="[link.route || '/']"
+                        [queryParams]="link.queryParams"
+                        (click)="menuOpen.set(false)"
+                        class="kd-nav-link"
+                      >
+                        {{ link.label }}
+                      </a>
+                    }
+                  </li>
+                }
+              </ul>
+            </nav>
+
+            <!-- Toggle Button (Hamburguesa / Cruz enmarcada en borde 1px solid #fff cuando está activa) -->
+            <button
+              type="button"
+              class="kd-menu-toggle"
+              [class.kd-menu-toggle--active]="menuOpen()"
+              (click)="toggleMenu()"
+              id="hamburger-btn"
+              [attr.aria-expanded]="menuOpen()"
+              aria-label="Menú"
+            >
+              @if (!menuOpen()) {
+                <span class="kd-menu-toggle__bars">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              } @else {
+                <span class="kd-menu-toggle__close" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <line x1="1" y1="1" x2="15" y2="15"/>
+                    <line x1="15" y1="1" x2="1" y2="15"/>
+                  </svg>
+                </span>
+              }
+            </button>
+          </div>
+        </div>
       </div>
-    </nav>
+    </header>
   `,
   styles: [`
-    .nav {
+    .kd-header {
       position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 0 24px;
-      background: rgba(10,10,11,0.65);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background-color: #000000;
+      min-height: 92px;
+      display: flex;
+      align-items: center;
+      padding: 18px 30px;
       border-bottom: 1px solid transparent;
-      transform: translateZ(0);
-      will-change: background, border-color, box-shadow;
-      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .nav--scrolled {
-      background: rgba(10,10,11,0.92);
-      border-bottom-color: var(--border);
-      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+      transition: border-color 0.25s ease, background-color 0.25s ease;
     }
 
-    .nav__inner {
+    .kd-header--scrolled {
+      border-bottom-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .kd-header__inner {
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 68px;
-      max-width: 1200px;
-      margin: 0 auto;
+      gap: 20px;
     }
-    .nav__logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+
+    /* Wordmark Logo */
+    .kd-header__logo {
       cursor: pointer;
       text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+      z-index: 1002;
     }
-    .nav__logo-icon {
+
+    .kd-header__wordmark {
+      font-family: var(--font-display);
+      font-size: clamp(1.45rem, 2.8vw, 2.5rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      line-height: 0.95;
+      transition: opacity 0.2s ease;
+    }
+
+    .kd-header__logo:hover .kd-header__wordmark {
+      opacity: 0.85;
+    }
+
+    /* Right cluster */
+    .kd-header__right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+      position: relative;
+    }
+
+    .kd-header__pills {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    .kd-header__pills--hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Kings Domain Pill Buttons in Header */
+    .kd-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #FFFFFF;
+      background-color: #000000;
+      border: 1px solid #FFFFFF;
+      border-radius: 50px;
+      padding: 6px 24px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .kd-pill-btn:hover {
+      background-color: #FFFFFF;
+      color: #000000;
+      animation: kdHeartbeat 0.35s ease;
+    }
+
+    /* Expandable Boxed Nav Bar (Desktop scaleX from right, Kings Domain style) */
+    .kd-nav-wrap {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    @media (min-width: 1024px) {
+      .kd-nav-drawer {
+        position: absolute;
+        right: 58px;
+        top: 50%;
+        transform: translateY(-50%) scaleX(0);
+        transform-origin: right center;
+        transition: transform 0.32s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.22s ease;
+        opacity: 0;
+        pointer-events: none;
+        background-color: #000000;
+        z-index: 1001;
+      }
+
+      .kd-nav-drawer--open {
+        transform: translateY(-50%) scaleX(1);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .kd-nav-list {
+        display: flex;
+        align-items: stretch;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background-color: #000000;
+      }
+
+      .kd-nav-item {
+        border-top: 1px solid #FFFFFF;
+        border-bottom: 1px solid #FFFFFF;
+        border-right: 1px solid #FFFFFF;
+      }
+
+      .kd-nav-item:first-child {
+        border-left: 1px solid #FFFFFF;
+      }
+
+      .kd-nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 58px;
+        padding: 0 32px;
+        white-space: nowrap;
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        font-weight: 400;
+        color: #FFFFFF;
+        background: #000000;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.18s ease, color 0.18s ease;
+      }
+
+      .kd-nav-link:hover {
+        background-color: #FFFFFF;
+        color: #000000;
+      }
+    }
+
+    /* Menu Toggle Button */
+    .kd-menu-toggle {
+      width: 44px;
+      height: 44px;
+      background: #000000;
+      border: 1px solid transparent;
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1002;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .kd-menu-toggle__bars {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 28px;
+    }
+
+    .kd-menu-toggle__bars span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: #FFFFFF;
+      transition: transform 0.25s ease, background-color 0.2s ease;
+    }
+
+    .kd-menu-toggle:hover .kd-menu-toggle__bars span {
+      background-color: #D4D4D8;
+    }
+
+    .kd-menu-toggle--active {
+      width: 58px;
+      height: 58px;
+      border: 1px solid #FFFFFF;
+      background-color: #000000;
+      color: #FFFFFF;
+    }
+
+    .kd-menu-toggle--active:hover {
+      background-color: #FFFFFF;
+      color: #000000;
+    }
+
+    .kd-menu-toggle__close {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--gold);
-      transition: transform 0.4s ease;
-    }
-    .nav__logo:hover .nav__logo-icon {
-      transform: rotate(15deg) scale(1.1);
-    }
-    .nav__brand {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      color: var(--text-primary);
-    }
-    .nav__brand em {
-      color: var(--gold);
-      font-style: italic;
     }
 
-    .nav__links {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .nav__link {
-      position: relative;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: color 0.3s ease;
-      letter-spacing: 0.02em;
-      text-decoration: none;
-    }
-    .nav__link:hover { color: var(--gold); }
+    /* Tablet & Mobile Fullscreen Drawer (Kings Domain style) */
+    @media (max-width: 1023px) {
+      .kd-header {
+        min-height: 76px;
+        padding: 14px 20px;
+      }
 
-    .nav__link-bar {
-      position: absolute;
-      left: 0; bottom: -4px;
-      width: 100%; height: 2px;
-      background: var(--gradient-gold);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.35s cubic-bezier(.4,0,.2,1);
-      border-radius: 1px;
-    }
-    .nav__link:hover .nav__link-bar {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-
-    .nav__cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 22px;
-      background: #FFFFFF;
-      color: #000000 !important;
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      border: 1px solid #FFFFFF;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.35s cubic-bezier(.4,0,.2,1);
-      box-shadow: 0 4px 16px rgba(255,255,255,0.2);
-      text-decoration: none;
-    }
-    .nav__cta:hover {
-      transform: translateY(-2px);
-      background: #000000;
-      color: #FFFFFF !important;
-      border-color: #FFFFFF;
-      box-shadow: 0 8px 24px rgba(255,255,255,0.25);
-    }
-
-    /* Hamburger */
-    .nav__hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-      z-index: 101;
-    }
-    .nav__hamburger span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--text-primary);
-      border-radius: 2px;
-      transition: all 0.3s cubic-bezier(.4,0,.2,1);
-      transform-origin: center;
-    }
-    .nav__hamburger--active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-    .nav__hamburger--active span:nth-child(2) {
-      opacity: 0;
-      transform: scaleX(0);
-    }
-    .nav__hamburger--active span:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
-    }
-
-    @media (max-width: 768px) {
-      .nav__links {
+      .kd-pill-btn--secondary {
         display: none;
+      }
+
+      .kd-pill-btn {
+        font-size: 0.82rem;
+        padding: 5px 14px;
+      }
+
+      .kd-nav-drawer {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #000000;
+        z-index: 1001;
+        padding: 110px 28px 40px;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+        overflow-y: auto;
+      }
+
+      .kd-nav-drawer--open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      .kd-nav-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
         flex-direction: column;
-        position: absolute;
-        top: 68px; left: 0; right: 0;
-        background: rgba(17,17,20,0.98);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid var(--border);
-        padding: 24px;
-        gap: 20px;
-        animation: nav-mobile-in 0.3s ease both;
       }
-      @keyframes nav-mobile-in {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
+
+      .kd-nav-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.25);
       }
-      .nav__links--open { display: flex; }
-      .nav__hamburger { display: flex; }
+
+      .kd-nav-link {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 18px 0;
+        font-family: var(--font-display);
+        font-size: clamp(1.85rem, 6vw, 2.5rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #FFFFFF;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .kd-menu-toggle--active {
+        width: 46px;
+        height: 46px;
+      }
     }
   `],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  @Input() brandName = 'Apex';
-  @Input() brandAccent = 'Studio';
+  @Input() brandName = 'Quarter';
+  @Input() brandAccent = 'Barber';
   @Input() links: NavLink[] = [];
   @Input() ctaText = 'Reservar Cita';
   @Input() ctaRoute = '/chat';
@@ -270,6 +439,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private zone = inject(NgZone);
   private router = inject(Router);
   private scrollListener?: () => void;
+
+  onQuickBookingClick(): void {
+    this.menuOpen.set(false);
+    if (this.ctaClick.observed) {
+      this.ctaClick.emit();
+    } else {
+      this.router.navigate([this.ctaRoute]);
+    }
+  }
 
   onCtaClick(link: NavLink): void {
     this.menuOpen.set(false);
@@ -284,7 +462,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) return;
     this.zone.runOutsideAngular(() => {
       this.scrollListener = () => {
-        const isScrolled = window.scrollY > 50;
+        const isScrolled = window.scrollY > 40;
         if (isScrolled !== this.scrolled()) {
           this.zone.run(() => {
             this.scrolled.set(isScrolled);
@@ -315,4 +493,3 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 }
-

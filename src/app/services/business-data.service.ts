@@ -14,27 +14,32 @@ export class BusinessDataService {
 
   readonly isBrowser = isPlatformBrowser(this.platformId);
 
-  // Señal con los datos directos de la empresa obtenidos de /api/company
+  // Señal con los datos de la empresa
   readonly company = this.companyService.company;
 
   readonly isMock = signal<boolean>(false).asReadonly();
 
-  // Datos actuales del negocio calculados reactivamente desde /api/company
+  // Datos actuales del negocio calculados reactivamente
   readonly business = computed<BarberBusinessData>(() => {
     const c = this.company();
     const name = (c.name || 'HIS Barbería Urban 2').trim();
     const words = name.split(/\s+/);
-    const brandName = words[0] || 'Barbería';
-    const brandAccent = words.slice(1).join(' ') || 'Urban';
+    const brandName = words[0] || 'HIS';
+    const brandAccent = words.slice(1).join(' ') || 'Barbería Urban 2';
 
     const address = (c.address || 'C. de San Marcos, 1, Centro, 28004 Madrid').trim();
     const contactAddressHtml = address.includes(',')
       ? address.replace(/, /g, '<br>')
       : address;
 
-    const contactScheduleHtml = c.business_hours
-      ? c.business_hours.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>')
-      : 'Lunes a Viernes de 09:00 a 14:00 y de 16:00 a 19:00<br>Sábados de 9:00 a 14:00';
+    // Horario exacto solicitado: L: Cerrado | M->V: 9:30->14:00 y 16:30->20:30 | S: 9:00->14:00
+    const contactScheduleHtml =
+      '<strong>Lunes:</strong> Cerrado<br>' +
+      '<strong>Martes a Viernes:</strong> 09:30 – 14:00 &nbsp;|&nbsp; 16:30 – 20:30<br>' +
+      '<strong>Sábados:</strong> 09:00 – 14:00<br>' +
+      '<strong>Domingos:</strong> Cerrado';
+
+    const annualCalendar = 'Varones de cualquier edad · Martes a Sábado (Lunes y Domingos cerrado)';
 
     let igUrl = (c.instagram || 'www.instagram.com/hisbarberia/').trim();
     if (igUrl && !igUrl.startsWith('http://') && !igUrl.startsWith('https://')) {
@@ -52,28 +57,13 @@ export class BusinessDataService {
     }
     if (!igHandle) igHandle = '@hisbarberia';
 
-    const rawPhone = (c.phone || '').trim();
-    const defaultRaw = '722194804';
-    const effectivePhone = rawPhone || defaultRaw;
-    const digitsOnly = effectivePhone.replace(/\D/g, '');
-    const cleanPhoneNumeric = digitsOnly;
-
-    let cleanPhone = effectivePhone;
-    if (digitsOnly.length === 9 && !effectivePhone.includes(' ') && !effectivePhone.includes('-')) {
-      cleanPhone = `${digitsOnly.slice(0, 3)} ${digitsOnly.slice(3, 6)} ${digitsOnly.slice(6)}`;
-    }
-
-    let waDigits = digitsOnly;
-    if (digitsOnly.length === 9) {
-      waDigits = '34' + digitsOnly;
-    } else if (rawPhone.startsWith('+')) {
-      waDigits = digitsOnly;
-    }
-
-    const whatsappUrl = `https://wa.me/${waDigits}?text=${encodeURIComponent('Hola ' + name + ', quiero reservar una cita')}`;
+    // Teléfono y WhatsApp oficial: +34 632 77 91 83
+    const cleanPhone = '+34 632 77 91 83';
+    const cleanPhoneNumeric = '34632779183';
+    const whatsappUrl = `https://wa.me/34632779183?text=${encodeURIComponent('Hola ' + name + ', quiero reservar una cita')}`;
     const googleMapsIframeUrl = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
 
-    const cityOrArea = address.split(',')[0] || 'Madrid';
+    const cityOrArea = address.split(',')[0] || 'Madrid Centro';
 
     return {
       id: 'real-quarter',
@@ -81,72 +71,142 @@ export class BusinessDataService {
       brandName,
       brandAccent,
       fullName: name,
-      heroLabel: `Barbería · ${address}`,
-      tagline: 'Cortes Urbanos, Fades & Estilo',
-      heroDescription: `En ${name} destacamos por contar con los medios más profesionales del sector, adaptándonos siempre a las exigencias de cada cliente y asesorando la imagen. Te espera un ambiente moderno y amigable en ${address}.`,
+      heroLabel: `Barbería · Varones de cualquier edad · ${cityOrArea}`,
+      tagline: 'Cortes, Barba & Estilo · Varones de cualquier edad',
+      heroDescription: `Especialistas en cortes masculinos, degradados a navaja y a cero, diseño de barba y tratamientos capilares para varones de cualquier edad (niños, jóvenes y adultos). Te esperamos en ${address}.`,
       heroStats: [
-        { num: cityOrArea, label: 'Madrid' },
-        { num: '100%', label: 'Higiene & Estilo' },
-        { num: 'Top', label: 'Profesionales' },
+        { num: 'Varones', label: 'Cualquier Edad' },
+        { num: '14', label: 'Servicios de 20–30 min' },
+        { num: 'M–V & S', label: 'M–V 9:30–20:30 · S 9:00–14:00' },
       ],
       whatsappNumber: cleanPhone,
       whatsappUrl,
-      aboutLabel: 'Nuestra Esencia',
+      aboutLabel: 'Nuestra Filosofía',
       aboutTitle: `Conoce ${name}`,
       aboutHighlight: name,
-      aboutSubtitle: `Ubicados en ${address}. Un espacio diseñado para desconectar mientras profesionales cuidan cada detalle de tu corte y barba.`,
+      aboutSubtitle: `Ubicados en ${address}. Atención exclusiva y personalizada para varones de cualquier edad en un ambiente profesional y acogedor.`,
       aboutCards: [
         {
-          title: 'Asesoramiento de Imagen',
-          desc: 'Contamos con los medios más profesionales del sector. Nos adaptamos en cada visita a tus exigencias y estilo personal.',
+          title: 'Varones de Cualquier Edad',
+          desc: 'Desde los más pequeños (cortes niños menores de 10 años) hasta jóvenes y adultos. Nos adaptamos a las necesidades de cada etapa con paciencia y máxima técnica.',
           icon: 'image',
         },
         {
-          title: 'Cortes Actuales & Fades',
-          desc: 'Especialistas en degradados limpios, texturizados y cortes de tendencia con acabados de máxima precisión.',
+          title: 'Degradados a Navaja & Cero',
+          desc: 'Maestría en degradados rasurados a navaja clásica o al cero, con difuminados limpios, contornos milimétricos y acabados de gran durabilidad.',
           icon: 'cut',
         },
         {
-          title: 'Pioneros en Calidad y Precio',
-          desc: 'Creemos firmemente en democratizar el estilo: cortes de la más alta calidad a precios justos para que luzcas impecable.',
+          title: 'Arreglo & Formación de Barba',
+          desc: 'Afeitado tradicional con toalla caliente, rasurado a máquina o diseño y formación de barba con perfilado simétrico de mejillas y cuello.',
           icon: 'badge',
         },
         {
-          title: 'Higiene y Cuidado Integral',
-          desc: 'Protocolos de bioseguridad absolutos, desinfección meticulosa y productos profesionales de alta gama.',
+          title: 'Tarifas Transparentes & Justas',
+          desc: 'Catálogo de servicios completo y claro desde 2€ (lavar cabeza) hasta packs combinados de corte y barba por 15€, siempre con la mejor calidad.',
           icon: 'paint',
         },
       ],
       servicesSectionSubtitle:
-        'Desde degradados de tendencia hasta perfilado de barba y tratamientos con productos profesionales.',
+        'Servicios con duración estimada de 20 a 30 minutos, ejecutados con instrumental esterilizado y atención al detalle.',
       services: [
         {
+          icon: 'razor',
+          name: 'Corte degradado a Navaja',
+          desc: 'Degradado de alta precisión rasurado a navaja clásica para un acabado ultra apurado y pulcro.',
+          duration: '20–30 min',
+          price: 10,
+        },
+        {
           icon: 'scissors',
-          name: 'Corte de Pelo',
-          desc: 'Corte a tijera o máquina con degradado de precisión, lavado y peinado con producto premium.',
-          duration: '30 min',
-          price: 13,
+          name: 'Corte degradado a cero',
+          desc: 'Skin fade impecable desde el cero con difuminado suave y transición perfecta.',
+          duration: '20–30 min',
+          price: 9,
         },
         {
           icon: 'barber',
-          name: 'Arreglo de Barba',
-          desc: 'Perfilado de barba con toalla caliente, navaja de un solo uso y aceites nutritivos.',
-          duration: '20 min',
-          price: 5,
+          name: 'Corte de pelo con forma',
+          desc: 'Corte estructurado y definición de contornos marcados adaptados a tu fisonomía.',
+          duration: '20–30 min',
+          price: 9,
         },
         {
-          icon: 'bolt',
-          name: 'Cejas',
-          desc: 'Diseño y limpieza de cejas con navaja y tijera para una mirada definida.',
-          duration: '10 min',
-          price: 2,
+          icon: 'cut',
+          name: 'Corte rapado a maquina',
+          desc: 'Corte homogéneo a máquina con longitud a medida y repaso nítido de cuello y patillas.',
+          duration: '20–30 min',
+          price: 6,
+        },
+        {
+          icon: 'razor',
+          name: 'Afeitar la barba',
+          desc: 'Afeitado tradicional completo con toalla caliente, navaja higienizada y bálsamo suave.',
+          duration: '20–30 min',
+          price: 6,
+        },
+        {
+          icon: 'barber',
+          name: 'Formar la barba',
+          desc: 'Recorte, simetría y perfilado de líneas de mejillas y cuello a navaja para máxima definición.',
+          duration: '20–30 min',
+          price: 7,
+        },
+        {
+          icon: 'scissors',
+          name: 'Corte degradado y afeitar barba',
+          desc: 'Combo integral: corte degradado (a cero o navaja) y afeitado apurado con toalla caliente.',
+          duration: '20–30 min',
+          price: 15,
+        },
+        {
+          icon: 'scissors',
+          name: 'Corte degradado y formar barba',
+          desc: 'El pack más demandado: degradado de tendencia más diseño y perfilado completo de barba.',
+          duration: '20–30 min',
+          price: 15,
         },
         {
           icon: 'crown',
-          name: 'Servicio Completo VIP',
-          desc: 'Corte de pelo, barba completa, lavado spa y peinado con fijación mate.',
-          duration: '50 min',
-          price: 20,
+          name: 'Solo peinar',
+          desc: 'Arreglo, definición y fijación con productos profesionales de barbería (cera, pomada o mate).',
+          duration: '20–30 min',
+          price: 3,
+        },
+        {
+          icon: 'cut',
+          name: 'Afeitar la barba a maquina',
+          desc: 'Rasurado rápido, uniforme y sin irritación con shaver y trimmer profesional.',
+          duration: '20–30 min',
+          price: 4,
+        },
+        {
+          icon: 'bolt',
+          name: 'Lavar cabeza',
+          desc: 'Lavado higienizante con champú profesional y suave masaje capilar tonificante.',
+          duration: '20–30 min',
+          price: 2,
+        },
+        {
+          icon: 'palette',
+          name: 'Alisado de pelo',
+          desc: 'Tratamiento alisador profesional para disciplinar el cabello y aportar soltura y brillo.',
+          duration: '20–30 min',
+          price: 12,
+        },
+        {
+          icon: 'scissors',
+          name: 'Corte de pelo a tijera',
+          desc: 'Técnica artesanal 100% a tijera para cabellos medios o largos con control total de volumen.',
+          duration: '20–30 min',
+          price: 9,
+        },
+        {
+          icon: 'crown',
+          name: 'Niños menores de 10 años',
+          desc: 'Corte especializado para los más pequeños con paciencia, delicadeza y el mejor estilo infantil.',
+          duration: '20–30 min',
+          price: 8,
         },
       ],
       videoTitle: `Vive la Experiencia en ${name}`,
@@ -158,12 +218,22 @@ export class BusinessDataService {
       videoFooterPhone: cleanPhone,
       videoFooterInstagram: igHandle,
       hygieneSubtitle: `En ${name} aplicamos protocolos rigurosos de higiene y desinfección para tu total seguridad.`,
-      pricingSubtitle: 'Tarifas transparentes sin sorpresas con la mejor atención profesional.',
+      pricingSubtitle: 'Tarifas claras y accesibles para todos los servicios (duración 20 a 30 min).',
       pricing: [
-        { name: 'Corte de Pelo', price: 13 },
-        { name: 'Arreglo de Barba', price: 5 },
-        { name: 'Cejas', price: 2 },
-        { name: 'Pack Corte + Barba', price: 18, popular: true },
+        { name: 'Corte degradado a Navaja', price: 10 },
+        { name: 'Corte degradado a cero', price: 9 },
+        { name: 'Corte de pelo con forma', price: 9 },
+        { name: 'Corte rapado a maquina', price: 6 },
+        { name: 'Afeitar la barba', price: 6 },
+        { name: 'Formar la barba', price: 7 },
+        { name: 'Corte degradado y afeitar barba', price: 15, popular: true },
+        { name: 'Corte degradado y formar barba', price: 15, popular: true },
+        { name: 'Solo peinar', price: 3 },
+        { name: 'Afeitar la barba a maquina', price: 4 },
+        { name: 'Lavar cabeza', price: 2 },
+        { name: 'Alisado de pelo', price: 12 },
+        { name: 'Corte de pelo a tijera', price: 9 },
+        { name: 'Niños menores de 10 años', price: 8 },
       ],
       teamSubtitle: 'Profesionales apasionados por la barbería clásica y las últimas tendencias.',
       barbers: [
@@ -171,14 +241,14 @@ export class BusinessDataService {
           name: 'Jackson Echevarria',
           role: 'Barbero Especialista',
           img: '/barber-carlos.png',
-          specialties: ['Cortes Actuales', 'Fades', 'Barba'],
+          specialties: ['Degradado a Navaja', 'Fade a Cero', 'Formar Barba'],
           instagram: igHandle,
         },
         {
           name: 'Juan Ballesteros',
           role: 'Estilista & Barbero',
           img: '/barber-miguel.png',
-          specialties: ['Degradados', 'Cortes Clásicos', 'Asesoría'],
+          specialties: ['Corte a Tijera', 'Alisado de Pelo', 'Niños'],
           instagram: igHandle,
         },
       ],
@@ -186,26 +256,26 @@ export class BusinessDataService {
         {
           name: 'Carlos M.',
           rating: 5,
-          text: `Excelente trato en ${name}. El degradado quedó perfecto y el ambiente es genial. Muy recomendado en ${cityOrArea}.`,
+          text: `El degradado a navaja y el perfilado de barba quedaron impecables. La atención para varones de todas las edades es de diez.`,
           date: 'Hace 3 días',
           avatar: 'CM',
         },
         {
           name: 'David R.',
           rating: 5,
-          text: `Gran profesionalidad y puntualidad. Jackson y el equipo de ${name} te asesoran genial sobre qué corte te favorece más.`,
+          text: `Traje a mi hijo para el corte infantil y a mí me hicieron un fade a cero. Grandes profesionales, puntuales y precios muy honestos.`,
           date: 'Hace 1 semana',
           avatar: 'DR',
         },
         {
           name: 'Álvaro S.',
           rating: 5,
-          text: 'Llevo meses viniendo aquí. Los precios son súper honestos y la calidad del corte es de diez.',
+          text: `Llevo meses viniendo aquí. El pack de corte degradado y formar barba por 15€ es imbatible en calidad.`,
           date: 'Hace 2 semanas',
           avatar: 'AS',
         },
       ],
-      socialInstagramText: `Síguenos en ${igHandle} y Reserva tu Turno`,
+      socialInstagramText: `Síguenos en ${igHandle} y Reserva por WhatsApp`,
       socialPhone: cleanPhone,
       contactAddressHtml,
       contactPhone: cleanPhone,
@@ -213,23 +283,27 @@ export class BusinessDataService {
       contactInstagramHandle: igHandle,
       contactInstagramUrl: igUrl,
       contactScheduleHtml,
-      annualCalendar: c.annual_calendar || 'Todo el año salvo festivos',
+      annualCalendar,
       facebookUrl: c.facebook || 'https://facebook.com/hisbarberia',
       youtubeUrl: c.youtube || 'https://youtube.com/@canal',
       googleMapsUrl: c.google_maps_url,
       googleMapsIframeUrl,
       googleMapsTitle: `Ubicación de ${name} en ${address}`,
-      footerTagline: `${address} · ${name}`,
-      footerCopyText: `${name} · ${address} · Todos los derechos reservados`,
+      footerTagline: `${address} · Horario: M–V 9:30–14:00 y 16:30–20:30, S 9:00–14:00 (Lunes Cerrado) · Tel: ${cleanPhone}`,
+      footerCopyText: `${name} · Varones de cualquier edad · Todos los derechos reservados`,
       floatingButtonAriaLabel: `Abrir asistente IA de ${name}`,
-      chatInitialMessage: `¡Hola! Soy el asistente virtual de **${name}** en ${address}. Nuestro horario de atención es: ${c.business_hours || 'Lunes a Sábado'}. Puedo ayudarte a informarte sobre nuestros servicios, tarifas o reservar tu cita. ¿En qué te puedo asesorar hoy?`,
+      chatInitialMessage: `¡Hola! Soy el asistente virtual de **${name}** en ${address}. Atendemos a **varones de cualquier edad**.\n\n` +
+        `• **Horario:** Martes a Viernes de 09:30 a 14:00 y de 16:30 a 20:30 | Sábados de 09:00 a 14:00 (Lunes y Domingos cerrado).\n` +
+        `• **WhatsApp / Teléfono:** ${cleanPhone}.\n` +
+        `• **Servicios:** 14 opciones profesionales de 20 a 30 min (desde 2€ hasta 15€).\n\n¿En qué te puedo asesorar o qué servicio deseas reservar?`,
       chatAssistantName: `Asistente ${name}`,
       chatSidebarLocation: address,
       chatQuickReplies: [
-        'Reservar Cita Rápida',
+        'Reservar Cita',
         'Servicios y Precios',
-        'Horarios de Atención',
-        `Dónde estáis (${cityOrArea})`,
+        'Horarios (M–V y Sábados)',
+        'Varones de cualquier edad',
+        `WhatsApp (${cleanPhone})`,
       ],
       mockPublicServices: [],
       mockEmployees: [],
@@ -241,9 +315,9 @@ export class BusinessDataService {
       effect(() => {
         const c = this.company();
         if (c && c.name) {
-          const area = c.address ? c.address.split(',')[0] : 'Madrid';
+          const area = c.address ? c.address.split(',')[0] : 'Madrid Centro';
           this.titleService.setTitle(
-            `${c.name} | Cortes Urbanos, Fades & Estilo en ${area}`
+            `${c.name} | Varones de Cualquier Edad · ${area}`
           );
         }
       });

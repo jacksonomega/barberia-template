@@ -201,9 +201,9 @@
 }
 
 .service-option.selected {
-  border-color: #FFFFFF;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(24, 24, 28, 0.95) 100%);
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+  border-color: #D4AF37;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.16) 0%, rgba(24, 26, 36, 0.95) 100%);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.2);
 }
 
 .service-option-content {
@@ -225,7 +225,7 @@
 .service-price {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #F0D290;
   font-family: var(--font-display, serif);
 }
 
@@ -245,19 +245,19 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  color: #000000;
+  color: #120D04;
   flex-shrink: 0;
 }
 
 .service-option:hover .service-checkbox:not(.checked) {
-  border-color: rgba(255, 255, 255, 0.6);
-  background: rgba(255, 255, 255, 0.1);
+  border-color: #D4AF37;
+  background: rgba(212, 175, 55, 0.12);
 }
 
 .service-checkbox.checked {
-  background: #FFFFFF;
-  border-color: #FFFFFF;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
+  background: linear-gradient(135deg, #F3D999, #D4AF37);
+  border-color: #D4AF37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
 }
 
 /* ─── BARBERS GRID ─── */
@@ -285,9 +285,9 @@
 }
 
 .barber-option.selected {
-  border-color: #FFFFFF;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(24, 24, 28, 0.95) 100%);
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+  border-color: #D4AF37;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.16) 0%, rgba(20, 22, 30, 0.95) 100%);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.2);
 }
 
 .barber-avatar-placeholder {
@@ -381,11 +381,11 @@
 }
 
 .time-chip.active {
-  background: #FFFFFF;
-  color: #000000;
+  background: linear-gradient(135deg, #F3D999, #D4AF37);
+  color: #120D04;
   font-weight: 700;
-  border-color: #FFFFFF;
-  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.25);
+  border-color: #D4AF37;
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.35);
 }
 
 /* ─── LOADING & EMPTY STATES ─── */
@@ -449,22 +449,22 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 24px;
-  border-radius: 10px;
-  background: #FFFFFF;
+  padding: 11px 26px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #F3D999 0%, #D4AF37 50%, #B88926 100%);
   border: none;
-  color: #000000;
-  font-size: 0.88rem;
+  color: #120D04;
+  font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 18px rgba(212, 175, 55, 0.3);
 }
 
 .btn-submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  background: #F4F4F5;
-  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.35);
+  filter: brightness(1.06);
+  box-shadow: 0 6px 24px rgba(212, 175, 55, 0.45);
 }
 
 .btn-submit:disabled {

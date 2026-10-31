@@ -191,19 +191,35 @@ export class ChatComponent implements AfterViewChecked {
 
     if (lower.includes('hola') || lower.includes('buenas') || lower.includes('hey')) {
       return {
-        text: `¡Hola! Bienvenido a **${biz.fullName}**. ¿En qué podemos asesorarte hoy? Puedes consultar nuestros cortes Signature, tarifas, o reservar tu cita directamente.`
+        text: `¡Hola! Bienvenido a **${biz.fullName}**. Ofrecemos atención especializada para varones de cualquier edad. ¿En qué podemos ayudarte hoy? Puedes consultar nuestros servicios (duración 20–30 min), tarifas o reservar tu cita.`
       };
     }
 
     if (lower.includes('cita') || lower.includes('reservar') || lower.includes('turno') || lower.includes('agendar')) {
       return {
-        text: `¡Estupendo! Puedes pulsar en el botón **"Reservar Cita"** para abrir el formulario y elegir tu servicio y estilista preferido en **${biz.brandName}**.`
+        text: `¡Estupendo! Puedes pulsar en el botón **"Reservar Cita"** para abrir el formulario y elegir tu servicio. También puedes escribirnos o llamarnos directamente al **${biz.contactPhone}**.`
       };
     }
 
-    if (lower.includes('precio') || lower.includes('cuanto') || lower.includes('cuánto') || lower.includes('tarifa') || lower.includes('costo')) {
+    if (lower.includes('precio') || lower.includes('cuanto') || lower.includes('cuánto') || lower.includes('tarifa') || lower.includes('costo') || lower.includes('servicio')) {
       return {
-        text: `En **${biz.fullName}** nuestras tarifas son transparentes:\n• **Corte Signature & Fade**: 18€\n• **Pack Corte + Barba**: 26€\n• **Colorimetría & Matices**: 40€\n• **Afeitado Tradicional**: 16€\n¿Deseas que te reservemos turno para alguno de ellos?`
+        text: `En **${biz.fullName}** disponemos de servicios especializados con una duración aproximada de 20 a 30 minutos (atención para varones de cualquier edad):\n` +
+              `• **Corte degradado a Navaja**: 10€\n` +
+              `• **Corte degradado a cero**: 9€\n` +
+              `• **Corte de pelo con forma**: 9€\n` +
+              `• **Corte de pelo a tijera**: 9€\n` +
+              `• **Corte rapado a maquina**: 6€\n` +
+              `• **Niños menores de 10 años**: 8€\n` +
+              `• **Afeitar la barba**: 6€ / **Formar la barba**: 7€\n` +
+              `• **Corte degradado y barba**: 15€\n` +
+              `• **Alisado de pelo**: 12€ | **Lavar cabeza**: 2€ | **Solo peinar**: 3€\n\n` +
+              `¿Deseas que te reservemos turno para alguno de ellos?`
+      };
+    }
+
+    if (lower.includes('edad') || lower.includes('sexo') || lower.includes('niño') || lower.includes('niños') || lower.includes('chico') || lower.includes('hombre')) {
+      return {
+        text: `En **${biz.fullName}** atendemos a **varones de cualquier edad** (niños menores de 10 años a 8€, jóvenes y adultos).`
       };
     }
 

@@ -1,5 +1,5 @@
 <!-- ══════════════════════════════════════════
-     NAV
+     HEADER / NAVBAR (Kings Domain Style)
 ══════════════════════════════════════════ -->
 <app-navbar
   [brandName]="b().brandName"
@@ -8,351 +8,410 @@
 ></app-navbar>
 
 <!-- ══════════════════════════════════════════
-     HERO
+     SECTION 1: HERO ("A Cut Above." Style)
 ══════════════════════════════════════════ -->
-<section class="hero noise-overlay" id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-overlay"></div>
-
-  <!-- Floating golden particles -->
-  <div class="particles">
-    <span class="particle"></span>
-    <span class="particle"></span>
-    <span class="particle"></span>
-    <span class="particle"></span>
-    <span class="particle"></span>
-    <span class="particle"></span>
-  </div>
-
-  <div class="container hero-content">
-    <p class="hero-label" appScrollReveal revealAnimation="fade-up">
-      {{ b().heroLabel }}
-    </p>
-    <h1 class="hero-title" appScrollReveal revealAnimation="blur" [revealDelay]="100">
-      {{ b().fullName }}<br>
-      <span class="text-shimmer">{{ b().tagline }}</span>
-    </h1>
-    <p class="hero-subtitle" appScrollReveal revealAnimation="fade-up" [revealDelay]="250">
-      {{ b().heroDescription }}
-    </p>
-    <div class="hero-actions" appScrollReveal revealAnimation="fade-up" [revealDelay]="350">
-      <app-gold-button href="/chat" variant="primary" size="lg" buttonId="hero-reservar-btn" [pulse]="true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-          <line x1="16" y1="2" x2="16" y2="6"></line>
-          <line x1="8" y1="2" x2="8" y2="6"></line>
-          <line x1="3" y1="10" x2="21" y2="10"></line>
-        </svg>
-        Reservar Cita
-      </app-gold-button>
-      <app-gold-button [href]="b().whatsappUrl" target="_blank" variant="outline" size="lg" buttonId="hero-whatsapp-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
-          <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
-          <line x1="8.12" y1="8.12" x2="12" y2="12"/>
-        </svg>
-        WhatsApp
-      </app-gold-button>
-      <app-gold-button href="/chat" variant="outline" size="lg" buttonId="hero-chat-btn">
-        Asistente IA
-      </app-gold-button>
+<section class="kd-hero" id="hero">
+  <div class="kd-container">
+    <div class="kd-hero__top" appScrollReveal revealAnimation="slide-up">
+      <h1 class="kd-display-title">
+        Un Corte Superior.
+      </h1>
     </div>
-    <div class="hero-stats" appScrollReveal revealAnimation="fade-up" [revealDelay]="500">
-      <div class="stat">
-        <span class="stat-num">{{ b().heroStats[0].num }}</span>
-        <span class="stat-label">{{ b().heroStats[0].label }}</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat">
-        <span class="stat-num">{{ b().heroStats[1].num }}</span>
-        <span class="stat-label">{{ b().heroStats[1].label }}</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat">
-        <span class="stat-num">{{ b().heroStats[2].num }}</span>
-        <span class="stat-label">{{ b().heroStats[2].label }}</span>
-      </div>
-    </div>
-  </div>
 
-  <div class="hero-scroll-indicator animate-float" (click)="scrollToSection('nosotros')">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="6 9 12 15 18 9"/>
-    </svg>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     SOBRE NOSOTROS
-══════════════════════════════════════════ -->
-<section class="section" id="nosotros">
-  <div class="container">
-    <app-section-header
-      [label]="b().aboutLabel"
-      [title]="b().aboutTitle"
-      [highlightWord]="b().aboutHighlight"
-      [subtitle]="b().aboutSubtitle"
-    ></app-section-header>
-
-    <div class="about-grid">
-      <div class="about-card" appScrollReveal revealAnimation="fade-up" [revealDelay]="0">
-        <div class="about-card-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
+    <!-- Grayscale High-Contrast Visual Banner -->
+    <div class="kd-hero__banner" appScrollReveal revealAnimation="fade-in" [revealDelay]="120">
+      <img
+        src="/barber.jpg"
+        [alt]="b().fullName + ' - ' + b().tagline"
+        class="kd-hero__media"
+      />
+      <div class="kd-hero__banner-overlay">
+        <div class="kd-hero__banner-caption">
+          <p class="kd-hero__location-tag">{{ b().heroLabel }}</p>
+          <h2 class="kd-hero__brand-line">{{ b().fullName }} — {{ b().tagline }}.</h2>
         </div>
-        <h3 class="about-card-title">{{ b().aboutCards[0].title }}</h3>
-        <p class="about-card-desc">
-          {{ b().aboutCards[0].desc }}
-        </p>
-      </div>
-
-      <div class="about-card" appScrollReveal revealAnimation="fade-up" [revealDelay]="100">
-        <div class="about-card-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-          </svg>
+        <div class="kd-hero__banner-cta">
+          <a routerLink="/chat" class="kd-pill-cta" id="hero-reservar-btn">
+            Reservar Cita
+          </a>
+          <a [href]="b().whatsappUrl" target="_blank" rel="noopener" class="kd-pill-cta kd-pill-cta--outline" id="hero-whatsapp-btn">
+            WhatsApp Directo
+          </a>
         </div>
-        <h3 class="about-card-title">{{ b().aboutCards[1].title }}</h3>
-        <p class="about-card-desc">
-          {{ b().aboutCards[1].desc }}
-        </p>
-      </div>
-
-      <div class="about-card" appScrollReveal revealAnimation="fade-up" [revealDelay]="200">
-        <div class="about-card-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="m4.93 4.93 4.24 4.24"></path>
-            <path d="m14.83 9.17 4.24-4.24"></path>
-            <path d="m14.83 14.83 4.24 4.24"></path>
-            <path d="m9.17 14.83-4.24 4.24"></path>
-            <circle cx="12" cy="12" r="4"></circle>
-          </svg>
-        </div>
-        <h3 class="about-card-title">{{ b().aboutCards[2].title }}</h3>
-        <p class="about-card-desc">
-          {{ b().aboutCards[2].desc }}
-        </p>
-      </div>
-
-      <div class="about-card" appScrollReveal revealAnimation="fade-up" [revealDelay]="300">
-        <div class="about-card-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle>
-            <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle>
-            <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle>
-            <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle>
-            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
-          </svg>
-        </div>
-        <h3 class="about-card-title">{{ b().aboutCards[3].title }}</h3>
-        <p class="about-card-desc">
-          {{ b().aboutCards[3].desc }}
-        </p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════
-     SERVICIOS
+     SECTION 2: INFINITE MARQUEE TICKER #1
 ══════════════════════════════════════════ -->
-<section class="section section-alt" id="servicios">
-  <div class="container">
-    <app-section-header
-      label="Lo Que Hacemos"
-      title="Nuestros Servicios"
-      highlightWord="Servicios"
-      [subtitle]="b().servicesSectionSubtitle"
-    ></app-section-header>
+<div class="kd-marquee" aria-label="Especialidades y ubicación">
+  <div class="kd-marquee__track">
+    @for (item of topMarqueeItems(); track $index) {
+      <a class="kd-marquee__item" (click)="scrollToSection('servicios')">
+        <span>{{ item }}</span>
+      </a>
+    }
+  </div>
+</div>
 
-    <div class="services-grid">
-      @for (service of services; track service.name; let i = $index) {
-        <app-service-card
-          [icon]="service.icon"
-          [name]="service.name"
-          [description]="service.desc"
-          [duration]="service.duration"
-          [price]="service.price"
-          [animationDelay]="i * 100"
-          [id]="'service-' + i"
-        ></app-service-card>
+<!-- ══════════════════════════════════════════
+     SECTION 3: EDITORIAL IMAGE TRIO #1 (Clip-Path Curtain Reveal)
+══════════════════════════════════════════ -->
+<section class="kd-gallery-trio">
+  <div class="kd-container">
+    <div class="kd-gallery-trio__grid">
+      <figure class="kd-gallery-trio__item kd-gallery-trio__item--left" appScrollReveal revealAnimation="clip-down" [revealDelay]="0">
+        <img src="/barber-carlos.png" [alt]="b().fullName + ' corte de precisión'" loading="lazy" />
+      </figure>
+      <figure class="kd-gallery-trio__item kd-gallery-trio__item--center" appScrollReveal revealAnimation="clip-up" [revealDelay]="100">
+        <img src="/hero.png" [alt]="b().fullName + ' interior y estilo'" loading="lazy" />
+      </figure>
+      <figure class="kd-gallery-trio__item kd-gallery-trio__item--right" appScrollReveal revealAnimation="clip-down" [revealDelay]="200">
+        <img src="/barber-miguel.png" [alt]="b().fullName + ' maestría en barbería'" loading="lazy" />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 4: "Born From Tradition." (Sobre Nosotros)
+══════════════════════════════════════════ -->
+<section class="kd-section" id="nosotros">
+  <div class="kd-container">
+    <div class="kd-editorial-split">
+      <div class="kd-editorial-split__left" appScrollReveal revealAnimation="slide-up">
+        <span class="kd-section-kicker">01 / HISTORIA &amp; OFICIO</span>
+        <h2 class="kd-display-title">
+          Nacidos de la Tradición.
+        </h2>
+        <div class="kd-editorial-badge-box">
+          <p class="kd-editorial-badge-box__title">{{ b().fullName }}</p>
+          <p class="kd-editorial-badge-box__sub">Madrid Centro · C. de San Marcos, 1</p>
+          <p class="kd-editorial-badge-box__hours">M–V: 09:30–14:00 y 16:30–20:30 · S: 09:00–14:00</p>
+        </div>
+      </div>
+
+      <div class="kd-editorial-split__right" appScrollReveal revealAnimation="slide-up" [revealDelay]="100">
+        <p class="kd-editorial-lead">
+          {{ b().heroDescription }}
+        </p>
+        <p class="kd-editorial-lead kd-editorial-lead--sub">
+          {{ b().aboutSubtitle }}
+        </p>
+        <div class="kd-audience-badge">
+          <span>Atención especializada: Varones de cualquier edad (niños menores de 10, jóvenes y adultos)</span>
+        </div>
+        <div class="kd-editorial-actions">
+          <a routerLink="/chat" class="kd-pill-cta" id="about-book-btn">
+            Reservar Ahora
+          </a>
+          <a (click)="scrollToSection('servicios')" class="kd-pill-cta kd-pill-cta--outline">
+            Ver Servicios
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 5: EDITORIAL IMAGE TRIO #2 + "Discreet Luxury."
+══════════════════════════════════════════ -->
+<section class="kd-gallery-trio kd-gallery-trio--alt">
+  <div class="kd-container">
+    <div class="kd-gallery-trio__grid">
+      <figure class="kd-gallery-trio__item kd-gallery-trio__item--left" appScrollReveal revealAnimation="clip-down" [revealDelay]="0">
+        <img src="/barber.jpg" [alt]="b().fullName + ' sillón clásico'" loading="lazy" />
+      </figure>
+      <figure class="kd-gallery-trio__item kd-gallery-trio__item--center" appScrollReveal revealAnimation="clip-up" [revealDelay]="100">
+        <img src="/barber-roberto.png" [alt]="b().fullName + ' detalle y acabado'" loading="lazy" />
+      </figure>
+      <figure class="kd-gallery-trio__item kd-gallery-trio__item--right" appScrollReveal revealAnimation="clip-down" [revealDelay]="200">
+        <img src="/hero.png" [alt]="b().fullName + ' ambiente exclusivo'" loading="lazy" />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="kd-section kd-section--overlap" id="filosofia">
+  <div class="kd-container">
+    <div class="kd-editorial-split kd-editorial-split--compact">
+      <div class="kd-editorial-split__left" appScrollReveal revealAnimation="slide-up">
+        <span class="kd-section-kicker">02 / NUESTRA FILOSOFÍA</span>
+        <h2 class="kd-display-title">
+          Lujo Discreto.
+        </h2>
+      </div>
+      <div class="kd-editorial-split__right" appScrollReveal revealAnimation="slide-up" [revealDelay]="80">
+        <p class="kd-editorial-lead">
+          Solo nos despedimos cuando sales a enfrentarte al mundo con más confianza y actitud que cuando entraste por nuestra puerta.
+        </p>
+        <p class="kd-editorial-lead kd-editorial-lead--sub">
+          Atención minuciosa para varones de cualquier edad: tijera clásica, navaja esterilizada, degradados milimétricos y el mejor ambiente urbano.
+        </p>
+      </div>
+    </div>
+
+    <!-- 4 Pilares Editoriales con Bordes 1px Solid #FFFFFF -->
+    <div class="kd-pillars-grid">
+      @for (card of b().aboutCards; track card.title; let i = $index) {
+        <article class="kd-pillar-cell" appScrollReveal revealAnimation="slide-up" [revealDelay]="i * 60">
+          <span class="kd-pillar-cell__index">0{{ i + 1 }}</span>
+          <h3 class="kd-pillar-cell__title">{{ card.title }}.</h3>
+          <p class="kd-pillar-cell__desc">{{ card.desc }}</p>
+        </article>
       }
     </div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════
-     VIDEO SHOWCASE (YOUTUBE EMBED)
+     SECTION 6: "Barber Shop Locations." (Estudio & Vídeo Showcase)
 ══════════════════════════════════════════ -->
-<section class="section" id="video">
-  <div class="container">
-    <app-section-header
-      label="En Acción"
-      [title]="b().videoTitle"
-      highlightWord="Experiencia"
-      [subtitle]="b().videoSubtitle"
-    ></app-section-header>
+<section class="kd-section" id="estudio">
+  <div class="kd-container" id="video">
+    <h2 class="kd-display-title" appScrollReveal revealAnimation="slide-up">
+      Nuestro Estudio.
+    </h2>
 
-    <div class="video-showcase-wrap" appScrollReveal revealAnimation="scale">
-      <div class="video-player-container">
-        <div class="video-responsive">
-          <iframe
-            [src]="safeVideoUrl()"
-            [title]="b().videoIframeTitle"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
+    <!-- Layout de 2 columnas estilo Kings Domain Location Showcase -->
+    <div class="kd-location-showcase">
+      <!-- Columna Izquierda: Vídeo en B/N + Barra de 4 enlaces con borde blanco 1px -->
+      <div class="kd-location-showcase__media-col" appScrollReveal revealAnimation="fade-in">
+        <div class="kd-video-frame">
+          <div class="kd-video-responsive">
+            <iframe
+              [src]="safeVideoUrl()"
+              [title]="b().videoIframeTitle"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
         </div>
+
+        <!-- Barra de 4 acciones conectadas (progress-custom-linkwrap de Kings Domain) -->
+        <ul class="kd-action-strip">
+          <li class="kd-action-strip__item">
+            <a [href]="b().googleMapsUrl || '#contacto'" [target]="b().googleMapsUrl ? '_blank' : '_self'" rel="noopener">
+              <span>Cómo Llegar</span>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 13L13 3M13 3H5M13 3V11"/>
+              </svg>
+            </a>
+          </li>
+          <li class="kd-action-strip__item">
+            <a [href]="'tel:' + b().contactPhoneClean">
+              <span>Llamar al Salón</span>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 13L13 3M13 3H5M13 3V11"/>
+              </svg>
+            </a>
+          </li>
+          <li class="kd-action-strip__item">
+            <a (click)="scrollToSection('contacto')">
+              <span>Ver Horarios</span>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 13L13 3M13 3H5M13 3V11"/>
+              </svg>
+            </a>
+          </li>
+          <li class="kd-action-strip__item">
+            <a routerLink="/chat">
+              <span>Asistente IA</span>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 13L13 3M13 3H5M13 3V11"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
       </div>
 
-      <div class="video-footer-bar">
-        <div class="video-footer-text">
-          <h4>{{ b().videoFooterPrompt }}</h4>
-          <p>Reserva tu cita al <strong>{{ b().videoFooterPhone }}</strong> o mediante DM en nuestro Instagram <strong>{{ b().videoFooterInstagram }}</strong>.</p>
-        </div>
-        <div class="video-footer-actions">
-          <app-gold-button [href]="b().whatsappUrl" target="_blank" variant="primary" size="md" buttonId="video-booking-btn">
-            Pedir Cita WhatsApp
-          </app-gold-button>
-          <app-gold-button [href]="b().videoWatchUrl" target="_blank" variant="outline" size="md" buttonId="video-yt-link-btn">
+      <!-- Columna Derecha: Ficha del Salón + Botón Book Now -->
+      <div class="kd-location-showcase__info-col" appScrollReveal revealAnimation="slide-up" [revealDelay]="150">
+        <h3 class="kd-location-showcase__brand">{{ b().fullName }}:</h3>
+        <h4 class="kd-location-showcase__area">{{ b().heroStats[0].num }}</h4>
+        <p class="kd-location-showcase__address" [innerHTML]="b().contactAddressHtml"></p>
+        <p class="kd-location-showcase__phone">
+          <a [href]="'tel:' + b().contactPhoneClean">{{ b().contactPhone }}</a>
+        </p>
+        <div class="kd-location-showcase__cta">
+          <a [href]="b().whatsappUrl" target="_blank" rel="noopener" class="kd-pill-cta" id="video-booking-btn">
+            Reservar Ahora
+          </a>
+          <a [href]="b().videoWatchUrl" target="_blank" rel="noopener" class="kd-pill-cta kd-pill-cta--outline" id="video-yt-link-btn">
             Ver en YouTube
-          </app-gold-button>
+          </a>
         </div>
+      </div>
+    </div>
+
+    <!-- Cuadrícula Escalonada Asimétrica (locationlist-linkwrap de Kings Domain) -->
+    <div class="kd-staggered-locations" appScrollReveal revealAnimation="slide-up" [revealDelay]="200">
+      <ul>
+        @for (item of staggeredHighlights; track item.label) {
+          <li>
+            <a (click)="scrollToSection(item.sectionId)">{{ item.label }}</a>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 7: EDITORIAL DUO + "Services." (Full-Width Accordion)
+══════════════════════════════════════════ -->
+<section class="kd-gallery-duo">
+  <div class="kd-container">
+    <div class="kd-gallery-duo__grid">
+      <figure class="kd-gallery-duo__item kd-gallery-duo__item--small" appScrollReveal revealAnimation="clip-down" [revealDelay]="0">
+        <img src="/barber-carlos.png" [alt]="b().fullName + ' corte clásico y urbano'" loading="lazy" />
+      </figure>
+      <figure class="kd-gallery-duo__item kd-gallery-duo__item--large" appScrollReveal revealAnimation="clip-up" [revealDelay]="200">
+        <img src="/barber.jpg" [alt]="b().fullName + ' precisión en cada detalle'" loading="lazy" />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="kd-section" id="servicios">
+  <div class="kd-container" id="precios">
+    <h2 class="kd-display-title" appScrollReveal revealAnimation="slide-up">
+      Servicios &amp; Tarifas.
+    </h2>
+
+    <div class="kd-services-meta" appScrollReveal revealAnimation="slide-up" [revealDelay]="60">
+      <p class="kd-services-meta__text">
+        <span class="kd-services-meta__tag">Duración aproximada: 20 – 30 min cada uno</span>
+        <span class="kd-services-meta__tag">Atención: Varones de cualquier edad</span>
+        <span class="kd-services-meta__tag">M – V: 9:30–14:00 y 16:30–20:30 | S: 9:00–14:00</span>
+      </p>
+    </div>
+
+    <!-- Acordeón Minimalista Full-Width estilo Kings Domain (.service-accrodian-wrap) -->
+    <div class="kd-accordion" appScrollReveal revealAnimation="slide-up" [revealDelay]="120">
+      @for (svc of accordionServices(); track svc.name; let i = $index) {
+        <div
+          class="kd-accordion__item"
+          [class.kd-accordion__item--active]="openServiceIndex() === i"
+          [id]="'service-' + i"
+        >
+          <button
+            type="button"
+            class="kd-accordion__header"
+            (click)="toggleServiceAccordion(i)"
+            [attr.aria-expanded]="openServiceIndex() === i"
+          >
+            <span class="kd-accordion__title">
+              {{ svc.name }}
+              @if (svc.popular) {
+                <em class="kd-accordion__tag">Destacado</em>
+              }
+            </span>
+            <span class="kd-accordion__header-right">
+              <span class="kd-accordion__price-preview">{{ svc.priceLabel }}</span>
+              <span class="kd-accordion__icon" aria-hidden="true">
+                @if (openServiceIndex() === i) {
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <line x1="4" y1="12" x2="20" y2="12"/>
+                  </svg>
+                } @else {
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <line x1="12" y1="4" x2="12" y2="20"/>
+                    <line x1="4" y1="12" x2="20" y2="12"/>
+                  </svg>
+                }
+              </span>
+            </span>
+          </button>
+
+          @if (openServiceIndex() === i) {
+            <div class="kd-accordion__content">
+              <div class="kd-accordion__col-5">
+                <h5 class="kd-accordion__price">{{ svc.priceLabel }}</h5>
+                <p class="kd-accordion__duration">Duración estimada: {{ svc.duration }}</p>
+              </div>
+              <div class="kd-accordion__col-7">
+                <p class="kd-accordion__desc">{{ svc.desc }}</p>
+                <div class="kd-accordion__actions">
+                  <a routerLink="/chat" class="kd-pill-cta">
+                    Reservar Ahora
+                  </a>
+                  <a [href]="b().whatsappUrl" target="_blank" rel="noopener" class="kd-pill-cta kd-pill-cta--outline">
+                    Consultar por WhatsApp
+                  </a>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 8: "Higiene Innegociable." (Protocolo Kings Domain)
+══════════════════════════════════════════ -->
+<section class="kd-section" id="higiene">
+  <div class="kd-container">
+    <div class="kd-hygiene-layout">
+      <div class="kd-hygiene-layout__left" appScrollReveal revealAnimation="slide-up">
+        <h2 class="kd-display-title">
+          Higiene Innegociable.
+        </h2>
+        <p class="kd-editorial-lead">
+          {{ b().hygieneSubtitle }}
+        </p>
+        <div class="kd-editorial-actions">
+          <a [href]="b().whatsappUrl" target="_blank" rel="noopener" class="kd-pill-cta" id="hygiene-cta-btn">
+            Reservar con Tranquilidad
+          </a>
+        </div>
+      </div>
+
+      <!-- Lista con viñetas cuadradas blancas de 8x8px (.main-orderlist de Kings Domain) -->
+      <div class="kd-hygiene-layout__right" appScrollReveal revealAnimation="slide-up" [revealDelay]="150">
+        <ul class="kd-orderlist">
+          <li>
+            <strong>Lamas de Afeitar de Uso Único.</strong>
+            <p>Para cada cliente abrimos una lama nueva y desechable frente a ti. Cero riesgos, corte limpio y máxima seguridad dérmica.</p>
+          </li>
+          <li>
+            <strong>Toallas Higienizadas con Calor.</strong>
+            <p>Toallas tratadas y esterilizadas tras cada servicio para garantizar un contacto suave, fresco y libre de agentes externos.</p>
+          </li>
+          <li>
+            <strong>Instrumental Esterilizado Diariamente.</strong>
+            <p>Desinfección sistemática de máquinas de corte, trimmers de contorno, tijeras y peines profesionales antes de cada cita.</p>
+          </li>
+          <li>
+            <strong>Sillones y Espacios Desinfectados.</strong>
+            <p>Limpieza continua de sillones de barbero, lavacabezas y zona de espera para tu total tranquilidad.</p>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════
-     HIGIENE INNEGOCIABLE
+     SECTION 9: "Nuestro Equipo." (The Barbers & Join Our Team)
 ══════════════════════════════════════════ -->
-<section class="section section-alt" id="higiene">
-  <div class="container">
-    <div class="text-center" style="text-align: center; margin-bottom: 24px;">
-      <span class="hygiene-badge-wrap" appScrollReveal revealAnimation="fade-up">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-        </svg>
-        Compromiso Sanitario Garantizado
-      </span>
+<section class="kd-section" id="equipo">
+  <div class="kd-container">
+    <div class="kd-team-intro">
+      <h2 class="kd-display-title" appScrollReveal revealAnimation="slide-up">
+        Nuestro Equipo.
+      </h2>
+      <p class="kd-editorial-lead" appScrollReveal revealAnimation="slide-up" [revealDelay]="100">
+        {{ b().teamSubtitle }}
+      </p>
     </div>
 
-    <app-section-header
-      label="Seguridad & Protocolo"
-      title="La Higiene es Innegociable"
-      highlightWord="Innegociable"
-      [subtitle]="b().hygieneSubtitle"
-    ></app-section-header>
-
-    <div class="hygiene-grid">
-      <div class="hygiene-card" appScrollReveal revealAnimation="fade-up" [revealDelay]="0">
-        <div class="hygiene-icon-wrap">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
-        </div>
-        <h3 class="hygiene-card-title">Lamas de Afeitar de Uso Único</h3>
-        <p class="hygiene-card-desc">
-          Para cada cliente abrimos una lama nueva y desechable. Cero riesgos, corte limpio y máxima seguridad dérmica garantizada.
-        </p>
-      </div>
-
-      <div class="hygiene-card" appScrollReveal revealAnimation="fade-up" [revealDelay]="100">
-        <div class="hygiene-icon-wrap">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <path d="m9 15 2 2 4-4"></path>
-          </svg>
-        </div>
-        <h3 class="hygiene-card-title">Toallas Higienizadas</h3>
-        <p class="hygiene-card-desc">
-          Toallas esterilizadas y tratadas con calor tras cada uso. Un contacto suave, fresco y con todas las garantías de desinfección.
-        </p>
-      </div>
-
-      <div class="hygiene-card" appScrollReveal revealAnimation="fade-up" [revealDelay]="200">
-        <div class="hygiene-icon-wrap">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
-            <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
-            <line x1="8.12" y1="8.12" x2="12" y2="12"/>
-          </svg>
-        </div>
-        <h3 class="hygiene-card-title">Herramientas Esterilizadas</h3>
-        <p class="hygiene-card-desc">
-          Desinfección sistemática y diaria de máquinas de cortar, recortadoras de contornos, peines y tijeras profesionales.
-        </p>
-      </div>
-
-      <div class="hygiene-card" appScrollReveal revealAnimation="fade-up" [revealDelay]="300">
-        <div class="hygiene-icon-wrap">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-          </svg>
-        </div>
-        <h3 class="hygiene-card-title">Espacios de Uso Común</h3>
-        <p class="hygiene-card-desc">
-          Garantizamos la desinfección recurrente de lavacabezas, fregadores, sillones de corte y la zona de descanso y sofás.
-        </p>
-      </div>
-    </div>
-
-    <div class="hygiene-guarantee-strip" appScrollReveal revealAnimation="fade-up" [revealDelay]="400">
-      <div class="hygiene-guarantee-text">
-        <svg class="hygiene-guarantee-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
-        </svg>
-        <div>
-          <h4 style="font-size: 1.05rem; font-family: var(--font-display); color: var(--text-primary);">Higiene y Salud Certificada en Cada Servicio</h4>
-          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0;">Tu tranquilidad es lo primero. Cuidamos cada detalle para que disfrutes de tu cita sin ninguna preocupación.</p>
-        </div>
-      </div>
-      <app-gold-button [href]="b().whatsappUrl" target="_blank" variant="primary" size="md" buttonId="hygiene-cta-btn">
-        Reservar con Tranquilidad
-      </app-gold-button>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     PRECIOS
-══════════════════════════════════════════ -->
-<section class="section" id="precios">
-  <div class="container">
-    <app-section-header
-      label="Tarifas Claras"
-      title="Lista de Precios"
-      highlightWord="Precios"
-      [subtitle]="b().pricingSubtitle"
-    ></app-section-header>
-
-    <app-pricing-table
-      [items]="pricing"
-      ctaText="Reservar Cita por WhatsApp"
-      [ctaLink]="b().whatsappUrl"
-    ></app-pricing-table>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     EQUIPO
-══════════════════════════════════════════ -->
-<section class="section section-alt" id="equipo">
-  <div class="container">
-    <app-section-header
-      label="Los Profesionales"
-      title="Nuestro Equipo"
-      highlightWord="Equipo"
-      [subtitle]="b().teamSubtitle"
-    ></app-section-header>
-
-    <div class="team-grid">
+    <div class="kd-team-grid">
       @for (barber of barbers; track barber.name; let i = $index) {
         <app-team-card
           [name]="barber.name"
@@ -369,112 +428,76 @@
 </section>
 
 <!-- ══════════════════════════════════════════
-     TESTIMONIOS
+     SECTION 10: "Reseñas." (Testimonials)
 ══════════════════════════════════════════ -->
-<section class="section" id="testimonios">
-  <div class="container">
-    <app-section-header
-      label="Clientes & Amigos"
-      title="Reseñas de Quienes Nos Eligen"
-      highlightWord="Eligen"
-    ></app-section-header>
+<section class="kd-section" id="testimonios">
+  <div class="kd-container">
+    <h2 class="kd-display-title" appScrollReveal revealAnimation="slide-up">
+      Voces del Estudio.
+    </h2>
 
-    <app-testimonial-carousel
-      [testimonials]="testimonials"
-      [autoplay]="true"
-      [interval]="5000"
-    ></app-testimonial-carousel>
-
-    <!-- Social links -->
-    <div class="social-links" appScrollReveal revealAnimation="scale">
-      <p class="social-label">{{ b().socialInstagramText }}</p>
-      <div class="social-icons">
-        <a [href]="b().contactInstagramUrl" target="_blank" rel="noopener" class="social-icon" id="social-instagram" [attr.aria-label]="'Instagram ' + b().contactInstagramHandle" appMagnetic [magneticStrength]="0.2" [title]="b().contactInstagramHandle">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </a>
-        <a [href]="b().whatsappUrl" target="_blank" rel="noopener" class="social-icon" id="social-whatsapp" [attr.aria-label]="'WhatsApp ' + b().whatsappNumber" appMagnetic [magneticStrength]="0.2" [title]="'WhatsApp ' + b().whatsappNumber">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        </a>
-        <a [href]="'tel:' + b().contactPhoneClean" class="social-icon" id="social-phone" [attr.aria-label]="'Llamar ' + b().contactPhoneClean" appMagnetic [magneticStrength]="0.2" [title]="'Llamar ' + b().contactPhoneClean">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-          </svg>
-        </a>
-      </div>
+    <div class="kd-testimonials-wrap">
+      <app-testimonial-carousel
+        [testimonials]="testimonials"
+        [autoplay]="true"
+        [interval]="5500"
+      ></app-testimonial-carousel>
     </div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════
-     CONTACTO & MAPA
+     SECTION 11: "Contacto." (Contact Us & Grayscale Map)
 ══════════════════════════════════════════ -->
-<section class="section section-alt" id="contacto">
-  <div class="container">
-    <app-section-header
-      label="Encuéntranos"
-      title="Contacto & Ubicación"
-      highlightWord="Ubicación"
-    ></app-section-header>
+<section class="kd-section" id="contacto">
+  <div class="kd-container">
+    <h2 class="kd-display-title" appScrollReveal revealAnimation="slide-up">
+      Contacto.
+    </h2>
 
-    <div class="contact-grid">
-      <div class="contact-info">
-        <app-contact-card
-          icon="location"
-          label="Dirección"
-          [value]="b().contactAddressHtml"
-          [animationDelay]="0"
-        ></app-contact-card>
-        <app-contact-card
-          icon="phone"
-          label="Teléfono / Citas"
-          [value]="b().contactPhone"
-          [href]="'tel:' + b().contactPhoneClean"
-          [isLink]="true"
-          contactId="contact-phone"
-          [animationDelay]="100"
-        ></app-contact-card>
-        <app-contact-card
-          icon="email"
-          label="Instagram Oficial"
-          [value]="b().contactInstagramHandle + ' (Citas por DM)'"
-          [href]="b().contactInstagramUrl"
-          [isLink]="true"
-          contactId="contact-instagram"
-          [animationDelay]="200"
-        ></app-contact-card>
-        <app-contact-card
-          icon="clock"
-          label="Ambiente & Horario"
-          [value]="b().contactScheduleHtml"
-          [animationDelay]="300"
-        ></app-contact-card>
-        @if (b().annualCalendar) {
-          <app-contact-card
-            icon="clock"
-            label="Calendario Anual"
-            [value]="b().annualCalendar || ''"
-            [animationDelay]="350"
-          ></app-contact-card>
-        }
+    <div class="kd-contact-grid">
+      <!-- Columna Izquierda: Información Directa y Horarios estilo Kings Domain -->
+      <div class="kd-contact-info" appScrollReveal revealAnimation="slide-up" [revealDelay]="100">
+        <div class="kd-contact-block">
+          <h4 class="kd-contact-block__heading">Dirección</h4>
+          <p class="kd-contact-block__large" [innerHTML]="b().contactAddressHtml"></p>
+        </div>
 
-        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px;" appScrollReveal revealAnimation="fade-up" [revealDelay]="400">
-          <app-gold-button [href]="b().whatsappUrl" target="_blank" variant="primary" size="md" buttonId="contact-whatsapp-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
-            Cita por WhatsApp
-          </app-gold-button>
-          <app-gold-button href="/chat" variant="outline" size="md" buttonId="contact-chat-btn">
-            Asistente Virtual IA
-          </app-gold-button>
+        <div class="kd-contact-block">
+          <h4 class="kd-contact-block__heading">Teléfono &amp; Reservas</h4>
+          <a [href]="'tel:' + b().contactPhoneClean" class="kd-contact-block__phone" id="contact-phone">
+            {{ b().contactPhone }}
+          </a>
+          <a [href]="b().contactInstagramUrl" target="_blank" rel="noopener" class="kd-contact-block__ig" id="contact-instagram">
+            Instagram: {{ b().contactInstagramHandle }} ↗
+          </a>
+        </div>
+
+        <div class="kd-contact-block">
+          <h4 class="kd-contact-block__heading">Horario de Apertura</h4>
+          <div class="kd-contact-block__schedule" [innerHTML]="b().contactScheduleHtml"></div>
+          @if (b().annualCalendar) {
+            <p class="kd-contact-block__calendar">{{ b().annualCalendar }}</p>
+          }
+        </div>
+
+        <div class="kd-contact-actions">
+          <a routerLink="/chat" class="kd-pill-cta" id="contact-chat-btn">
+            Reservar Cita Online
+          </a>
+          <a [href]="b().whatsappUrl" target="_blank" rel="noopener" class="kd-pill-cta kd-pill-cta--outline" id="contact-whatsapp-btn">
+            Escribir por WhatsApp
+          </a>
           @if (b().googleMapsUrl) {
-            <app-gold-button [href]="b().googleMapsUrl || '#'" target="_blank" variant="outline" size="md" buttonId="contact-maps-btn">
-              Ver en Google Maps
-            </app-gold-button>
+            <a [href]="b().googleMapsUrl" target="_blank" rel="noopener" class="kd-pill-cta kd-pill-cta--outline" id="contact-maps-btn">
+              Abrir en Google Maps
+            </a>
           }
         </div>
       </div>
-      <div class="map-wrap" appScrollReveal revealAnimation="fade-right" [revealDelay]="200">
+
+      <!-- Columna Derecha: Mapa en Escala de Grises (filter: grayscale(100%)) -->
+      <div class="kd-map-wrap" appScrollReveal revealAnimation="fade-in" [revealDelay]="200">
         <iframe
           id="map-iframe"
           [src]="safeMapUrl()"
@@ -489,22 +512,62 @@
 </section>
 
 <!-- ══════════════════════════════════════════
-     FOOTER
+     SECTION 12: PRE-FOOTER MARQUEE #2 (Kings Domain Style)
 ══════════════════════════════════════════ -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-      <span class="footer-logo-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
-          <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
-          <line x1="8.12" y1="8.12" x2="12" y2="12"/>
-        </svg>
-      </span>
-      <span class="footer-name">{{ b().brandName }} <em>{{ b().brandAccent }}</em></span>
-      <p class="footer-tagline">{{ b().footerTagline }}</p>
+<div class="kd-marquee kd-marquee--footer" aria-label="Reserva tu cita">
+  <div class="kd-marquee__track">
+    @for (n of [1, 2, 3, 4]; track n) {
+      <span class="kd-marquee__promo">Reserva Tu Experiencia en {{ b().fullName }}</span>
+      <a routerLink="/chat" class="kd-marquee__pill">Reservar Ahora</a>
+      <span class="kd-marquee__promo">Asesoramiento Personalizado &amp; Estilo</span>
+      <a [href]="b().whatsappUrl" target="_blank" rel="noopener" class="kd-marquee__pill">WhatsApp {{ b().contactPhone }}</a>
+    }
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 13: MONUMENTAL FOOTER ("Made In Madrid." + Giant Wordmark)
+══════════════════════════════════════════ -->
+<footer class="kd-footer">
+  <div class="kd-container">
+    <div class="kd-footer__top">
+      <div class="kd-footer__col-title">
+        <h3 class="kd-footer__made">Hecho en Madrid.</h3>
+        <p class="kd-footer__sub">{{ b().footerTagline }}</p>
+      </div>
+
+      <ul class="kd-footer__nav">
+        <li><a (click)="scrollToSection('nosotros')"><span>Nosotros</span></a></li>
+        <li><a (click)="scrollToSection('servicios')"><span>Servicios</span></a></li>
+        <li><a (click)="scrollToSection('estudio')"><span>Estudio</span></a></li>
+        <li><a (click)="scrollToSection('higiene')"><span>Higiene</span></a></li>
+        <li><a (click)="scrollToSection('equipo')"><span>Equipo</span></a></li>
+        <li><a (click)="scrollToSection('contacto')"><span>Contacto</span></a></li>
+        <li><a routerLink="/chat"><span>Reservar Cita</span></a></li>
+      </ul>
+
+      <div class="kd-footer__socials">
+        <a [href]="b().contactInstagramUrl" target="_blank" rel="noopener" id="social-instagram" [attr.aria-label]="'Instagram ' + b().contactInstagramHandle">
+          Instagram ↗
+        </a>
+        <a [href]="b().whatsappUrl" target="_blank" rel="noopener" id="social-whatsapp" [attr.aria-label]="'WhatsApp ' + b().whatsappNumber">
+          WhatsApp ↗
+        </a>
+        <a [href]="'tel:' + b().contactPhoneClean" id="social-phone" [attr.aria-label]="'Llamar ' + b().contactPhoneClean">
+          {{ b().contactPhone }} ↗
+        </a>
+      </div>
     </div>
-    <p class="footer-copy">© {{ currentYear }} {{ b().footerCopyText }}</p>
+
+    <!-- Wordmark Monumental de extremo a extremo (.kings-title de Kings Domain) -->
+    <div class="kd-footer__giant-brand" (click)="scrollToSection('hero')">
+      <span>{{ b().brandName }} {{ b().brandAccent }}</span>
+    </div>
+
+    <div class="kd-footer__bottom">
+      <p>© {{ currentYear }} {{ b().footerCopyText }}</p>
+      <a routerLink="/chat" class="kd-footer__policy-link">Reservas Online &amp; Asistente IA</a>
+    </div>
   </div>
 </footer>
 
@@ -515,7 +578,7 @@
   icon="scissors"
   label="Reservar Cita"
   href="/chat"
-  [pulse]="true"
+  [pulse]="false"
   position="bottom-right"
   fabId="floating-chat-btn"
   [ariaLabel]="b().floatingButtonAriaLabel"
