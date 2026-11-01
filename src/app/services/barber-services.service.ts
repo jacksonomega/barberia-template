@@ -5,7 +5,7 @@ import { Observable, of, shareReplay, tap, catchError } from 'rxjs';
 import { PublicService } from '../shared/models/barber-service.model';
 
 export const DEFAULT_PUBLIC_SERVICES: PublicService[] = [
-  { id: 3, name: 'Corte degradado a Navaja', service: 'Corte degradado a Navaja', price: 10.0 },
+  { id: 3, name: 'Corte degradado a Navaja 2', service: 'Corte degradado a Navaja 2', price: 10.0 },
   { id: 4, name: 'Corte degradado a cero', service: 'Corte degradado a cero', price: 9.0 },
   { id: 5, name: 'Corte de pelo con forma', service: 'Corte de pelo con forma', price: 9.0 },
   { id: 6, name: 'Corte rapado a maquina', service: 'Corte rapado a maquina', price: 6.0 },
@@ -19,6 +19,7 @@ export const DEFAULT_PUBLIC_SERVICES: PublicService[] = [
   { id: 15, name: 'Alisado de pelo', service: 'Alisado de pelo', price: 12.0 },
   { id: 16, name: 'Corte de pelo a tijera', service: 'Corte de pelo a tijera', price: 9.0 },
   { id: 17, name: 'Niños menores de 10 años', service: 'Niños menores de 10 años', price: 8.0 },
+  { id: 19, name: 'Servicio de prubea', service: 'Servicio de prubea', price: 12.0 },
 ];
 
 @Injectable({
@@ -57,7 +58,10 @@ export class BarberServicesService {
   private inFlightRequest$: Observable<PublicService[]> | null = null;
 
   constructor() {
-    if (this.isBrowser && !this._loaded() && !this._loading()) {
+    // En el navegador siempre solicitamos datos frescos en segundo plano para reflejar cambios inmediatos del panel
+    if (this.isBrowser) {
+      this.loadServices(true).subscribe();
+    } else if (!this._loaded() && !this._loading()) {
       this.loadServices().subscribe();
     }
   }

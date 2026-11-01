@@ -63,7 +63,10 @@ export class EmployeeService {
   private inFlightRequest$: Observable<Employee[]> | null = null;
 
   constructor() {
-    if (this.isBrowser && !this._loaded() && !this._loading()) {
+    // En el navegador siempre solicitamos datos frescos en segundo plano para reflejar cambios inmediatos del panel
+    if (this.isBrowser) {
+      this.loadEmployees(true).subscribe();
+    } else if (!this._loaded() && !this._loading()) {
       this.loadEmployees().subscribe();
     }
   }

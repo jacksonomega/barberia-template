@@ -29,8 +29,10 @@ export class CompanyService {
   private inFlightRequest$: Observable<CompanyData> | null = null;
 
   constructor() {
-    // Si no está cargado, iniciamos la petición
-    if (!this._loaded() && !this._loading()) {
+    // En el navegador siempre solicitamos datos frescos en segundo plano para reflejar cambios inmediatos del panel
+    if (this.isBrowser) {
+      this.loadCompany(true).subscribe();
+    } else if (!this._loaded() && !this._loading()) {
       this.loadCompany().subscribe();
     }
   }
