@@ -205,46 +205,55 @@ export const REAL_QUARTER_DATA: BarberBusinessData = {
 
   testimonials: [
     {
-      name: 'Carlos M.',
+      name: 'Manuel Godoy Elvira',
       rating: 5,
-      text: 'El degradado a navaja y el perfilado de barba quedaron impecables. La atención para varones de todas las edades es de diez.',
-      date: 'Hace 3 días',
-      avatar: 'CM',
+      text: 'Muy buena barbería, yo solo voy a esta, nunca me han cortado el pelo mal, muy expertos y rápidos. 5 ⭐',
+      date: 'Google Maps · Hace un año',
+      avatar: 'MG',
     },
     {
-      name: 'David R.',
+      name: 'Edgar Pitarch V.',
       rating: 5,
-      text: 'Traje a mi hijo para el corte infantil y a mí me hicieron un fade a cero. Grandes profesionales, puntuales y precios muy honestos.',
-      date: 'Hace 1 semana',
-      avatar: 'DR',
+      text: 'Trato genial, buen corte y buen precio 👌',
+      date: 'Google Maps · Hace 5 meses',
+      avatar: 'EP',
     },
     {
-      name: 'Álvaro S.',
+      name: 'Fernando Sánchez Camacho',
       rating: 5,
-      text: 'Llevo meses viniendo aquí. El pack de corte degradado y formar barba por 15€ es imbatible en calidad.',
-      date: 'Hace 2 semanas',
-      avatar: 'AS',
+      text: 'Peluquería espectacular, buen trato, buenos cortes y buenos precios, estoy encantado con el servicio, el corte y el trato',
+      date: 'Google Maps · Hace 2 años',
+      avatar: 'FS',
+    },
+    {
+      name: 'JR DC',
+      rating: 4,
+      text: 'Peluquería de pueblo , bien , limpio y ameno el personal,  precio buenos , hay que ayudar a los nuevos emprendedores',
+      date: 'Google Maps · Hace 4 meses',
+      avatar: 'JR',
     },
   ],
 
   socialInstagramText: 'Síguenos en Instagram y Reserva por WhatsApp',
   socialPhone: '+34 632 77 91 83',
   contactAddressHtml:
-    'C. de San Marcos, 1<br>Centro<br>28004 Madrid, España',
+    'Av. de Marcial Llorente, 114 LC 6<br>28696 Pelayos de la Presa, Madrid',
   contactPhone: '+34 632 77 91 83',
   contactPhoneClean: '34632779183',
-  contactInstagramHandle: '@hisbarberia',
-  contactInstagramUrl: 'https://instagram.com/hisbarberia',
+  contactInstagramHandle: '@goldbarbery',
+  contactInstagramUrl: 'https://instagram.com/goldbarbery/',
   contactScheduleHtml:
-    '<strong>Lunes:</strong> Cerrado<br><strong>Martes a Viernes:</strong> 09:30 – 14:00 &nbsp;|&nbsp; 16:30 – 20:30<br><strong>Sábados:</strong> 09:00 – 14:00<br><strong>Domingos:</strong> Cerrado',
+    'Martes a Domingo: 09:30 – 14:00 &nbsp;|&nbsp; 16:30 – 20:30<br><strong>Lunes:</strong> Descanso',
   annualCalendar:
-    'Varones de cualquier edad · Martes a Sábado (Lunes y Domingos cerrado)',
+    'Todo el año salvo festivos',
+  googleMapsUrl:
+    'https://maps.app.goo.gl/f4jM1hR9sZawkeFe8',
   googleMapsIframeUrl:
-    'https://www.google.com/maps?q=C.+de+San+Marcos%2C+1%2C+Centro%2C+28004+Madrid&output=embed',
-  googleMapsTitle: 'Ubicación de HIS Barbería Urban 2 en C. de San Marcos, 1, Madrid',
+    'https://www.google.com/maps?q=Av.+de+Marcial+Llorente%2C+114+LC+6%2C+28696+Pelayos+de+la+Presa%2C+Madrid&output=embed',
+  googleMapsTitle: 'Ubicación de Barbería Shop en Pelayos de la Presa',
 
-  footerTagline: 'C. de San Marcos, 1 · Centro · Madrid · Tel/WhatsApp: +34 632 77 91 83 · Horario: M–V 9:30–14:00 y 16:30–20:30, S 9:00–14:00 (Lunes Cerrado)',
-  footerCopyText: 'HIS Barbería Urban 2 · Varones de cualquier edad · Todos los derechos reservados',
+  footerTagline: 'Av. de Marcial Llorente, 114 LC 6 · Pelayos de la Presa · Tel: +34 632 77 91 83 · Horario: M–D 09:30–14:00 y 16:30–20:30 (Lunes Descanso)',
+  footerCopyText: 'Barbería Shop · Pelayos de la Presa · Todos los derechos reservados',
 
   floatingButtonAriaLabel: 'Abrir asistente IA de HIS Barbería Urban 2',
 

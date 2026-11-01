@@ -47,10 +47,6 @@ export class HomeComponent {
 
   readonly b = this.businessService.business;
 
-  readonly safeVideoUrl = computed(() =>
-    this.sanitizer.bypassSecurityTrustResourceUrl(this.b().videoEmbedUrl)
-  );
-
   readonly safeMapUrl = computed(() =>
     this.sanitizer.bypassSecurityTrustResourceUrl(this.b().googleMapsIframeUrl)
   );
@@ -70,24 +66,16 @@ export class HomeComponent {
     { label: 'Reservar Cita', route: '/chat', isCta: true },
   ];
 
-  /** Elementos del Marquee superior (estilo Kings Domain) */
+  /** Elementos del Marquee superior derivados directamente de la API */
   readonly topMarqueeItems = computed(() => {
     const biz = this.b();
+    const serviceList = biz.services.map((s) => `${s.name} ${s.price}€`);
     const base = [
+      'Pelayos de la Presa',
       'Varones de Cualquier Edad',
-      'Corte Degradado a Navaja 10€',
-      'Corte Degradado a Cero 9€',
-      'Corte de Pelo con Forma 9€',
-      'Corte Rapado a Máquina 6€',
-      'Formar la Barba 7€',
-      'Afeitar la Barba 6€',
-      'Corte Degradado + Barba 15€',
-      'Alisado de Pelo 12€',
-      'Corte a Tijera 9€',
-      'Niños Menores de 10 Años 8€',
-      'WhatsApp +34 632 77 91 83',
-      'M–V 09:30–14:00 & 16:30–20:30',
-      'Sábados 09:00–14:00 (Lunes Cerrado)',
+      ...serviceList,
+      `WhatsApp ${biz.whatsappNumber}`,
+      biz.annualCalendar || 'Todo el año salvo festivos',
     ];
     return [...base, ...base];
   });
@@ -125,17 +113,17 @@ export class HomeComponent {
     return Array.from(svcMap.values());
   });
 
-  /** Especialidades en cuadrícula escalonada estilo locationlist-linkwrap de Kings Domain */
-  readonly staggeredHighlights = [
-    { label: 'DEGRADADO A NAVAJA', sectionId: 'servicios' },
-    { label: 'DEGRADADO A CERO', sectionId: 'servicios' },
-    { label: 'CORTE CON FORMA', sectionId: 'servicios' },
-    { label: 'FORMAR LA BARBA', sectionId: 'servicios' },
-    { label: 'CORTE + FORMAR BARBA', sectionId: 'servicios' },
-    { label: 'CORTE A TIJERA', sectionId: 'servicios' },
-    { label: 'NIÑOS MENORES DE 10', sectionId: 'servicios' },
-    { label: 'VARONES CUALQUIER EDAD', sectionId: 'estudio' },
-  ];
+  /** Especialidades en cuadrícula escalonada obtenidas de la API */
+  get staggeredHighlights() {
+    const list = this.b().services.slice(0, 7).map((s) => ({
+      label: s.name.toUpperCase(),
+      sectionId: 'servicios',
+    }));
+    return [
+      ...list,
+      { label: 'VARONES CUALQUIER EDAD', sectionId: 'estudio' },
+    ];
+  }
 
   get services() {
     return this.b().services;

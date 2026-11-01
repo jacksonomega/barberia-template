@@ -20,9 +20,9 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
                   <span class="kd-tcar__sep">—</span>
                   <span class="kd-tcar__date">{{ t.date }}</span>
                 </div>
-                <div class="kd-tcar__stars" aria-label="5 estrellas">
-                  @for (s of starsArray(t.rating); track $index) {
-                    <span>★</span>
+                <div class="kd-tcar__stars" [attr.aria-label]="t.rating + ' de 5 estrellas'">
+                  @for (s of [1, 2, 3, 4, 5]; track s) {
+                    <span [class.kd-star--empty]="s > t.rating">★</span>
                   }
                 </div>
               </div>
@@ -114,9 +114,14 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
     }
 
     .kd-tcar__stars {
-      font-size: 1.15rem;
-      letter-spacing: 3px;
-      color: #FFFFFF;
+      font-size: 1.25rem;
+      letter-spacing: 4px;
+      color: var(--red);
+    }
+
+    .kd-star--empty {
+      opacity: 0.25;
+      color: #71717A;
     }
 
     .kd-tcar__controls {

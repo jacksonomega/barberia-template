@@ -88,8 +88,8 @@
         </h2>
         <div class="kd-editorial-badge-box">
           <p class="kd-editorial-badge-box__title">{{ b().fullName }}</p>
-          <p class="kd-editorial-badge-box__sub">Madrid Centro · C. de San Marcos, 1</p>
-          <p class="kd-editorial-badge-box__hours">M–V: 09:30–14:00 y 16:30–20:30 · S: 09:00–14:00</p>
+          <p class="kd-editorial-badge-box__sub" [innerHTML]="b().contactAddressHtml"></p>
+          <p class="kd-editorial-badge-box__hours">{{ b().annualCalendar }}</p>
         </div>
       </div>
 
@@ -182,12 +182,11 @@
       <div class="kd-location-showcase__media-col" appScrollReveal revealAnimation="fade-in">
         <div class="kd-video-frame">
           <div class="kd-video-responsive">
-            <iframe
-              [src]="safeVideoUrl()"
-              [title]="b().videoIframeTitle"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-            </iframe>
+            <img
+              src="/imagenes-barberia/portada.jpg"
+              [alt]="b().fullName + ' interior del estudio en Pelayos de la Presa'"
+              loading="lazy"
+            />
           </div>
         </div>
 
@@ -237,11 +236,11 @@
           <a [href]="'tel:' + b().contactPhoneClean">{{ b().contactPhone }}</a>
         </p>
         <div class="kd-location-showcase__cta">
-          <a [href]="b().whatsappUrl" target="_blank" rel="noopener" class="kd-pill-cta" id="video-booking-btn">
+          <a routerLink="/chat" class="kd-pill-cta" id="location-booking-btn">
             Reservar Ahora
           </a>
-          <a [href]="b().videoWatchUrl" target="_blank" rel="noopener" class="kd-pill-cta kd-pill-cta--outline" id="video-yt-link-btn">
-            Ver en YouTube
+          <a [href]="b().whatsappUrl" target="_blank" rel="noopener" class="kd-pill-cta kd-pill-cta--outline" id="location-whatsapp-btn">
+            WhatsApp Directo
           </a>
         </div>
       </div>
@@ -286,7 +285,7 @@
       <p class="kd-services-meta__text">
         <span class="kd-services-meta__tag">Duración aproximada: 20 – 30 min cada uno</span>
         <span class="kd-services-meta__tag">Atención: Varones de cualquier edad</span>
-        <span class="kd-services-meta__tag">M – V: 9:30–14:00 y 16:30–20:30 | S: 9:00–14:00</span>
+        <span class="kd-services-meta__tag">{{ b().annualCalendar }}</span>
       </p>
     </div>
 
@@ -432,8 +431,9 @@
 ══════════════════════════════════════════ -->
 <section class="kd-section" id="testimonios">
   <div class="kd-container">
+    <span class="kd-section-kicker">TESTIMONIOS</span>
     <h2 class="kd-display-title" appScrollReveal revealAnimation="slide-up">
-      Voces del Estudio.
+      Lo que dicen nuestros clientes.
     </h2>
 
     <div class="kd-testimonials-wrap">
@@ -533,7 +533,7 @@
     <div class="kd-footer__top">
       <div class="kd-footer__col-title">
         <img class="kd-footer__logo" src="/logo-barberia-shop.svg" alt="Barbería Shop - Pelayos de la Presa" />
-        <h3 class="kd-footer__made">Hecho en Madrid.</h3>
+        <h3 class="kd-footer__made">Pelayos de la Presa.</h3>
         <p class="kd-footer__sub">{{ b().footerTagline }}</p>
       </div>
 
