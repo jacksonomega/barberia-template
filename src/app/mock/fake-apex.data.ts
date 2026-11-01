@@ -4,9 +4,9 @@ export const FAKE_APEX_DATA: BarberBusinessData = {
   id: 'fake-apex',
   isMock: true,
 
-  brandName: 'Apex',
-  brandAccent: 'Studio',
-  fullName: 'Apex Barber Studio',
+  brandName: 'Barbería',
+  brandAccent: 'Shop',
+  fullName: 'Barbería Shop',
   heroLabel: 'Barbería de Autor · Chamberí / Salamanca · Calle Velázquez, 88',
   tagline: 'Cortes Urbanos, Fades & Vanguardia',
   heroDescription:

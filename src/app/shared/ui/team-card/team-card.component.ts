@@ -43,7 +43,7 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
     :host { display: block; }
 
     .kd-team-card {
-      background: #000000;
+      background: var(--bg-base);
       display: flex;
       flex-direction: column;
     }
@@ -52,7 +52,7 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       position: relative;
       height: 400px;
       overflow: hidden;
-      background: #0A0A0A;
+      background: var(--bg-surface);
     }
 
     .kd-team-card__img {
@@ -60,7 +60,7 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       height: 100%;
       object-fit: cover;
       object-position: top center;
-      filter: grayscale(100%) contrast(1.06);
+      filter: contrast(1.04) saturate(1.05);
       transform: scale(1);
       transition: transform 1.4s cubic-bezier(0.19, 1, 0.22, 1), filter 0.6s ease;
     }
@@ -72,7 +72,7 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
 
     .kd-team-card__body {
       padding: 24px 0 8px;
-      border-top: 1px solid #FFFFFF;
+      border-top: 1px solid var(--red);
       margin-top: 18px;
       display: flex;
       flex-direction: column;
@@ -105,17 +105,17 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
 
     .kd-team-card__tag {
       padding: 4px 16px;
-      border: 1px solid #FFFFFF;
+      border: 1px solid var(--red);
       border-radius: 50px;
       font-size: 0.85rem;
       color: #FFFFFF;
-      background: #000000;
+      background: var(--bg-base);
       transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     .kd-team-card__tag:hover {
-      background: #FFFFFF;
-      color: #000000;
+      background: var(--red);
+      color: #FFFFFF;
     }
 
     .kd-team-card__link {
@@ -131,7 +131,7 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
     }
 
     .kd-team-card__link:hover {
-      border-bottom-color: #FFFFFF;
+      border-bottom-color: var(--red);
     }
   `],
 })

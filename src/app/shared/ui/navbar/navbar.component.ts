@@ -12,7 +12,7 @@ import { NavLink } from '../../models';
       <div class="kd-header__inner">
         <!-- Wordmark monumental estilo Kings Domain -->
         <a class="kd-header__logo" (click)="onLogoClick()" aria-label="Inicio">
-          <span class="kd-header__wordmark">{{ brandName }} {{ brandAccent }}</span>
+          <img class="kd-header__logo-img" src="/logo-barberia-shop.svg" [alt]="brandName + ' ' + brandAccent" />
         </a>
 
         <!-- Acciones derechas + Menú desplegable en cajas con borde 1px solid #fff (Kings Domain) -->
@@ -132,7 +132,7 @@ import { NavLink } from '../../models';
       left: 0;
       right: 0;
       z-index: 1000;
-      background-color: #000000;
+      background-color: var(--bg-base);
       min-height: 92px;
       display: flex;
       align-items: center;
@@ -165,6 +165,8 @@ import { NavLink } from '../../models';
       z-index: 1002;
     }
 
+    .kd-header__logo-img { height: 64px; width: auto; display: block; }
+    @media (max-width: 1023px) { .kd-header__logo-img { height: 52px; } }
     .kd-header__wordmark {
       font-family: var(--font-display);
       font-size: clamp(1.45rem, 2.8vw, 2.5rem);
@@ -213,18 +215,18 @@ import { NavLink } from '../../models';
       font-weight: 600;
       letter-spacing: -0.01em;
       color: #FFFFFF;
-      background-color: #000000;
-      border: 1px solid #FFFFFF;
-      border-radius: 50px;
-      padding: 6px 24px;
+      background-color: var(--bg-base);
+      border: 1px solid var(--red);
+      border-radius: 8px;
+      padding: 8px 24px;
       cursor: pointer;
       text-decoration: none;
       transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
 
     .kd-pill-btn:hover {
-      background-color: #FFFFFF;
-      color: #000000;
+      background-color: var(--red);
+      color: #FFFFFF;
       animation: kdHeartbeat 0.35s ease;
     }
 
@@ -245,7 +247,7 @@ import { NavLink } from '../../models';
         transition: transform 0.32s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.22s ease;
         opacity: 0;
         pointer-events: none;
-        background-color: #000000;
+        background-color: var(--bg-base);
         z-index: 1001;
       }
 
@@ -261,17 +263,17 @@ import { NavLink } from '../../models';
         list-style: none;
         margin: 0;
         padding: 0;
-        background-color: #000000;
+        background-color: var(--bg-base);
       }
 
       .kd-nav-item {
-        border-top: 1px solid #FFFFFF;
-        border-bottom: 1px solid #FFFFFF;
-        border-right: 1px solid #FFFFFF;
+        border-top: 1px solid var(--red);
+        border-bottom: 1px solid var(--red);
+        border-right: 1px solid var(--red);
       }
 
       .kd-nav-item:first-child {
-        border-left: 1px solid #FFFFFF;
+        border-left: 1px solid var(--red);
       }
 
       .kd-nav-link {
@@ -285,7 +287,7 @@ import { NavLink } from '../../models';
         font-size: 1.05rem;
         font-weight: 400;
         color: #FFFFFF;
-        background: #000000;
+        background: var(--bg-base);
         border: none;
         cursor: pointer;
         text-decoration: none;
@@ -293,8 +295,8 @@ import { NavLink } from '../../models';
       }
 
       .kd-nav-link:hover {
-        background-color: #FFFFFF;
-        color: #000000;
+        background-color: var(--red);
+        color: #FFFFFF;
       }
     }
 
@@ -302,7 +304,7 @@ import { NavLink } from '../../models';
     .kd-menu-toggle {
       width: 44px;
       height: 44px;
-      background: #000000;
+      background: var(--bg-base);
       border: 1px solid transparent;
       color: #FFFFFF;
       display: inline-flex;
@@ -325,7 +327,7 @@ import { NavLink } from '../../models';
       display: block;
       width: 100%;
       height: 2px;
-      background-color: #FFFFFF;
+      background-color: var(--red);
       transition: transform 0.25s ease, background-color 0.2s ease;
     }
 
@@ -336,14 +338,14 @@ import { NavLink } from '../../models';
     .kd-menu-toggle--active {
       width: 58px;
       height: 58px;
-      border: 1px solid #FFFFFF;
-      background-color: #000000;
+      border: 1px solid var(--red);
+      background-color: var(--bg-base);
       color: #FFFFFF;
     }
 
     .kd-menu-toggle--active:hover {
-      background-color: #FFFFFF;
-      color: #000000;
+      background-color: var(--red);
+      color: #FFFFFF;
     }
 
     .kd-menu-toggle__close {
@@ -373,7 +375,7 @@ import { NavLink } from '../../models';
         inset: 0;
         width: 100vw;
         height: 100vh;
-        background-color: #000000;
+        background-color: var(--bg-base);
         z-index: 1001;
         padding: 110px 28px 40px;
         opacity: 0;
@@ -398,7 +400,7 @@ import { NavLink } from '../../models';
       }
 
       .kd-nav-item {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+        border-bottom: 1px solid rgba(232, 38, 43, 0.4);
       }
 
       .kd-nav-link {

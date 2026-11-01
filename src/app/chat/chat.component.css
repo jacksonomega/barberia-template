@@ -12,7 +12,7 @@
 .chat-layout {
   display: flex;
   height: 100vh;
-  background-color: #000000;
+  background-color: var(--bg-base);
   font-family: var(--font-body);
   color: #FFFFFF;
 }
@@ -42,8 +42,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #FFFFFF;
-  color: #000000;
+  background-color: var(--red);
+  color: #FFFFFF;
   flex-shrink: 0;
 }
 
@@ -140,20 +140,20 @@
   width: 100%;
   padding: 12px 18px;
   border-radius: 50px;
-  background-color: #FFFFFF;
-  color: #000000;
+  background-color: var(--red);
+  color: #FFFFFF;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 0.88rem;
   letter-spacing: -0.01em;
-  border: 1px solid #FFFFFF;
+  border: 1px solid var(--red);
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
   margin: 6px 0 14px;
 }
 
 .sidebar-booking-btn:hover {
-  background-color: #000000;
+  background-color: var(--bg-base);
   color: #FFFFFF;
   transform: translateY(-1px);
 }
@@ -174,9 +174,9 @@
 }
 
 .sidebar-back:hover {
-  background-color: #FFFFFF;
-  color: #000000;
-  border-color: #FFFFFF;
+  background-color: var(--red);
+  color: #FFFFFF;
+  border-color: var(--red);
 }
 
 /* ─── MAIN ─── */
@@ -185,7 +185,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: #000000;
+  background-color: var(--bg-base);
 }
 
 /* ─── HEADER ─── */
@@ -212,11 +212,11 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background-color: #FFFFFF;
+  background-color: var(--red);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000000;
+  color: #FFFFFF;
   flex-shrink: 0;
 }
 
@@ -249,9 +249,9 @@
   gap: 8px;
   padding: 8px 20px;
   border-radius: 50px;
-  background-color: #FFFFFF;
-  color: #000000;
-  border: 1px solid #FFFFFF;
+  background-color: var(--red);
+  color: #FFFFFF;
+  border: 1px solid var(--red);
   font-family: var(--font-display);
   font-size: 0.85rem;
   font-weight: 600;
@@ -261,7 +261,7 @@
 }
 
 .header-booking-btn:hover {
-  background-color: #000000;
+  background-color: var(--bg-base);
   color: #FFFFFF;
   transform: translateY(-1px);
 }
@@ -282,7 +282,7 @@
   flex-direction: column;
   gap: 20px;
   scroll-behavior: smooth;
-  background-color: #000000;
+  background-color: var(--bg-base);
 }
 
 .messages-area::-webkit-scrollbar {
@@ -295,7 +295,7 @@
 }
 
 .messages-area::-webkit-scrollbar-thumb:hover {
-  background: #FFFFFF;
+  background: var(--red);
 }
 
 .message-row {
@@ -328,8 +328,8 @@
 }
 
 .bot-msg-avatar {
-  background-color: #FFFFFF;
-  color: #000000;
+  background-color: var(--red);
+  color: #FFFFFF;
 }
 
 .user-msg-avatar {
@@ -362,8 +362,8 @@
 
 /* User Bubble: High-contrast Kings Domain signature white pill */
 .user-bubble {
-  background-color: #FFFFFF;
-  color: #000000;
+  background-color: var(--red);
+  color: #FFFFFF;
   font-weight: 500;
   font-size: 0.94rem;
   border-bottom-right-radius: 4px;
@@ -417,13 +417,13 @@
 }
 
 .confirm-btn-accept {
-  background-color: #FFFFFF;
-  color: #000000;
-  border: 1px solid #FFFFFF;
+  background-color: var(--red);
+  color: #FFFFFF;
+  border: 1px solid var(--red);
 }
 
 .confirm-btn-accept:hover:not(:disabled) {
-  background-color: #000000;
+  background-color: var(--bg-base);
   color: #FFFFFF;
   transform: translateY(-1px);
 }
@@ -437,7 +437,7 @@
 .confirm-btn-reject:hover:not(:disabled) {
   background-color: rgba(255, 255, 255, 0.1);
   color: #FFFFFF;
-  border-color: #FFFFFF;
+  border-color: var(--red);
 }
 
 .confirm-btn:disabled {
@@ -457,7 +457,7 @@
 
 .user-bubble .msg-time {
   opacity: 0.6;
-  color: #000000;
+  color: #FFFFFF;
 }
 
 /* ─── TYPING INDICATOR ─── */
@@ -472,7 +472,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #FFFFFF;
+  background: var(--red);
   display: block;
   animation: typing-dot 1.2s ease-in-out infinite;
 }
@@ -492,7 +492,7 @@
   flex-wrap: wrap;
   align-items: center;
   padding: 14px 28px 16px;
-  background-color: #000000;
+  background-color: var(--bg-base);
 }
 
 .quick-reply-chip {
@@ -509,9 +509,9 @@
 }
 
 .quick-reply-chip:hover:not(:disabled) {
-  background-color: #FFFFFF;
-  color: #000000;
-  border-color: #FFFFFF;
+  background-color: var(--red);
+  color: #FFFFFF;
+  border-color: var(--red);
   transform: translateY(-1px);
 }
 
@@ -522,42 +522,42 @@
 
 /* First Chip ("Reservar Cita") */
 .quick-reply-chip:first-child:not(.confirm-chip-accept):not(.confirm-chip-reject) {
-  background-color: #FFFFFF;
-  border: 1px solid #FFFFFF;
-  color: #000000;
+  background-color: var(--red);
+  border: 1px solid var(--red);
+  color: #FFFFFF;
   font-weight: 700;
 }
 
 .quick-reply-chip:first-child:not(.confirm-chip-accept):not(.confirm-chip-reject):hover:not(:disabled) {
-  background-color: #000000;
+  background-color: var(--bg-base);
   color: #FFFFFF;
-  border-color: #FFFFFF;
+  border-color: var(--red);
 }
 
 .confirm-chip-accept {
-  background-color: #FFFFFF !important;
-  color: #000000 !important;
-  border-color: #FFFFFF !important;
+  background-color: var(--red) !important;
+  color: #FFFFFF !important;
+  border-color: var(--red) !important;
   font-weight: 700 !important;
   border-radius: 50px;
 }
 
 .confirm-chip-accept:hover:not(:disabled) {
-  background-color: #000000 !important;
+  background-color: var(--bg-base) !important;
   color: #FFFFFF !important;
 }
 
 .confirm-chip-reject {
   background-color: transparent !important;
   color: #A1A1AA !important;
-  border-color: rgba(255, 255, 255, 0.25) !important;
+  border-color: rgba(232, 38, 43, 0.4) !important;
   border-radius: 50px;
 }
 
 .confirm-chip-reject:hover:not(:disabled) {
   background-color: rgba(255, 255, 255, 0.1) !important;
   color: #FFFFFF !important;
-  border-color: #FFFFFF !important;
+  border-color: var(--red) !important;
 }
 
 /* ─── INPUT AREA ─── */
@@ -592,7 +592,7 @@
 }
 
 .chat-textarea:focus {
-  border-color: #FFFFFF;
+  border-color: var(--red);
   background-color: #18181C;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
 }
@@ -610,9 +610,9 @@
   height: 48px;
   border-radius: 50%;
   flex-shrink: 0;
-  background-color: #FFFFFF;
-  color: #000000;
-  border: 1px solid #FFFFFF;
+  background-color: var(--red);
+  color: #FFFFFF;
+  border: 1px solid var(--red);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -621,7 +621,7 @@
 }
 
 .send-btn:hover:not(:disabled) {
-  background-color: #000000;
+  background-color: var(--bg-base);
   color: #FFFFFF;
   transform: scale(1.05);
 }

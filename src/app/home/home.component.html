@@ -21,7 +21,7 @@
     <!-- Grayscale High-Contrast Visual Banner -->
     <div class="kd-hero__banner" appScrollReveal revealAnimation="fade-in" [revealDelay]="120">
       <img
-        src="/barber.jpg"
+        src="/imagenes-barberia/portada.jpg"
         [alt]="b().fullName + ' - ' + b().tagline"
         class="kd-hero__media"
       />
@@ -63,13 +63,13 @@
   <div class="kd-container">
     <div class="kd-gallery-trio__grid">
       <figure class="kd-gallery-trio__item kd-gallery-trio__item--left" appScrollReveal revealAnimation="clip-down" [revealDelay]="0">
-        <img src="/barber-carlos.png" [alt]="b().fullName + ' corte de precisión'" loading="lazy" />
+        <img src="/imagenes-barberia/resultados.jpg" [alt]="b().fullName + ' corte de precisión'" loading="lazy" />
       </figure>
       <figure class="kd-gallery-trio__item kd-gallery-trio__item--center" appScrollReveal revealAnimation="clip-up" [revealDelay]="100">
-        <img src="/hero.png" [alt]="b().fullName + ' interior y estilo'" loading="lazy" />
+        <img src="/imagenes-barberia/portada.jpg" [alt]="b().fullName + ' interior y estilo'" loading="lazy" />
       </figure>
       <figure class="kd-gallery-trio__item kd-gallery-trio__item--right" appScrollReveal revealAnimation="clip-down" [revealDelay]="200">
-        <img src="/barber-miguel.png" [alt]="b().fullName + ' maestría en barbería'" loading="lazy" />
+        <img src="/imagenes-barberia/barberos-en-servicio.jpg" [alt]="b().fullName + ' maestría en barbería'" loading="lazy" />
       </figure>
     </div>
   </div>
@@ -123,13 +123,13 @@
   <div class="kd-container">
     <div class="kd-gallery-trio__grid">
       <figure class="kd-gallery-trio__item kd-gallery-trio__item--left" appScrollReveal revealAnimation="clip-down" [revealDelay]="0">
-        <img src="/barber.jpg" [alt]="b().fullName + ' sillón clásico'" loading="lazy" />
+        <img src="/imagenes-barberia/exterior-barberia.jpg" [alt]="b().fullName + ' fachada en Pelayos de la Presa'" loading="lazy" />
       </figure>
       <figure class="kd-gallery-trio__item kd-gallery-trio__item--center" appScrollReveal revealAnimation="clip-up" [revealDelay]="100">
-        <img src="/barber-roberto.png" [alt]="b().fullName + ' detalle y acabado'" loading="lazy" />
+        <img src="/imagenes-barberia/barberos-en-servicio.jpg" [alt]="b().fullName + ' detalle y acabado'" loading="lazy" />
       </figure>
       <figure class="kd-gallery-trio__item kd-gallery-trio__item--right" appScrollReveal revealAnimation="clip-down" [revealDelay]="200">
-        <img src="/hero.png" [alt]="b().fullName + ' ambiente exclusivo'" loading="lazy" />
+        <img src="/imagenes-barberia/resultados.jpg" [alt]="b().fullName + ' ambiente exclusivo'" loading="lazy" />
       </figure>
     </div>
   </div>
@@ -267,10 +267,10 @@
   <div class="kd-container">
     <div class="kd-gallery-duo__grid">
       <figure class="kd-gallery-duo__item kd-gallery-duo__item--small" appScrollReveal revealAnimation="clip-down" [revealDelay]="0">
-        <img src="/barber-carlos.png" [alt]="b().fullName + ' corte clásico y urbano'" loading="lazy" />
+        <img class="kd-contain" src="/imagenes-barberia/precios.jpg" [alt]="'Lista de precios de ' + b().fullName" loading="lazy" />
       </figure>
       <figure class="kd-gallery-duo__item kd-gallery-duo__item--large" appScrollReveal revealAnimation="clip-up" [revealDelay]="200">
-        <img src="/barber.jpg" [alt]="b().fullName + ' precisión en cada detalle'" loading="lazy" />
+        <img src="/imagenes-barberia/portada.jpg" [alt]="b().fullName + ' precisión en cada detalle'" loading="lazy" />
       </figure>
     </div>
   </div>
@@ -532,6 +532,7 @@
   <div class="kd-container">
     <div class="kd-footer__top">
       <div class="kd-footer__col-title">
+        <img class="kd-footer__logo" src="/logo-barberia-shop.svg" alt="Barbería Shop - Pelayos de la Presa" />
         <h3 class="kd-footer__made">Hecho en Madrid.</h3>
         <p class="kd-footer__sub">{{ b().footerTagline }}</p>
       </div>

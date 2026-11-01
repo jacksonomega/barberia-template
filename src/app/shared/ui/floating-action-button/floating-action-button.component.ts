@@ -95,12 +95,12 @@ import { RouterLink } from '@angular/router';
       gap: 10px;
       padding: 14px 20px;
       border-radius: 50px;
-      background: #FFFFFF;
-      color: #000000;
+      background: var(--red);
+      color: #FFFFFF;
       font-weight: 700;
       font-size: 0.9rem;
-      border: 1px solid #FFFFFF;
-      box-shadow: 0 8px 32px rgba(255,255,255,0.25);
+      border: 1px solid var(--red);
+      box-shadow: 0 8px 32px rgba(232, 38, 43, 0.4);
       transition: all 0.35s cubic-bezier(.4,0,.2,1);
       text-decoration: none;
       cursor: pointer;
@@ -123,16 +123,16 @@ import { RouterLink } from '@angular/router';
       animation-delay: 1s, 1.6s;
     }
     @keyframes fab-pulse {
-      0%   { box-shadow: 0 8px 32px rgba(255,255,255,0.25), 0 0 0 0 rgba(255,255,255,0.35); }
-      70%  { box-shadow: 0 8px 32px rgba(255,255,255,0.25), 0 0 0 18px rgba(255,255,255,0); }
-      100% { box-shadow: 0 8px 32px rgba(255,255,255,0.25), 0 0 0 0 rgba(255,255,255,0); }
+      0%   { box-shadow: 0 8px 32px rgba(232, 38, 43, 0.4), 0 0 0 0 rgba(232, 38, 43, 0.4); }
+      70%  { box-shadow: 0 8px 32px rgba(232, 38, 43, 0.4), 0 0 0 18px rgba(255,255,255,0); }
+      100% { box-shadow: 0 8px 32px rgba(232, 38, 43, 0.4), 0 0 0 0 rgba(255,255,255,0); }
     }
 
     .fab:hover {
       transform: scale(1.08);
-      background: #000000;
+      background: var(--bg-base);
       color: #FFFFFF;
-      box-shadow: 0 12px 40px rgba(255,255,255,0.35);
+      box-shadow: 0 12px 40px rgba(232, 38, 43, 0.4);
     }
     .fab:active { transform: scale(0.98); }
 

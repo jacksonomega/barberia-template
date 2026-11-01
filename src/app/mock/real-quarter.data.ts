@@ -4,9 +4,9 @@ export const REAL_QUARTER_DATA: BarberBusinessData = {
   id: 'real-quarter',
   isMock: false,
 
-  brandName: 'HIS',
-  brandAccent: 'Barbería Urban 2',
-  fullName: 'HIS Barbería Urban 2',
+  brandName: 'Barbería',
+  brandAccent: 'Shop',
+  fullName: 'Barbería Shop',
   heroLabel: 'Barbería · Varones de cualquier edad · C. de San Marcos, 1',
   tagline: 'Cortes, Barba & Estilo · Varones de cualquier edad',
   heroDescription:

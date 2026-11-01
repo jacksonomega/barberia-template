@@ -56,8 +56,8 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
 
     .kd-tcar {
       width: 100%;
-      border-top: 1px solid #FFFFFF;
-      border-bottom: 1px solid #FFFFFF;
+      border-top: 1px solid var(--red);
+      border-bottom: 1px solid var(--red);
       padding: 48px 0;
     }
 
@@ -122,7 +122,7 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
     .kd-tcar__controls {
       margin-top: 32px;
       padding-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      border-top: 1px solid rgba(232, 38, 43, 0.4);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -137,9 +137,9 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
 
     .kd-tcar__dot {
       padding: 6px 18px;
-      border: 1px solid #FFFFFF;
+      border: 1px solid var(--red);
       border-radius: 50px;
-      background: #000000;
+      background: var(--bg-base);
       color: #FFFFFF;
       font-family: var(--font-display);
       font-size: 0.9rem;
@@ -149,15 +149,15 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
 
     .kd-tcar__dot--active,
     .kd-tcar__dot:hover {
-      background: #FFFFFF;
-      color: #000000;
+      background: var(--red);
+      color: #FFFFFF;
     }
 
     .kd-tcar__next {
       padding: 6px 24px;
-      border: 1px solid #FFFFFF;
+      border: 1px solid var(--red);
       border-radius: 50px;
-      background: #000000;
+      background: var(--bg-base);
       color: #FFFFFF;
       font-family: var(--font-display);
       font-size: 1rem;
@@ -166,8 +166,8 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
     }
 
     .kd-tcar__next:hover {
-      background: #FFFFFF;
-      color: #000000;
+      background: var(--red);
+      color: #FFFFFF;
     }
   `],
 })

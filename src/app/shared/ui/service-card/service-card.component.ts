@@ -100,7 +100,7 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
     }
 
     .svc-card:hover {
-      border-color: rgba(255,255,255,0.35);
+      border-color: rgba(232, 38, 43, 0.4);
       box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(255,255,255,0.08);
     }
     .svc-card:hover .svc-card__glow { opacity: 1; }
@@ -128,13 +128,13 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       transition: transform 0.4s ease, filter 0.3s ease;
     }
     .svc-card:hover .svc-card__icon-wrap {
-      background: #FFFFFF;
-      border-color: #FFFFFF;
+      background: var(--red);
+      border-color: var(--red);
       transform: scale(1.08) rotate(5deg);
-      box-shadow: 0 8px 30px rgba(255,255,255,0.25);
+      box-shadow: 0 8px 30px rgba(232, 38, 43, 0.4);
     }
     .svc-card:hover .svc-card__icon {
-      color: #000000;
+      color: #FFFFFF;
       transform: scale(1.1);
     }
 

@@ -72,13 +72,13 @@ import { CommonModule } from '@angular/common';
       font-weight: 400;
       letter-spacing: -0.02em;
       line-height: 1.44;
-      border: 1px solid #FFFFFF;
+      border: 1px solid var(--red);
       border-radius: 50px;
       cursor: pointer;
       transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
       text-decoration: none;
       outline: none;
-      background-color: #000000;
+      background-color: var(--bg-base);
       color: #FFFFFF;
     }
 
@@ -89,25 +89,25 @@ import { CommonModule } from '@angular/common';
 
     /* Primary & Outline both follow Kings Domain high-contrast pill style */
     .kd-btn--primary {
-      background-color: #000000;
+      background-color: var(--bg-base);
       color: #FFFFFF;
-      border: 1px solid #FFFFFF;
+      border: 1px solid var(--red);
     }
     .kd-btn--primary:hover {
-      background-color: #FFFFFF;
-      color: #000000;
-      border-color: #FFFFFF;
+      background-color: var(--red);
+      color: #FFFFFF;
+      border-color: var(--red);
     }
 
     .kd-btn--outline {
       background-color: transparent;
       color: #FFFFFF;
-      border: 1px solid #FFFFFF;
+      border: 1px solid var(--red);
     }
     .kd-btn--outline:hover {
-      background-color: #FFFFFF;
-      color: #000000;
-      border-color: #FFFFFF;
+      background-color: var(--red);
+      color: #FFFFFF;
+      border-color: var(--red);
     }
 
     .kd-btn--ghost {
@@ -119,7 +119,7 @@ import { CommonModule } from '@angular/common';
       padding-right: 12px;
     }
     .kd-btn--ghost:hover {
-      border-bottom-color: #FFFFFF;
+      border-bottom-color: var(--red);
     }
 
     .kd-btn--disabled,

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 120" role="img" aria-label="Barbería Shop - Pelayos de la Presa">
+  <defs>
+    <clipPath id="pole"><rect x="12" y="22" width="26" height="78" rx="3"/></clipPath>
+    <pattern id="stripes" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <rect width="40" height="40" fill="#fff"/>
+      <rect width="10" height="40" fill="#E8262B"/>
+      <rect x="20" width="10" height="40" fill="#1F4BB8"/>
+    </pattern>
+  </defs>
+  <!-- Poste de barbero -->
+  <rect x="10" y="8" width="30" height="14" rx="6" fill="#E8E8E8"/>
+  <rect x="10" y="100" width="30" height="14" rx="6" fill="#E8E8E8"/>
+  <rect x="12" y="22" width="26" height="78" fill="url(#stripes)" stroke="#E8E8E8" stroke-width="2" rx="3"/>
+  <rect x="16" y="26" width="5" height="70" fill="#fff" opacity=".35"/>
+  <!-- Texto -->
+  <text x="56" y="52" font-family="'Roboto Slab', Georgia, serif" font-weight="800" font-size="34" textLength="200" lengthAdjust="spacingAndGlyphs" fill="#FFFFFF">BARBERÍA</text>
+  <text x="56" y="92" font-family="'Roboto Slab', Georgia, serif" font-weight="800" font-size="40" textLength="110" lengthAdjust="spacingAndGlyphs" fill="#FFFFFF">SHOP</text>
+  <!-- Tijeras -->
+  <g stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round" transform="translate(70 0)">
+    <circle cx="170" cy="82" r="5"/><circle cx="170" cy="96" r="5"/>
+    <path d="M175 84 L200 92 M175 94 L200 86"/>
+  </g>
+  <rect x="284" y="84" width="50" height="5" rx="2" fill="#E8262B"/>
+  <text x="56" y="112" font-family="Roboto, Arial, sans-serif" font-weight="500" font-size="9" letter-spacing="2.4" fill="#BDBDC2">PELAYOS DE LA PRESA</text>
+</svg>

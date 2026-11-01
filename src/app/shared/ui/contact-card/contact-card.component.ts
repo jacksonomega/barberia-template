@@ -83,9 +83,9 @@ import { ScrollRevealDirective } from '../../animations/scroll-reveal.directive'
       transition: all 0.35s ease;
     }
     .cc:hover .cc__icon-wrap {
-      background: #FFFFFF;
-      border-color: #FFFFFF;
-      color: #000000;
+      background: var(--red);
+      border-color: var(--red);
+      color: #FFFFFF;
       transform: scale(1.05);
     }
 

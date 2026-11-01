@@ -3,33 +3,36 @@
 
 /* ─── Design Tokens (Kings Domain Pure Monochrome & Swiss Editorial) ─── */
 :root {
-  --gold:            #FFFFFF;
-  --gold-light:      #FFFFFF;
-  --gold-dark:       #A1A1AA;
-  --accent:          #FFFFFF;
-  --accent-muted:    #A1A1AA;
-  --bg-base:         #000000;
-  --bg-card:         #000000;
-  --bg-surface:      #0A0A0A;
+  --red:             #E8262B;
+  --red-dark:        #B81C20;
+  --blue:            #1F4BB8;
+  --gold:            #E8262B;
+  --gold-light:      #FF4A4F;
+  --gold-dark:       #B81C20;
+  --accent:          #E8262B;
+  --accent-muted:    #A8A8B0;
+  --bg-base:         #0B0B0D;
+  --bg-card:         #121216;
+  --bg-surface:      #141418;
   --text-primary:    #FFFFFF;
   --text-secondary:  #D4D4D8;
-  --text-muted:      #8E8E93;
-  --border:          #FFFFFF;
-  --border-subtle:   rgba(255, 255, 255, 0.28);
-  --gradient-gold:   linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 100%);
-  --gradient-dark:   linear-gradient(180deg, #000000 0%, #050505 100%);
-  --shadow-gold:     none;
-  --shadow-card:     none;
-  --radius-card:     0px;
+  --text-muted:      #9A9AA2;
+  --border:          #E8262B;
+  --border-subtle:   rgba(232, 38, 43, 0.35);
+  --gradient-gold:   linear-gradient(90deg, #E8262B 0%, #B81C20 100%);
+  --gradient-dark:   linear-gradient(180deg, #0B0B0D 0%, #111115 100%);
+  --shadow-gold:     0 8px 28px rgba(232, 38, 43, 0.35);
+  --shadow-card:     0 10px 30px rgba(0, 0, 0, 0.45);
+  --radius-card:     8px;
   --radius-btn:      50px;
-  --font-body:       'Outfit', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --font-display:    'Outfit', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body:       'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --font-display:    'Roboto Slab', Georgia, serif;
   --transition:      all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   /* Extended tokens for component customization */
-  --card-bg:         #000000;
-  --card-border:     #FFFFFF;
-  --card-radius:     0px;
+  --card-bg:         #121216;
+  --card-border:     #E8262B;
+  --card-radius:     8px;
   --card-shadow:     none;
   --anim-duration:   0.85s;
   --anim-ease:       cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -38,11 +41,11 @@
 /* ─── Reset & Base ─── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; font-size: 16px; background-color: #000000; }
+html { scroll-behavior: smooth; font-size: 16px; background-color: #0B0B0D; }
 
 body {
   font-family: var(--font-body);
-  background-color: #000000;
+  background-color: #0B0B0D;
   color: #FFFFFF;
   line-height: 1.4;
   letter-spacing: -0.015em;
@@ -52,10 +55,10 @@ body {
 }
 
 /* ─── Custom Scrollbar (Kings Domain Minimalist) ─── */
-::-webkit-scrollbar { width: 6px; background-color: #000000; }
-::-webkit-scrollbar-track { background: #000000; }
-::-webkit-scrollbar-thumb { background: #333333; border-radius: 0px; }
-::-webkit-scrollbar-thumb:hover { background: #FFFFFF; }
+::-webkit-scrollbar { width: 6px; background-color: #0B0B0D; }
+::-webkit-scrollbar-track { background: #0B0B0D; }
+::-webkit-scrollbar-thumb { background: #2A2A30; border-radius: 0px; }
+::-webkit-scrollbar-thumb:hover { background: #E8262B; }
 
 /* ─── Typography (Kings Domain Editorial Scale) ─── */
 h1, h2, h3, h4, h5, h6 {
@@ -70,17 +73,17 @@ a { text-decoration: none; color: inherit; }
 img { display: block; max-width: 100%; }
 
 /* ─── Utility: Accent / White Text ─── */
-.text-gold { color: #FFFFFF; }
+.text-gold { color: #E8262B; }
 .text-gradient,
 .text-shimmer {
-  color: #FFFFFF;
-  -webkit-text-fill-color: #FFFFFF;
+  color: #E8262B;
+  -webkit-text-fill-color: #E8262B;
   background: none;
 }
 
 /* ─── Section Layout ─── */
-.section { padding: 80px 0; background-color: #000000; }
-.section-alt { background-color: #000000; }
+.section { padding: 80px 0; background-color: #0B0B0D; }
+.section-alt { background-color: #0B0B0D; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 30px; }
 
 /* ─── Kings Domain Marquee Keyframes ─── */
