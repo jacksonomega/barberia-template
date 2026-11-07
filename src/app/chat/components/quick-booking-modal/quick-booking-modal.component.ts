@@ -35,8 +35,8 @@ export class QuickBookingModalComponent {
   }
 
   handleBookingSubmit(booking: AppointmentBooking) {
-    this.confirmedBooking.set(booking);
     this.bookingConfirmed.emit(booking);
+    this.handleClose();
   }
 
   handleClose() {

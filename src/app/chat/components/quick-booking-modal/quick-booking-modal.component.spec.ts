@@ -33,4 +33,17 @@ describe('QuickBookingModalComponent', () => {
     expect(closed).toBe(true);
     expect(component.confirmedBooking()).toBeNull();
   });
+
+  it('should emit bookingConfirmed and close modal immediately on submit', () => {
+    let emittedBooking: any = null;
+    let closed = false;
+    component.bookingConfirmed.subscribe((b) => (emittedBooking = b));
+    component.closeModal.subscribe(() => (closed = true));
+
+    const mockBooking = { name: 'Juan', phone: '123456789' } as any;
+    component.handleBookingSubmit(mockBooking);
+
+    expect(emittedBooking).toBe(mockBooking);
+    expect(closed).toBe(true);
+  });
 });
